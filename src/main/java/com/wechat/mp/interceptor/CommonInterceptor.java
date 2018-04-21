@@ -44,6 +44,7 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 //            response.sendRedirect(contextPath+"/backendLogin.html");
             request.getSession().invalidate();
             request.getRequestDispatcher("/backendLogin.html").forward(request, response);
+            request.getSession().setMaxInactiveInterval(10*60);
             return false;
         }else
             return true;
