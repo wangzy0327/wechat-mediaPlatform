@@ -5,6 +5,6 @@
     console.log(role);
     if(user == null || role == null || role == 0){
         window.sessionStorage.clear();
-        window.location.href = "backendLogin.html";
+        window.location.href = "../page/backendLogin.html";
     }
 })();

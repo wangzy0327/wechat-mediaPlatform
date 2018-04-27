@@ -44,14 +44,14 @@ public class WxMenuController{
      "key": "1_1"
      },
      {
-     "name": "一周热点",
+     "name": "使用教程",
      "type": "click",
      "key": "2_1"
      },
      {
-     "name": "使用教程",
-     "type": "click",
-     "key": "3_1"
+     "name": "个人详情",
+     "type": "view",
+     "url": "http://wangzy.tunnel.qydev.com/wechat-tools/Weixin/oauth"
      }
      ]
      }

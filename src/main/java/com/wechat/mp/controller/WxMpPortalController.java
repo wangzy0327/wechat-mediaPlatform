@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wechat.mp.service.WeixinService;
+import com.wechat.mp.service.WxService;
 
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
@@ -24,7 +24,7 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 @RequestMapping("/Weixin/portal")
 public class WxMpPortalController {
   @Autowired
-  private WeixinService wxService;
+  private WxService wxService;
   
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -90,7 +90,7 @@ public class WxMpPortalController {
     return out;
   }
 
-  protected WeixinService getWxService() {
+  protected WxService getWxService() {
     return this.wxService;
   }
 

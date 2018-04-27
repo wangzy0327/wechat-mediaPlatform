@@ -1,6 +1,6 @@
 package com.wechat.mp.builder;
 
-import com.wechat.mp.service.WeixinService;
+import com.wechat.mp.service.WxService;
 
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutImageMessage;
@@ -15,7 +15,7 @@ public class ImageBuilder extends AbstractBuilder {
 
   @Override
   public WxMpXmlOutMessage build(String content, WxMpXmlMessage wxMessage,
-      WeixinService service) {
+                                 WxService service) {
 
     WxMpXmlOutImageMessage m = WxMpXmlOutMessage.IMAGE().mediaId(content)
         .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
