@@ -1,6 +1,6 @@
 package com.wechat.mp.builder;
 
-import com.wechat.mp.service.WeixinService;
+import com.wechat.mp.service.WxService;
 
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
@@ -15,7 +15,7 @@ public class TextBuilder extends AbstractBuilder {
 
   @Override
   public WxMpXmlOutMessage build(String content, WxMpXmlMessage wxMessage,
-      WeixinService service)   {
+                                 WxService service)   {
     WxMpXmlOutTextMessage m = WxMpXmlOutMessage.TEXT().content(content)
         .fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser())
         .build();

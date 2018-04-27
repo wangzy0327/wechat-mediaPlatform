@@ -1,7 +1,7 @@
 package com.wechat.mp.handler;
 
 import com.wechat.mp.builder.TextBuilder;
-import com.wechat.mp.service.WeixinService;
+import com.wechat.mp.service.WxService;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -23,7 +23,7 @@ public class MsgHandler extends AbstractHandler {
                                   Map<String, Object> context, WxMpService wxMpService,
                                   WxSessionManager sessionManager) {
 
-    WeixinService weixinService = (WeixinService) wxMpService;
+    WxService weixinService = (WxService) wxMpService;
 
     if (!wxMessage.getMsgType().equals(WxConsts.XmlMsgType.EVENT)) {
       //TODO 可以选择将消息保存到本地

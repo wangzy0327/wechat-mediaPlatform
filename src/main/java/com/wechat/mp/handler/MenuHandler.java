@@ -2,8 +2,10 @@ package com.wechat.mp.handler;
 
 import java.util.Map;
 
+import com.wechat.mp.controller.WxOAuth2Controller;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutNewsMessage;
 import me.chanjar.weixin.mp.builder.outxml.NewsBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import me.chanjar.weixin.common.api.WxConsts;
@@ -18,6 +20,9 @@ import me.chanjar.weixin.mp.bean.message.WxMpXmlOutNewsMessage.Item;
  */
 @Component
 public class MenuHandler extends AbstractHandler {
+
+  private String openId;
+
   @Override
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
                                   Map<String, Object> context, WxMpService weixinService,
@@ -26,6 +31,7 @@ public class MenuHandler extends AbstractHandler {
         wxMessage.getMsgType(), wxMessage.getEvent(),
         wxMessage.getEventKey());
     if (WxConsts.EventType.VIEW.equals(wxMessage.getEvent())) {
+      this.openId = wxMessage.getFromUser();
       return null;
     }
     else if(WxConsts.EventType.CLICK.equals(wxMessage.getEvent())){
@@ -45,5 +51,11 @@ public class MenuHandler extends AbstractHandler {
         .build();
   }
 
+  public String getOpenId() {
+    return openId;
+  }
 
+  public void setOpenId(String openId) {
+    this.openId = openId;
+  }
 }

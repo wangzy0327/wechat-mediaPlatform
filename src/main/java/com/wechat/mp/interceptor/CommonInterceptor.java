@@ -1,5 +1,6 @@
 package com.wechat.mp.interceptor;
 
+import com.wechat.mp.controller.WxOAuth2Controller;
 import com.wechat.mp.pojo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,13 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
         String requestUri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String url = requestUri.substring(contextPath.length());
+
+//        int index = url.indexOf("push");
+//        if(index!= -1){
+//            WxOAuth2Controller controller = new WxOAuth2Controller();
+//            controller.oauth2buildAuthorizationUrl(request,url);
+//            return true;
+//        }
 
         log.info("requestUri:"+requestUri);
         log.info("contextPath:"+contextPath);

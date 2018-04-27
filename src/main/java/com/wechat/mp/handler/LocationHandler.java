@@ -1,7 +1,6 @@
 package com.wechat.mp.handler;
 
 import com.wechat.mp.builder.TextBuilder;
-import com.wechat.mp.service.WeixinService;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;

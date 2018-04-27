@@ -36,7 +36,7 @@ import static me.chanjar.weixin.common.api.WxConsts.*;
  *
  */
 @Service
-public class WeixinService extends WxMpServiceImpl {
+public class WxService extends WxMpServiceImpl {
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Autowired
