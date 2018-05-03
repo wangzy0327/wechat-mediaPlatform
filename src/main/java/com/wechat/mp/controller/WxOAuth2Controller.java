@@ -1,8 +1,8 @@
 package com.wechat.mp.controller;
 
 
-import com.wechat.mp.common.wechat.AccountFans;
-import com.wechat.mp.common.wechat.MpAccount;
+import com.wechat.mp.util.wechat.AccountFans;
+import com.wechat.mp.util.wechat.MpAccount;
 import com.wechat.mp.util.WxApiClient;
 import com.wechat.mp.util.WxMemoryCacheClient;
 import me.chanjar.weixin.mp.api.WxMpService;

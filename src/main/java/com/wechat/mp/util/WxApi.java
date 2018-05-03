@@ -2,9 +2,9 @@ package com.wechat.mp.util;
 
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.wechat.mp.common.wechat.AccessToken;
-import com.wechat.mp.common.wechat.JSTicket;
-import com.wechat.mp.common.wechat.OAuthAccessToken;
+import com.wechat.mp.util.wechat.AccessToken;
+import com.wechat.mp.util.wechat.JSTicket;
+import com.wechat.mp.util.wechat.OAuthAccessToken;
 
 import javax.net.ssl.*;
 import java.io.*;

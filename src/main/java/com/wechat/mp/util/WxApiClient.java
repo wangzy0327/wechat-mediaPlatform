@@ -2,10 +2,7 @@ package com.wechat.mp.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.wechat.mp.common.ErrCode;
-import com.wechat.mp.common.wechat.*;
-import me.chanjar.weixin.common.exception.WxErrorException;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import com.wechat.mp.util.wechat.*;
 
 import java.io.UnsupportedEncodingException;
 

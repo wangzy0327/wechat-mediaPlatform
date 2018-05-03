@@ -1,11 +1,11 @@
 package com.wechat.mp.interceptor;
 
-import com.wechat.mp.common.wechat.MpAccount;
 import com.wechat.mp.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
+import com.wechat.mp.util.wechat.OAuthScope;
+import com.wechat.mp.util.wechat.MpAccount;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;

@@ -1,8 +1,8 @@
 package com.wechat.mp.util;
 
-import com.wechat.mp.common.wechat.AccessToken;
-import com.wechat.mp.common.wechat.JSTicket;
-import com.wechat.mp.common.wechat.OAuthAccessToken;
+import com.wechat.mp.util.wechat.AccessToken;
+import com.wechat.mp.util.wechat.JSTicket;
+import com.wechat.mp.util.wechat.OAuthAccessToken;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;

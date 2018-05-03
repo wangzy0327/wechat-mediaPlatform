@@ -11,15 +11,117 @@
     <link rel="stylesheet" type="text/css" href="../../css/jquery.tagsinput.css" />
 </head>
 <body>
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">菜鸟教程</a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">消息录入</a></li>
+                <li><a href="#">用户管理</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Java <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">jmeter</a></li>
+                        <li><a href="#">EJB</a></li>
+                        <li><a href="#">Jasper Report</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">分离的链接</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">另一个分离的链接</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 <div class="container" style="margin-top: 5%">
     <form class="form-horizontal" role="form">
         <div class="form-group">
-            <label for="url" class="col-sm-2 control-label" style="margin: 1% 0">第三方H5的url</label>
+            <label for="title" class="col-sm-2 control-label" style="margin: 1% 0">图文消息标题</label>
             <!--<span class="input-group-addon">第三方H5的url</span>-->
             <div class="col-sm-10" style="margin: 1% 0">
-                <input type="text" class="form-control" id="url" placeholder="url">
+                <input type="text" class="form-control" id="title" placeholder="标题">
             </div>
-            <label for="url" class="col-sm-2 control-label" style="margin: 1% 0">标签</label>
+        </div>
+        <div class="form-group">
+            <label for="url" class="col-sm-2 control-label" style="margin: 1% 0">图文消息链接</label>
+            <!--<span class="input-group-addon">第三方H5的url</span>-->
+            <div class="col-sm-10" style="margin: 1% 0">
+                <input type="text" class="form-control" id="url" placeholder="消息链接">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="desc" class="col-sm-2 control-label" style="margin: 1% 0">图文消息描述</label>
+            <!--<span class="input-group-addon">第三方H5的url</span>-->
+            <div class="col-sm-10" style="margin: 1% 0">
+                <input type="text" class="form-control" id="desc" placeholder="描述">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="image" class="col-sm-2 control-label" style="margin: 1% 0">图片链接</label>
+            <!--<span class="input-group-addon">第三方H5的url</span>-->
+            <div class="col-sm-10" style="margin: 1% 0">
+                <input type="text" class="form-control" id="image" placeholder="图片链接">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="category" class="col-sm-2 control-label" style="margin: 1% 0">图文消息类别</label>
+            <div class="col-sm-10" style="margin: 1% 0">
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox1" value="option1"> 时尚
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox2" value="option2"> 财经
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox3" value="option3"> 服装
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox4" value="option4"> 汽车
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox5" value="option5"> 数码
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox6" value="option6"> 科技
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox7" value="option4"> 旅游
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox8" value="option5"> 房产
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox9" value="option6"> 家居
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox10" value="option4"> 教育
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox11" value="option5"> 健康
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox12" value="option6"> 艺术
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox13" value="option4"> 娱乐
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox14" value="option5"> 手机
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="inlineCheckbox15" value="option6"> 游戏
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="tags_1" class="col-sm-2 control-label" style="margin: 1% 0">标签</label>
             <div class="col-sm-10" style="margin: 1% 0">
                 <input style="width: 100%;margin: 5% 17%" id="tags_1" type="text" class="tags" value="foo,bar,baz,roffle" />
             </div>
