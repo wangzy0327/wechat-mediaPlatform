@@ -5,58 +5,64 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 
 public class ServerResponse<T> implements Serializable {
-    private int status;
+
+    private int code;
+    private String status;
     private String msg;
     private T data;
 
-    private ServerResponse(int status) {
+    private ServerResponse(int code,String status) {
+        this.code = code;
         this.status = status;
     }
-
-    private ServerResponse(int status, String msg) {
+    private ServerResponse(int code, String status,String msg) {
+        this.code = code;
         this.status = status;
         this.msg = msg;
     }
 
-    private ServerResponse(int status, String msg, T data) {
+    private ServerResponse(int code, String status,String msg, T data) {
+        this.code = code;
         this.status = status;
         this.msg = msg;
         this.data = data;
     }
 
-    private ServerResponse(int status, T data) {
-        this.status = status;
+    private ServerResponse(int code, String msg,T data) {
+        this.code = code;
         this.data = data;
     }
 
     @JsonIgnore
     //使之序列化后不会显示在json中
     public boolean isSuccess() {
-        return this.status == ResponseCode.SUCCESS.getCode();
+        return this.code == ResponseCode.SUCCESS.getCode();
     }
 
-    public int getStatus() {
-        return this.status;
+    public int getCode() {
+        return this.code;
     }
 
     public String getMsg() {
         return this.msg;
     }
 
+    public String getStatus() {return this.status;}
+
     public T getData() {
         return this.data;
     }
 
     public static <T> ServerResponse<T> createBySuccess() {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode());
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getStatus());
     }
 
     public static <T> ServerResponse<T> createBySuccessMessage(String msg) {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), msg);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getStatus(), msg);
     }
 
     public static <T> ServerResponse<T> createBySuccess(T data) {
-        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(), data);
+        return new ServerResponse<T>(ResponseCode.SUCCESS.getCode(),ResponseCode.SUCCESS.getStatus(), data);
     }
 
     public static <T> ServerResponse<T> createBySuccess(String msg, T data) {
@@ -64,15 +70,15 @@ public class ServerResponse<T> implements Serializable {
     }
 
     public static <T> ServerResponse<T> createByError() {
-        return new ServerResponse<T>(ResponseCode.ERROR.getCode());
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getStatus());
     }
 
     public static <T> ServerResponse<T> createByErrorMessage(String errorMessage) {
-        return new ServerResponse<T>(ResponseCode.ERROR.getCode(), errorMessage);
+        return new ServerResponse<T>(ResponseCode.ERROR.getCode(),ResponseCode.ERROR.getStatus(), errorMessage);
     }
 
-    public static <T> ServerResponse<T> createByErrorCodeMessage(int code, String errorMessage) {
-        return new ServerResponse<T>(code, errorMessage);
+    public static <T> ServerResponse<T> createByErrorCodeMessage(int code,String status, String errorMessage) {
+        return new ServerResponse<T>(code,status,errorMessage);
     }
 
 }

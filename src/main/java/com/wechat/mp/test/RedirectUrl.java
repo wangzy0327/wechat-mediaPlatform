@@ -1,6 +1,6 @@
 package com.wechat.mp.test;
 
-import com.wechat.mp.util.OAuthScope;
+import com.wechat.mp.util.wechat.OAuthScope;
 import com.wechat.mp.util.PropertiesUtil;
 import com.wechat.mp.util.WxApi;
 
