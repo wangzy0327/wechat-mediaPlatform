@@ -1,6 +1,7 @@
 package com.wechat.mp.controller.backend;
 
 import com.google.common.collect.Maps;
+import com.wechat.mp.pojo.Category;
 import com.wechat.mp.pojo.WxItem;
 import com.wechat.mp.service.IWxItemService;
 import org.apache.commons.lang3.StringUtils;
@@ -49,9 +50,14 @@ public class WxItemManageController {
 
         Map<String,Object> result = Maps.newHashMap();
 
-        List<WxItem> wxItemList = iWxItemService.findWxItemByParam(param); //;
-        WxItem wxItem = wxItemList.get(0);
-        System.out.println(wxItem);
+        List<WxItem> wxItemList = iWxItemService.findWxItemByParam(param); //
+        for(int i = 0;i<wxItemList.size();i++){
+            Category category = wxItemList.get(i).getCategory();
+            System.out.println("Category:"+i+":"+wxItemList.get(i).getCategory());
+//            System.out.println(category.getCreateTime());
+            System.out.println("Item"+i+":"+wxItemList.get(i));
+            System.out.println(wxItemList.get(i).getCreateTime());
+        }
         Integer count = iWxItemService.findWxItemCount();
         Integer filteredCount = iWxItemService.findWxItemCountByParam(param);
 

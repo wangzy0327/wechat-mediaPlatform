@@ -1,8 +1,13 @@
 package com.wechat.mp.pojo;
 
-import java.util.Date;
+import com.wechat.mp.common.DateUtil;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
-public class WxItem {
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+public class WxItem implements Serializable {
     private Integer id;
 
     private String itemId;
@@ -19,7 +24,11 @@ public class WxItem {
 
     private Date updateTime;
 
-    public WxItem(Integer id, String itemId, String title, String description, String url, String imgUrl, Date createTime, Date updateTime) {
+    private Category category;
+
+    private List<Tag> tags;
+
+    public WxItem(Integer id, String itemId, String title, String description, String url, String imgUrl, Date createTime, Date updateTime, Category category, List<Tag> tags) {
         this.id = id;
         this.itemId = itemId;
         this.title = title;
@@ -28,6 +37,8 @@ public class WxItem {
         this.imgUrl = imgUrl;
         this.createTime = createTime;
         this.updateTime = updateTime;
+        this.category = category;
+        this.tags = tags;
     }
 
     public WxItem() {
@@ -82,33 +93,34 @@ public class WxItem {
         this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getCreateTime() {
+        return DateUtil.COMMON_FULL.getDateText(createTime);
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public String getUpdateTime() {
+        return DateUtil.COMMON_FULL.getDateText(updateTime);
     }
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
+    public Category getCategory() { return category; }
+
+    public void setCategory(Category category) { this.category = category; }
+
+    public List<Tag> getTags() { return tags; }
+
+    public void setTags(List<Tag> tags) { this.tags = tags; }
+
+
     @Override
     public String toString() {
-        return "WxItem{" +
-                "id=" + id +
-                ", itemId='" + itemId + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", url='" + url + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
+        return ToStringUtils.toSimpleString(this);
     }
+
 }

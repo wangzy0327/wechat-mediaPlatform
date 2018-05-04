@@ -56,12 +56,13 @@
                             <table class="table" id="userTable">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>ID标识</th>
                                     <th>标题</th>
                                     <th>描述</th>
                                     <th>分类</th>
-                                    <th>标签</th>
-                                    <th width="100">最近修改时间</th>
+                                    <%--<th>标签</th>--%>
+                                    <th >最近修改时间</th>
+                                    <th width="100">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -244,16 +245,23 @@
                 type:"get" //获取数据的方式
             },
             "columns":[  //返回的JSON中的对象和列的对应关系
-                {"data":"id","name":"id"},
+//                {"data":"id","name":"id"},
                 {"data":"itemId","name":"itemId"},
                 {"data":"title","name":"title"},
                 {"data":function(row){
-                    if(row.description.length > 10){
-                        return row.description.substring(0,10)+"...";
+                    if(row.description.length > 30){
+                        return row.description.substring(0,30)+"...";
                     }else{
                         return row.description;
                     }
                 },"name":"description"},
+                {"data":function(row){
+                    if(row.category.name.length > 10){
+                        return row.category.name.substring(0,10)+"...";
+                    }else{
+                        return row.category.name;
+                    }
+                },"name":"category"},
                 {"data":"updateTime","name":"updateTime"},
 //                {"data":function(row){
 //                    if(row.state == "禁用") {
@@ -284,7 +292,7 @@
                     "orderable":true
                 },
                 {
-                    "targets":[0,2,3],
+                    "targets":[1,2,3],
                     "orderable":false
                 }
             ],
