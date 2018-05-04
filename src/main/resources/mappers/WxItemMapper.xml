@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wechat.mp.dao.WxItemMapper" >
-  <resultMap id="BaseResultMap" type="com.wechat.mp.pojo.WxItem" >
-    <constructor >
-      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg  column="item_id" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg  column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg  column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg  column="url" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg  column="img_url" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg  column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg  column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-    </constructor>
+  <resultMap id="SimpleWxItem" type="com.wechat.mp.pojo.WxItem" >
+      <id property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result  property="itemId" column="item_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result  property="title" column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result  property="description" column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result  property="url" column="url" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result  property="imgUrl" column="img_url" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result  property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <result  property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <association property="category" javaType="com.wechat.mp.pojo.Category">
+      <id property="id" column="c_id"/>
+      <result property="name"   column="name"/>
+      <!--<result property="createTime"   column="c_create_time"/>-->
+      <!--<result property="updateTime"   column="c_update_time"/>-->
+    </association>
+  </resultMap>
+  <resultMap id="WxItemDetail" type="com.wechat.mp.pojo.WxItem">
+    <id column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result  column="item_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result  column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result  column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <!--<result  column="url" jdbcType="VARCHAR" javaType="java.lang.String" />-->
+    <!--<result  column="img_url" jdbcType="VARCHAR" javaType="java.lang.String" />-->
+    <result  column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result  column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <association property="category" javaType="com.wechat.mp.pojo.Category">
+      <id property="id" column="c_id"/>
+      <result property="name"   column="name"/>
+    </association>
+    <collection property="tags" ofType="com.wechat.mp.pojo.Tag">
+      <id property="id" column="id"/>
+      <result property="name" column="name"/>
+    </collection>
   </resultMap>
   <sql id="Base_Column_List" >
     id, item_id, title, description, url, img_url, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="WxItemDetail" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from wechat_item
@@ -127,16 +149,17 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="findWxItemByParam" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-    SELECT
-    <include refid="Base_Column_List" />
-    FROM wechat_item
+  <select id="findWxItemByParam" parameterType="map" resultMap="SimpleWxItem">
+    SELECT a.id,a.item_id,a.title,a.description,a.create_time,a.update_time,
+    c.id c_id,c.`name`,c.create_time,c.update_time
+    FROM wechat_item a,cate_item b,category c
     <where>
+      a.id = b.item_id AND b.cate_id = c.id
       <if test="keyword != null and keyword != ''">
         title LIKE #{keyword}
       </if>
     </where>
-    ORDER BY #{orderColumn} ${orderType}
+    ORDER BY a.id ${orderType}
     limit ${start},${length}
   </select>
   <select id="findWxItemCount" resultType="int">
