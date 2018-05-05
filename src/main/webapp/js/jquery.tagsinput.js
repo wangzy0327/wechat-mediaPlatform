@@ -188,6 +188,8 @@
             removeWithBackspace:true,
             placeholderColor:'#666666',
             autosize: true,
+            max:3,
+            tips: '最多只能输入3项',
             comfortZone: 20,
             inputPadding: 6*2
         },options);
