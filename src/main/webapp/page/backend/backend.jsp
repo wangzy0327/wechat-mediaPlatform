@@ -246,7 +246,7 @@
             },
             "columns":[  //返回的JSON中的对象和列的对应关系
 //                {"data":"id","name":"id"},
-                {"data":"itemId","name":"itemId"},
+                {"data":"itemId","name":"item_id"},
                 {"data":"title","name":"title"},
                 {"data":function(row){
                     if(row.description.length > 30){
@@ -262,7 +262,7 @@
                         return row.category.name;
                     }
                 },"name":"category"},
-                {"data":"updateTime","name":"updateTime"},
+                {"data":"updateTime","name":"update_time"},
 //                {"data":function(row){
 //                    if(row.state == "禁用") {
 //                        return "<span class='label label-danger'>"+row.state+"</span>";

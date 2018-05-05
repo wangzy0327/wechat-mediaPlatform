@@ -41,6 +41,11 @@ CREATE TABLE IF NOT EXISTS `wechat_item`(
 
 BEGIN;
 INSERT INTO `wechat_item` (`item_id`,`title`,`description`,`url`,`img_url`,`create_time`,`update_time`) VALUES ('neUzquH','大辣娇--加1元再来1桶','白象大辣娇，加1元再来1桶，感恩回馈消费者！','http://wangzy.tunnel.qydev.com/wechat-tools/page/push/neUzquH.html','http://ali1.rabbitpre.com/db290bb8-484b-44e0-9980-66a2f85ec573.jpeg@0-0-0-0a_401w_70Q_1an.src?crossorigin=1',now(),now()),('FvmIZ3i','小罐茶品牌上市发布会','小罐茶 大师作','http://wangzy.tunnel.qydev.com/wechat-tools/page/push/FvmIZ3i.html','http://tenc3.rabbitpre.com/609ee0bd-1aab-4511-8127-0383b92748da.png@0-0-0-0a_214w_70Q_1an.src?crossorigin=1',now(),now());
+INSERT INTO `wechat_item` (`item_id`,`title`,`description`,`url`,`img_url`,`create_time`,`update_time`) VALUES
+  ('FBfM7nk','镶牙不带挂钩，中老年人优选！','无挂钩镶牙，不拔牙、不带挂钩，更适合50岁以上中老年人！！','http://wangzy.tunnel.qydev.com/wechat-tools/page/push/FBfM7nk.html','http://file.rabbitpre.com/01f9f01a-28c6-4911-842e-d582113a90ad-1348?imageMogr2/quality/70/auto-orient',now(),now()),
+  ('UZJvi7Yf','移动互联出行行业现状展望分享会','滴滴打车引领出行行业飞速发展，大数据、新模式的行业信息精彩纷呈，9月1日，现场分享，相约你我共赢。','http://wangzy.tunnel.qydev.com/wechat-tools/page/push/UZJvi7Yf.html','http://file2.rabbitpre.com/8dfbc1eb-097e-4f25-974f-dbc522c07c17-4349?imageMogr2/quality/70/auto-orient',now(),now()),
+  ('UZjYBjz','人生中最好的一天，一生活一场五月天','唱出这个时代的音乐！','http://wangzy.tunnel.qydev.com/wechat-tools/page/push/UZjYBjz.html','http://tenc2.rabbitpre.com/209e39c9-cdc9-420e-886e-1d030fc10355.jpg@0-0-0-0a_586w_70Q_1an.src?crossorigin=1',now(),now()),
+  ('JfEnUro','智诚房地产企业招聘','','http://wangzy.tunnel.qydev.com/wechat-tools/page/push/JfEnUro.html','http://tenc3.rabbitpre.com/ee860ebb-cdd9-4581-984d-030e662d96a7@643w_70Q_1an.src?crossorigin=1',now(),now());
 COMMIT;
 
 DROP TABLE IF EXISTS `category`;
@@ -69,6 +74,11 @@ CREATE TABLE IF NOT EXISTS `cate_item`(
 )COMMENT'图文分类表',ENGINE = InnoDB AUTO_INCREMENT = 100,DEFAULT CHARSET = utf8;
 BEGIN;
 INSERT INTO `cate_item` (`cate_id`,`item_id`,`create_time`,`update_time`) VALUES (25,1000,now(),now()),(25,1003,now(),now());
+INSERT INTO `cate_item` (`cate_id`,`item_id`,`create_time`,`update_time`)
+VALUES (20,1004,now(),now()),
+  (15,1005,now(),now()),
+  (22,1006,now(),now()),
+  (17,1007,now(),now());
 COMMIT;
 
 DROP TABLE  IF EXISTS `tag`;

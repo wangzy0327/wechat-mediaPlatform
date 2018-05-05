@@ -11,17 +11,17 @@ public class Category implements Serializable{
 
     private String name;
 
-//    private Date createTime;
-//
-//    private Date updateTime;
+    private Date createTime;
+
+    private Date updateTime;
 
     private List<WxItem> wxItems;
 
     public Category(Integer id, String name, Date createTime, Date updateTime,List<WxItem> wxItems) {
         this.id = id;
         this.name = name;
-//        this.createTime = createTime;
-//        this.updateTime = updateTime;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
         this.wxItems = wxItems;
     }
 
@@ -45,21 +45,21 @@ public class Category implements Serializable{
         this.name = name == null ? null : name.trim();
     }
 
-//    public String getCreateTime() {
-//        return DateUtil.COMMON_FULL.getDateText(createTime);
-//    }
-//
-//    public void setCreateTime(Date createTime) {
-//        this.createTime = createTime;
-//    }
-//
-//    public String getUpdateTime() {
-//        return DateUtil.COMMON_FULL.getDateText(updateTime);
-//    }
-//
-//    public void setUpdateTime(Date updateTime) {
-//        this.updateTime = updateTime;
-//    }
+    public String getCreateTime() {
+        return DateUtil.COMMON_FULL.getDateText(createTime);
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return DateUtil.COMMON_FULL.getDateText(updateTime);
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public List<WxItem> getWxItems() { return wxItems; }
 
@@ -70,8 +70,8 @@ public class Category implements Serializable{
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-//                ", createTime=" + createTime +
-//                ", updateTime=" + updateTime +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 ", wxItems=" + wxItems +
                 '}';
     }

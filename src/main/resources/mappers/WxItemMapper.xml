@@ -13,8 +13,8 @@
     <association property="category" javaType="com.wechat.mp.pojo.Category">
       <id property="id" column="c_id"/>
       <result property="name"   column="name"/>
-      <!--<result property="createTime"   column="c_create_time"/>-->
-      <!--<result property="updateTime"   column="c_update_time"/>-->
+      <result property="createTime"   column="c_create_time"/>
+      <result property="updateTime"   column="c_update_time"/>
     </association>
   </resultMap>
   <resultMap id="WxItemDetail" type="com.wechat.mp.pojo.WxItem">
@@ -151,7 +151,7 @@
   </update>
   <select id="findWxItemByParam" parameterType="map" resultMap="SimpleWxItem">
     SELECT a.id,a.item_id,a.title,a.description,a.create_time,a.update_time,
-    c.id c_id,c.`name`,c.create_time,c.update_time
+    c.id c_id,c.`name`,c.create_time c_create_time,c.update_time c_update_time
     FROM wechat_item a,cate_item b,category c
     <where>
       a.id = b.item_id AND b.cate_id = c.id
@@ -159,7 +159,7 @@
         title LIKE #{keyword}
       </if>
     </where>
-    ORDER BY a.id ${orderType}
+    ORDER BY ${orderColumn} ${orderType}
     limit ${start},${length}
   </select>
   <select id="findWxItemCount" resultType="int">
