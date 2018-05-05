@@ -25,6 +25,7 @@
     <link href="/wechat-tools/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="/wechat-tools/js/datatables/media/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/wechat-tools/css/jquery.tagsinput.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -98,52 +99,68 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">添加用户</h4>
+                <h4 class="modal-title">添加图文消息</h4>
             </div>
             <div class="modal-body">
                 <form id="newUserForm" class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">姓名</label>
+                        <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="username">
+                            <input type="text" class="form-control" name="title">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">联系电话</label>
+                        <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="tel">
+                            <input type="text" class="form-control" name="description">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">密码</label>
+                        <label class="col-sm-2 control-label">内容URL</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" name="password" value="123123">
-                            <span class="help-block">默认密码为：123123</span>
+                            <input type="text" class="form-control" name="url">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">微信号</label>
+                        <label class="col-sm-2 control-label">图片URL</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="weixinid">
+                            <input type="text" class="form-control" name="imgUrl">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">角色</label>
+                        <label class="col-sm-2 control-label">类别</label>
                         <div class="col-sm-10">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="role" value="8"> 管理员
+                                    <input type="checkbox" name="name" value="8"> 时尚
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="role" value="9"> 经理
+                                    <input type="checkbox" name="name" value="9"> 财经
                                 </label>
                                 <label>
-                                    <input type="checkbox" name="role" value="10"> 普通员工
+                                    <input type="checkbox" name="name" value="10"> 服装
                                 </label>
                             </div>
                         </div>
-
                     </div>
+                    <div class="form-group">
+                        <label for="tags_1" class="col-sm-2 control-label" >标签</label>
+                        <div class="col-sm-10" >
+                            <input id="tags_1" type="text" class="form-control"  />
+                            <p class="mt8" style="margin-top: 8px;">
+                                <span style="margin: 0;font-size: 12px;color: #999999;">最多添加3个标签</span>
+                            </p>
+                        </div>
+                    </div>
+                    <%--<div class="form-group">--%>
+                        <%--<label for="tags_1" class="col-sm-2 control-label">标签</label>--%>
+                        <%--<div class="col-sm-10" >--%>
+                            <%--<input  id="tags_1" style="width: 100%;" type="text" class="tags" value="" />--%>
+                            <%--<p class="mt8" style="margin-top: 8px;">--%>
+                                <%--<span style="margin: 0;font-size: 12px;color: #999999;">最多添加3个标签</span>--%>
+                            <%--</p>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
                 </form>
             </div>
             <div class="modal-footer">
@@ -231,6 +248,7 @@
 <script src="/wechat-tools/js/sb-admin-2.js"></script>
 <script src="/wechat-tools/js/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="/wechat-tools/js/datatables/media/js/dataTables.bootstrap.min.js"></script>
+<script src="/wechat-tools/js/jquery.tagsinput.js"></script>
 <script>
     $(function(){
 
@@ -263,21 +281,6 @@
                     }
                 },"name":"category"},
                 {"data":"updateTime","name":"update_time"},
-//                {"data":function(row){
-//                    if(row.state == "禁用") {
-//                        return "<span class='label label-danger'>"+row.state+"</span>";
-//                    } else {
-//                        return row.state;
-//                    };
-//                },"name":"state"},
-//                {"data":function(row){
-//                    var roleName = "";
-//                    for(var i = 0;i < row.roleList.length;i++) {
-//                        var role = row.roleList[i];
-//                        roleName = roleName + role.rolename + "&nbsp&nbsp";
-//                    }
-//                    return roleName;
-//                }},
                 {"data":function(row){
                     return "<a href='javascript:;' class='editLink' data-id='"+row.id+"'>编辑</a> <a href='javascript:;' class='delLink' data-id='"+row.id+"'>删除</a>";
                 }}
@@ -316,6 +319,7 @@
         //添加新用户
         $("#addNewUser").click(function(){
             $("#newUserModal").modal('show');
+            $('#tags_1').tagsInput({width:'auto'});
         });
         $("#saveBtn").click(function(){
             $.post("/account/new",$("#newUserForm").serialize())
