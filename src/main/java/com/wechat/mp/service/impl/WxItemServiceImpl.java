@@ -1,6 +1,7 @@
 package com.wechat.mp.service.impl;
 
 import com.wechat.mp.dao.WxItemMapper;
+import com.wechat.mp.pojo.Category;
 import com.wechat.mp.pojo.WxItem;
 import com.wechat.mp.service.IWxItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,6 @@ public class WxItemServiceImpl implements IWxItemService {
     public Integer findWxItemCountByParam(Map<String,String> param){
         return wxItemMapper.findWxItemCountByParam(param);
     }
+
 
 }

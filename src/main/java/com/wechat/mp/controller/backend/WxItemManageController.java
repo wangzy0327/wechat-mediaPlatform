@@ -1,12 +1,15 @@
 package com.wechat.mp.controller.backend;
 
 import com.google.common.collect.Maps;
+import com.wechat.mp.common.ServerResponse;
 import com.wechat.mp.pojo.Category;
 import com.wechat.mp.pojo.WxItem;
+import com.wechat.mp.service.ICategoryService;
 import com.wechat.mp.service.IWxItemService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +23,9 @@ import java.util.Map;
 public class WxItemManageController {
     @Autowired
     private IWxItemService iWxItemService;
+
+    @Autowired
+    private ICategoryService iCategoryService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(){return "backend/backend";}
@@ -67,6 +73,18 @@ public class WxItemManageController {
         result.put("data",wxItemList);
 
         return result;
+    }
+
+    /**
+     * 添加新图文消息时，加载分类
+     */
+
+    @RequestMapping(value = "/category.json",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<List<Category>> loadCategory(HttpServletRequest request, ModelMap map){
+        ServerResponse<List<Category>> response = iCategoryService.findCategory();
+//        map.addAttribute("message",response);
+        return response;
     }
 
 }

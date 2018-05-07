@@ -1,9 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,7 +24,7 @@
     <link href="/wechat-tools/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="/wechat-tools/js/datatables/media/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="/wechat-tools/css/jquery.tagsinput.css">
+    <link rel="stylesheet" href="/wechat-tools/css/jquery.tagsinput.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -130,16 +129,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">类别</label>
                         <div class="col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="name" value="8"> 时尚
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="name" value="9"> 财经
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="name" value="10"> 服装
-                                </label>
+                            <div class="checkbox" id = "category">
                             </div>
                         </div>
                     </div>
@@ -147,6 +137,9 @@
                         <label for="tags_1" class="col-sm-2 control-label" >标签</label>
                         <div class="col-sm-10" >
                             <input id="tags_1" type="text" class="form-control"  />
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10" >
                             <p class="mt8" style="margin-top: 8px;">
                                 <span style="margin: 0;font-size: 12px;color: #999999;">最多添加3个标签</span>
                             </p>
@@ -195,22 +188,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">角色</label>
-                        <div class="col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="role" value="8" class="role"> 管理员
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="role" value="9" class="role"> 经理
-                                </label>
-                                <label>
-                                    <input type="checkbox" name="role" value="10" class="role"> 普通员工
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-2 control-label">状态</label>
                         <div class="col-sm-10">
                             <div class="checkbox">
@@ -248,7 +225,7 @@
 <script src="/wechat-tools/js/sb-admin-2.js"></script>
 <script src="/wechat-tools/js/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="/wechat-tools/js/datatables/media/js/dataTables.bootstrap.min.js"></script>
-<script src="/wechat-tools/js/jquery.tagsinput.js"></script>
+<script src="/wechat-tools/js/jquery.tagsinput.min.js"></script>
 <script>
     $(function(){
 
@@ -315,11 +292,40 @@
                 }
             }
         });
-
         //添加新用户
-        $("#addNewUser").click(function(){
+        $("#addNewUser").click(function() {
+            $.ajax({
+                type: "post",
+                url: "/wechat-tools/backend/category.json",
+                async: true,
+                success: function (result) {
+                    var code = result.code;
+                    var data = result.data;
+                    console.log(data);
+                    if (code == 0) {
+                        var str = "";
+                        for (var i in data) {
+                            console.log(data[i].id);
+                            console.log(data[i].name);
+                            str += '<label class="radio-inline">' +
+                                '<input type = "radio"  value = "'+data[i].id+'" name="cate">' +data[i].name +
+                                '</label>';
+                        }
+                        $("#category").html(str);
+                    }
+                }
+            });
             $("#newUserModal").modal('show');
-            $('#tags_1').tagsInput({width:'auto'});
+            $('#tags_1').tagsInput({
+                width:'auto',
+                onChange: function(){
+                    let len = $("#tags_1_tagsinput .tag").length;
+                    tags_1_addTag.style.display = "";
+                    if(len >= 3){
+                        tags_1_addTag.style.display = "none";
+                    }
+                }
+            });
         });
         $("#saveBtn").click(function(){
             $.post("/account/new",$("#newUserForm").serialize())

@@ -177,19 +177,17 @@
     $.fn.tagsInput = function(options) {
         var settings = jQuery.extend({
             interactive:true,
-            defaultText:'请输入标签关键字回车结束',
+            defaultText:'add a tag',
             minChars:0,
             width:'300px',
             height:'100px',
             autocomplete: {selectFirst: false },
             hide:true,
-            delimiter: ',',
+            delimiter: [',',';'],
             unique:true,
             removeWithBackspace:true,
             placeholderColor:'#666666',
             autosize: true,
-            max:3,
-            tips: '最多只能输入3项',
             comfortZone: 20,
             inputPadding: 6*2
         },options);
