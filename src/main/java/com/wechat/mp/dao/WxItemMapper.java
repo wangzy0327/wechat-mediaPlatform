@@ -1,5 +1,7 @@
 package com.wechat.mp.dao;
 
+import com.wechat.mp.pojo.Category;
+import com.wechat.mp.pojo.Tag;
 import com.wechat.mp.pojo.WxItem;
 
 import java.util.List;
@@ -23,4 +25,10 @@ public interface WxItemMapper {
     Integer findWxItemCount();
 
     Integer findWxItemCountByParam(Map<String,String> param);
+
+    Integer insertWxItemTags(WxItem wxItem, Tag tag);
+
+    Integer insertWxItemCategory(WxItem wxItem, Category category);
+
+    Integer findByIndex(String itemId);
 }

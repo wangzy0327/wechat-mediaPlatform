@@ -48,13 +48,13 @@
     delete from wechat_item
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wechat.mp.pojo.WxItem" >
-    insert into wechat_item (id, item_id, title,
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wechat.mp.pojo.WxItem" >
+    insert into wechat_item (item_id, title,
       description, url, img_url,
       create_time, update_time)
-    values (#{id,jdbcType=INTEGER}, #{itemId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+    values (#{itemId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
       #{description,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+      now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.mp.pojo.WxItem" >
     insert into wechat_item
@@ -172,5 +172,20 @@
         title LIKE #{keyword}
       </if>
     </where>
+  </select>
+  <insert id="insertWxItemTags" >
+    insert into
+    tag_item(item_id,tag_id,create_time,update_time)
+    values(#{param1.id},#{param2.id},now(),now())
+  </insert>
+  <insert id="insertWxItemCategory">
+    insert into
+    cate_item(item_id,cate_id,create_time,update_time)
+    values(#{param1.id},#{param2.id},now(),now())
+  </insert>
+  <select id="findByIndex" resultType="int" parameterType="string">
+    select
+    count(*) from wechat_item
+    where item_id = #{itemId}
   </select>
 </mapper>

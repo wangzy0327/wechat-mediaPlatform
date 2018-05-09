@@ -1,5 +1,6 @@
 package com.wechat.mp.service;
 
+import com.wechat.mp.common.ResponseCode;
 import com.wechat.mp.pojo.WxItem;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface IWxItemService {
     Integer findWxItemCount();
 
     Integer findWxItemCountByParam(Map<String, String> param);
+
+    ResponseCode saveNewItem(String path, String realPath, WxItem item);
 }

@@ -10,7 +10,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, create_time, update_time
+    id, `name`, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -22,11 +22,10 @@
     delete from tag
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wechat.mp.pojo.Tag" >
-    insert into tag (id, name, create_time, 
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wechat.mp.pojo.Tag" >
+    insert into tag (`name`, create_time,
       update_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+    values ( #{name,jdbcType=VARCHAR}, now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.mp.pojo.Tag" >
     insert into tag
@@ -35,7 +34,7 @@
         id,
       </if>
       <if test="name != null" >
-        name,
+        `name`,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -76,9 +75,15 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wechat.mp.pojo.Tag" >
     update tag
-    set name = #{name,jdbcType=VARCHAR},
+    set `name` = #{name,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
+    select
+    <include refid="Base_Column_List"/>
+    from tag
+    where `name` = #{name}
+  </select>
 </mapper>
