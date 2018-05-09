@@ -40,6 +40,7 @@
 <div id="wrapper">
 
     <%@ include file="../include/nav.jsp"%>
+    <%--<link rel="import" href="../include/nav.jsp" id="page1">--%>
     <!-- Page Content -->
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -56,23 +57,23 @@
                             <table class="table" id="userTable">
                                 <thead>
                                 <tr>
-                                    <th>ID标识</th>
+                                    <%--<th>ID标识</th>--%>
                                     <th>标题</th>
                                     <th>描述</th>
-                                    <th>分类</th>
-                                    <%--<th>标签</th>--%>
-                                    <th >最近修改时间</th>
+                                    <th width="5%" >分类</th>
+                                    <th width="15%">创建时间</th>
+                                    <th width="15%">最近修改时间</th>
                                     <th width="100">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
+                                    <td ></td>
                                     <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td style="margin: 0 auto"></td>
+                                    <td style="margin: 0 auto"></td>
+                                    <td style="margin: 0 auto"></td>
+                                    <td style="margin: 0 auto"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -146,13 +147,13 @@
                         </div>
                     </div>
                     <%--<div class="form-group">--%>
-                        <%--<label for="tags_1" class="col-sm-2 control-label">标签</label>--%>
-                        <%--<div class="col-sm-10" >--%>
-                            <%--<input  id="tags_1" style="width: 100%;" type="text" class="tags" value="" />--%>
-                            <%--<p class="mt8" style="margin-top: 8px;">--%>
-                                <%--<span style="margin: 0;font-size: 12px;color: #999999;">最多添加3个标签</span>--%>
-                            <%--</p>--%>
-                        <%--</div>--%>
+                    <%--<label for="tags_1" class="col-sm-2 control-label">标签</label>--%>
+                    <%--<div class="col-sm-10" >--%>
+                    <%--<input  id="tags_1" style="width: 100%;" type="text" class="tags" value="" />--%>
+                    <%--<p class="mt8" style="margin-top: 8px;">--%>
+                    <%--<span style="margin: 0;font-size: 12px;color: #999999;">最多添加3个标签</span>--%>
+                    <%--</p>--%>
+                    <%--</div>--%>
                     <%--</div>--%>
                 </form>
             </div>
@@ -241,12 +242,20 @@
             },
             "columns":[  //返回的JSON中的对象和列的对应关系
 //                {"data":"id","name":"id"},
-                {"data":"itemId","name":"item_id"},
-                {"data":"title","name":"title"},
+//                {"data":"itemId","name":"item_id"},
                 {"data":function(row){
-                    if(row.description.length > 30){
-                        return row.description.substring(0,30)+"...";
+                    if(row.title.length > 15){
+                        return row.title.substring(0,15)+"...";
                     }else{
+                        return row.title;
+                    }
+                },"name":"title"},
+                {"data":function(row){
+                    if(row.description.length > 25){
+                        return row.description.substring(0,25)+"...";
+                    }else{
+                        if(row.description.length == 0)
+                            return "无";
                         return row.description;
                     }
                 },"name":"description"},
@@ -257,6 +266,7 @@
                         return row.category.name;
                     }
                 },"name":"category"},
+                {"data":"createTime","name":"create_time"},
                 {"data":"updateTime","name":"update_time"},
                 {"data":function(row){
                     return "<a href='javascript:;' class='editLink' data-id='"+row.id+"'>编辑</a> <a href='javascript:;' class='delLink' data-id='"+row.id+"'>删除</a>";
@@ -264,15 +274,15 @@
             ],
             "columnDefs":[ //具体列的定义
                 {
-                    "targets":[1],
+                    "targets":[0],
                     "searchable": true
                 },
                 {
-                    "targets":[4],
+                    "targets":[3,4],
                     "orderable":true
                 },
                 {
-                    "targets":[1,2,3],
+                    "targets":[1,2],
                     "orderable":false
                 }
             ],
@@ -301,14 +311,14 @@
                 success: function (result) {
                     var code = result.code;
                     var data = result.data;
-                    console.log(data);
+//                    console.log(data);
                     if (code == 0) {
                         var str = "";
                         for (var i in data) {
-                            console.log(data[i].id);
-                            console.log(data[i].name);
-                            str += '<label class="radio-inline">' +
-                                '<input type = "radio"  value = "'+data[i].id+'" name="cate">' +data[i].name +
+//                            console.log(data[i].id);
+//                            console.log(data[i].name);
+                            str += '<label class="radio-inline">'+
+                                '<input type = "radio"  value = '+data[i].id+' name="category.id">' +data[i].name+
                                 '</label>';
                         }
                         $("#category").html(str);
@@ -328,19 +338,81 @@
             });
         });
         $("#saveBtn").click(function(){
-            $.post("/account/new",$("#newUserForm").serialize())
-                .done(function(result){
+            var title = $("input[name = 'title']").val();
+            if(title.length>30){
+                title = title.substring(0,30);
+            }
+            console.log(title);
+            var description = $("input[name = 'description']").val();
+            if(title.length>50){
+                title = title.substring(0,50);
+            }
+            console.log(description);
+            var url = $("input[name = 'url']").val();
+            console.log(url);
+            var imgUrl = $("input[name = 'imgUrl']").val();
+            console.log(imgUrl);
+            var category = {};
+            category.id = parseInt($("input:radio:checked").val());
+            console.log(category.id);
+            var spanTags = $(".tag").children("span");
+            console.log(spanTags.length);
+            var tags = new Array();
+            for(i = 0;i<spanTags.length;i++){
+                console.log($.trim($(spanTags[i]).text().substring(0,10)));
+                tags.push({name:$.trim($(spanTags[i]).text().substring(0,10))});
+            }
+//            $("#newUserForm").serialize()
+            $.ajax({
+//            /wechat-tools/backend/category.json
+                url: "/wechat-tools/backend/new",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                // 向后端传递的数据
+                data: JSON.stringify({
+                    "title":title,
+                    "description":description,
+                    "url":url,
+                    "imgUrl":imgUrl,
+                    "category":category,
+                    "tags":tags
+                }),
+                success: function (result) {
                     if("success" == result) {
                         $("#newUserForm")[0].reset();
                         $("#newUserModal").modal("hide");
                         dt.ajax.reload();
+                    }else if("duplicate" == result){
+                        alert("该图文消息已添加，请勿重复添加!");
                     }
-                }).fail(function(){
-                alert("添加时出现异常");
-            });
-
+                    else if("fail" == result){
+                        alert("url不正确，请检查url!");
+                    }
+                },
+                error: () => {
+                console.log("err");
+        }
         });
-
+//            $.post("/wechat-tools/backend/new",
+//                {   "title":title,
+//                    "description":description,
+//                    "url":url,
+//                    "imgUrl":imgUrl,
+//                    "category.id":category,
+//                    "tags":tags
+//                }).done(function(result){
+//                    if("success" == result) {
+//                        $("#newUserForm")[0].reset();
+//                        $("#newUserModal").modal("hide");
+//                        dt.ajax.reload();
+//                    }else if("fail" == result){
+//                        alert("url不正确，请检查url");
+//                    }
+//                }).fail(function(){
+//                alert("添加时出现异常");
+//            });
+        });
         //删除用户
         $(document).delegate(".delLink","click",function(){
             var id = $(this).attr("data-id");

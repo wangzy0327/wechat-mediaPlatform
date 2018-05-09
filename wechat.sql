@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS `wechat_item`;
 CREATE TABLE IF NOT EXISTS `wechat_item`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '图文id',
   `item_id` VARCHAR(20) NOT NULL COMMENT '图文标识',
-  `title` VARCHAR(20) NOT NULL COMMENT '图文标题',
+  `title` VARCHAR(30) NOT NULL COMMENT '图文标题',
   `description` VARCHAR(50)  COMMENT '图文描述',
   `url` VARCHAR(100) NOT NULL COMMENT '图文内容URL',
   `img_url` VARCHAR(200) NOT NULL COMMENT '图文图片URL',

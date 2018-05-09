@@ -19,6 +19,11 @@ public class Tag implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Tag(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Tag() {
         super();
     }

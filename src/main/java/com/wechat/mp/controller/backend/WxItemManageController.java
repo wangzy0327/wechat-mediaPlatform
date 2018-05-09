@@ -1,6 +1,7 @@
 package com.wechat.mp.controller.backend;
 
 import com.google.common.collect.Maps;
+import com.wechat.mp.common.ResponseCode;
 import com.wechat.mp.common.ServerResponse;
 import com.wechat.mp.pojo.Category;
 import com.wechat.mp.pojo.WxItem;
@@ -10,11 +11,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +88,31 @@ public class WxItemManageController {
         ServerResponse<List<Category>> response = iCategoryService.findCategory();
 //        map.addAttribute("message",response);
         return response;
+    }
+
+    /**
+     * 添加新的图文消息
+     *
+     */
+    @RequestMapping(value = "/new",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String newItem(HttpServletRequest request,@RequestBody WxItem item){
+        System.out.println(item.toString());
+        String realPath = request.getSession().getServletContext().getRealPath("/");
+        String t = new File("").getAbsolutePath();
+        System.out.println(t);
+        String path = request.getScheme()+"://"
+                +request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+        System.out.println("path:"+path);
+        System.out.println("realPath:"+realPath);
+        ResponseCode state = iWxItemService.saveNewItem(path,realPath,item);
+        if(state.getCode() == 0){
+            return "success";
+        }else if(state.getCode() == 3){
+            return "duplicate";
+        }else{
+            return "fail";
+        }
     }
 
 }

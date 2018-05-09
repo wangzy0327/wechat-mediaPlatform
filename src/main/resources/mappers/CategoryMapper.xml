@@ -84,4 +84,10 @@
     <include refid="Base_Column_List" />
     from category
   </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
+    select
+    <include refid="Base_Column_List"/>
+    from category
+    where `name` = #{name}
+  </select>
 </mapper>
