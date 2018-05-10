@@ -115,4 +115,15 @@ public class WxItemManageController {
         }
     }
 
+    /**
+     * 根据ID获取用户信息
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/item.json",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse getWxItemInfo(Integer id){
+        return iWxItemService.findWxItemById(id);
+    }
+
 }

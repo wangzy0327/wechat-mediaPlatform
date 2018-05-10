@@ -45,16 +45,14 @@ public class Category implements Serializable{
         this.name = name == null ? null : name.trim();
     }
 
-    public String getCreateTime() {
-        return DateUtil.COMMON_FULL.getDateText(createTime);
-    }
+    public String getCreateTime() { return (createTime == null)?null:DateUtil.COMMON_FULL.getDateText(createTime); }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
     public String getUpdateTime() {
-        return DateUtil.COMMON_FULL.getDateText(updateTime);
+        return (updateTime == null)?null:DateUtil.COMMON_FULL.getDateText(updateTime);
     }
 
     public void setUpdateTime(Date updateTime) {
