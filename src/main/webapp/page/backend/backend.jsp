@@ -177,30 +177,61 @@
                 <form id="editUserForm" class="form-horizontal">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">姓名</label>
+                        <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="username" id="username">
+                            <input type="text" class="form-control" name="title" id="title">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">联系电话</label>
+                        <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="tel" id="tel">
+                            <input type="text" class="form-control" name="description" id="description">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">状态</label>
+                        <label class="col-sm-2 control-label">内容URL</label>
                         <div class="col-sm-10">
-                            <div class="checkbox">
-                                <label class="radio-inline">
-                                    <input type="radio" name="state" value="正常" id="ok"> 正常
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="state" value="禁用" id="disable"> 禁用
-                                </label>
+                            <input type="text" class="form-control" name="url" id="url">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">图片URL</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="imgUrl" id="imgUrl">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">类别</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox" id = "categoryEdit">
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">标签</label>
+                        <div class="col-sm-10" >
+                            <input id="tags_2" type="text" class="form-control"  value=""/>
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10" >
+                            <p class="mt8" style="margin-top: 8px;">
+                                <span style="margin: 0;font-size: 12px;color: #999999;">最多添加3个标签</span>
+                            </p>
+                        </div>
+                    </div>
+                    <%--<div class="form-group">--%>
+                        <%--<label class="col-sm-2 control-label">状态</label>--%>
+                        <%--<div class="col-sm-10">--%>
+                            <%--<div class="checkbox">--%>
+                                <%--<label class="radio-inline">--%>
+                                    <%--<input type="radio" name="state" value="正常" id="ok"> 正常--%>
+                                <%--</label>--%>
+                                <%--<label class="radio-inline">--%>
+                                    <%--<input type="radio" name="state" value="禁用" id="disable"> 禁用--%>
+                                <%--</label>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                    <%--</div>--%>
                 </form>
             </div>
             <div class="modal-footer">
@@ -315,8 +346,6 @@
                     if (code == 0) {
                         var str = "";
                         for (var i in data) {
-//                            console.log(data[i].id);
-//                            console.log(data[i].name);
                             str += '<label class="radio-inline">'+
                                 '<input type = "radio"  value = '+data[i].id+' name="category.id">' +data[i].name+
                                 '</label>';
@@ -430,29 +459,81 @@
 
         //编辑用户
         $(document).delegate(".editLink","click",function(){
+            $.ajax({
+                type: "post",
+                url: "/wechat-tools/backend/category.json",
+                async: true,
+                success: function (result) {
+                    var code = result.code;
+                    var data = result.data;
+//                    console.log(data);
+                    if (code == 0) {
+                        var str = "";
+                        for (var i in data) {
+                            str += '<label class="radio-inline">'+
+                                '<input type = "radio"  value = '+data[i].id+' name="category.id">' +data[i].name+
+                                '</label>';
+                        }
+                        $("#categoryEdit").html(str);
+                    }
+                }
+            });
             $("#editUserForm")[0].reset();
             var id = $(this).attr("data-id");
-            $.get("/account/user.json",{"id":id}).done(function(result){
-                $("#id").val(result.id);
-                $("#username").val(result.username);
-                $("#tel").val(result.tel);
-
-                $(".role").each(function(){
-                    var roleList = result.roleList;
-                    for(var i = 0;i < roleList.length;i++) {
-                        var role = roleList[i];
-                        if($(this).val() == role.id) {
-                            $(this)[0].checked = true;
+            $.get("/wechat-tools/backend/item.json",{"id":id}).done(function(result){
+                if(result.code == 0){
+                    var data = result.data;
+                    $("#id").val(data.id);
+                    $("#title").val(data.title);
+                    $("#description").val(data.description);
+                    $("#url").val(data.url);
+                    $("#imgUrl").val(data.imgUrl);
+                    $('input:radio').each(function () {
+                        if(data.category.id == $(this).val()){
+                            this.checked = true;
+                        }
+                    });
+                    var str = '';
+                    var tags = data.tags;
+                    console.log(tags);
+                    for(i = 0;i<tags.length;i++){
+                        if(i != tags.length-1){
+                            str = str+tags[i].name+',';
+                        }else{
+                            str = str+tags[i].name;
                         }
                     }
-                });
-
-                if(result.state == "正常") {
-                    $("#ok")[0].checked = true;
-                } else {
-                    $("#disable")[0].checked = true;
+                    console.log(str);
+                    $('#tags_2').importTags(str);
+                    $('#tags_2').tagsInput({
+                        width:'auto',
+                        onChange: function(){
+                            let len = $("#tags_2_tagsinput .tag").length;
+                            tags_2_addTag.style.display = "";
+                            if(len >= 3){
+                                tags_2_addTag.style.display = "none";
+                            }
+                        }
+                    });
+//                    $(".role").each(function(){
+//                        var roleList = result.roleList;
+//                        for(var i = 0;i < roleList.length;i++) {
+//                            var role = roleList[i];
+//                            if($(this).val() == role.id) {
+//                                $(this)[0].checked = true;
+//                            }
+//                        }
+//                    });
+                }else{
+                    alert(result.msg);
                 }
 
+
+//                if(result.state == "正常") {
+//                    $("#ok")[0].checked = true;
+//                } else {
+//                    $("#disable")[0].checked = true;
+//                }
 
 
             }).fail(function(){

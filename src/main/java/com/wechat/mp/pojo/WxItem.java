@@ -94,7 +94,7 @@ public class WxItem implements Serializable {
     }
 
     public String getCreateTime() {
-        return DateUtil.COMMON_FULL.getDateText(createTime);
+        return (createTime == null)?null:DateUtil.COMMON_FULL.getDateText(createTime);
     }
 
     public void setCreateTime(Date createTime) {
@@ -102,7 +102,7 @@ public class WxItem implements Serializable {
     }
 
     public String getUpdateTime() {
-        return DateUtil.COMMON_FULL.getDateText(updateTime);
+        return (updateTime == null)?null:DateUtil.COMMON_FULL.getDateText(updateTime);
     }
 
     public void setUpdateTime(Date updateTime) {

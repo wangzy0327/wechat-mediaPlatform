@@ -1,5 +1,7 @@
 package com.wechat.mp.pojo;
 
+import com.wechat.mp.common.DateUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -105,16 +107,16 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getCreateTime() {
+        return (createTime == null)?null: DateUtil.COMMON_FULL.getDateText(createTime);
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public String getUpdateTime() {
+        return (updateTime == null)?null:DateUtil.COMMON_FULL.getDateText(updateTime);
     }
 
     public void setUpdateTime(Date updateTime) {

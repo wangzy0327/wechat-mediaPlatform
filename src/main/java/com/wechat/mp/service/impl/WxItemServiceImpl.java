@@ -1,6 +1,7 @@
 package com.wechat.mp.service.impl;
 
 import com.wechat.mp.common.ResponseCode;
+import com.wechat.mp.common.ServerResponse;
 import com.wechat.mp.dao.CategoryMapper;
 import com.wechat.mp.dao.TagMapper;
 import com.wechat.mp.dao.WxItemMapper;
@@ -19,6 +20,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +67,7 @@ public class WxItemServiceImpl implements IWxItemService {
         return wxItemMapper.findWxItemCountByParam(param);
     }
 
-//    @Transactional
+    @Transactional
     public ResponseCode saveNewItem(String path,String realPath,WxItem item){
         int lastIndex = getLastIndex(item.getUrl());
         String itemId = item.getUrl().substring(item.getUrl().lastIndexOf("/")+1, lastIndex);
@@ -164,6 +167,22 @@ public class WxItemServiceImpl implements IWxItemService {
             h5_url.append(h5_url_str);
         }
         return h5_url.append("?mobile=1").toString();
+    }
+
+    public ServerResponse findWxItemById(Integer id){
+        System.out.println(id);
+        WxItem wxItem = wxItemMapper.findWxItemWithTagById(id);
+        System.out.println(wxItem);
+        if(wxItem == null){
+            wxItem = wxItemMapper.findWxItemWithCateById(id);
+            if(wxItem == null){
+                return ServerResponse.createByErrorMessage("图文信息获取已删除或不存在！");
+            }else{
+                return ServerResponse.createBySuccess(wxItem);
+            }
+        }else {
+            return ServerResponse.createBySuccess(wxItem);
+        }
     }
 
 

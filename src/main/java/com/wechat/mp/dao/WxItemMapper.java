@@ -31,4 +31,8 @@ public interface WxItemMapper {
     Integer insertWxItemCategory(WxItem wxItem, Category category);
 
     Integer findByIndex(String itemId);
+
+    WxItem findWxItemWithTagById(Integer id);
+
+    WxItem findWxItemWithCateById(Integer id);
 }
