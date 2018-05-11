@@ -38,7 +38,7 @@
         <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><i class="fa fa-coffee"></i> CRM系统登录</h3>
+                    <h3 class="panel-title"><i class="fa fa-coffee"></i> 后台管理系统登录</h3>
                 </div>
                 <div class="panel-body">
                     <c:if test="${not empty message}">
