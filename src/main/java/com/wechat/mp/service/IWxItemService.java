@@ -18,4 +18,6 @@ public interface IWxItemService {
     ResponseCode saveNewItem(String path, String realPath, WxItem item);
 
     public ServerResponse findWxItemById(Integer id);
+
+    public ResponseCode editWxItem(String path,String realPath,WxItem item);
 }

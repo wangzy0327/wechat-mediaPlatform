@@ -99,8 +99,6 @@ public class WxItemManageController {
     public String newItem(HttpServletRequest request,@RequestBody WxItem item){
         System.out.println(item.toString());
         String realPath = request.getSession().getServletContext().getRealPath("/");
-        String t = new File("").getAbsolutePath();
-        System.out.println(t);
         String path = request.getScheme()+"://"
                 +request.getServerName()+":"+request.getServerPort()+request.getContextPath();
         System.out.println("path:"+path);
@@ -124,6 +122,25 @@ public class WxItemManageController {
     @ResponseBody
     public ServerResponse getWxItemInfo(Integer id){
         return iWxItemService.findWxItemById(id);
+    }
+
+    @RequestMapping(value = "edit",method = RequestMethod.POST)
+    @ResponseBody
+    public String editWxItem(HttpServletRequest request,@RequestBody WxItem item){
+        System.out.println(item.toString());
+        String realPath = request.getSession().getServletContext().getRealPath("/");
+        String path = request.getScheme()+"://"
+                +request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+        System.out.println("path:"+path);
+        System.out.println("realPath:"+realPath);
+        ResponseCode state = iWxItemService.editWxItem(path,realPath,item);
+        if(state.getCode() == 0){
+            return "success";
+        }else if(state.getCode() == 3){
+            return "duplicate";
+        }else{
+            return "fail";
+        }
     }
 
 }
