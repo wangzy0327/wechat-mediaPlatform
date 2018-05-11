@@ -25,6 +25,7 @@
 
     <link rel="stylesheet" href="/wechat-tools/js/datatables/media/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="/wechat-tools/css/jquery.tagsinput.min.css">
+    <link rel="stylesheet" href="/wechat-tools/css/bootstrap-dialog.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -102,29 +103,33 @@
                 <h4 class="modal-title">添加图文消息</h4>
             </div>
             <div class="modal-body">
-                <form id="newUserForm" class="form-horizontal">
+                <form id="newUserForm" class="form-horizontal" role="form" data-toggle="validator">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="title">
+                            <input type="text" class="form-control" name="title"
+                                   required maxlength="30">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="description">
+                            <input type="text" class="form-control" name="description"
+                                   maxlength="50">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">内容URL</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="url">
+                            <input type="url" class="form-control" name="url"
+                                   required >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">图片URL</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="imgUrl">
+                            <input type="url" class="form-control" name="imgUrl"
+                                   required >
                         </div>
                     </div>
                     <div class="form-group">
@@ -146,20 +151,13 @@
                             </p>
                         </div>
                     </div>
-                    <%--<div class="form-group">--%>
-                    <%--<label for="tags_1" class="col-sm-2 control-label">标签</label>--%>
-                    <%--<div class="col-sm-10" >--%>
-                    <%--<input  id="tags_1" style="width: 100%;" type="text" class="tags" value="" />--%>
-                    <%--<p class="mt8" style="margin-top: 8px;">--%>
-                    <%--<span style="margin: 0;font-size: 12px;color: #999999;">最多添加3个标签</span>--%>
-                    <%--</p>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" id="saveBtn" class="btn btn-primary">保存</button>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" id="saveBtn" class="btn btn-primary">保存</button>
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -258,78 +256,88 @@
 <script src="/wechat-tools/js/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="/wechat-tools/js/datatables/media/js/dataTables.bootstrap.min.js"></script>
 <script src="/wechat-tools/js/jquery.tagsinput.min.js"></script>
+<script src="/wechat-tools/js/bootstrap-dialog.min.js"></script>
+<script src="/wechat-tools/js/bootstrap-validator.min.js"></script>
 <script>
-    $(function(){
+    $(function() {
 
         var dt = $("#userTable").DataTable({
             "processing": true, //loding效果
-            "serverSide":true, //服务端处理
+            "serverSide": true, //服务端处理
             "searchDelay": 1000,//搜索延迟
-            "order":[[0,'desc']],//默认排序方式
-            "lengthMenu":[5,10,25,50,100],//每页显示数据条数菜单
-            "ajax":{
-                url:"/wechat-tools/backend/items.json", //获取数据的URL
-                type:"get" //获取数据的方式
+            "order": [[0, 'desc']],//默认排序方式
+            "lengthMenu": [5, 10, 25, 50, 100],//每页显示数据条数菜单
+            "ajax": {
+                url: "/wechat-tools/backend/items.json", //获取数据的URL
+                type: "get" //获取数据的方式
             },
-            "columns":[  //返回的JSON中的对象和列的对应关系
+            "columns": [  //返回的JSON中的对象和列的对应关系
 //                {"data":"id","name":"id"},
 //                {"data":"itemId","name":"item_id"},
-                {"data":function(row){
-                    if(row.title.length > 15){
-                        return row.title.substring(0,15)+"...";
-                    }else{
-                        return row.title;
-                    }
-                },"name":"title"},
-                {"data":function(row){
-                    if(row.description.length > 25){
-                        return row.description.substring(0,25)+"...";
-                    }else{
-                        if(row.description.length == 0)
-                            return "无";
-                        return row.description;
-                    }
-                },"name":"description"},
-                {"data":function(row){
-                    if(row.category.name.length > 10){
-                        return row.category.name.substring(0,10)+"...";
-                    }else{
-                        return row.category.name;
-                    }
-                },"name":"category"},
-                {"data":"createTime","name":"create_time"},
-                {"data":"updateTime","name":"update_time"},
-                {"data":function(row){
-                    return "<a href='javascript:;' class='editLink' data-id='"+row.id+"'>编辑</a> <a href='javascript:;' class='delLink' data-id='"+row.id+"'>删除</a>";
-                }}
-            ],
-            "columnDefs":[ //具体列的定义
                 {
-                    "targets":[0],
+                    "data": function (row) {
+                        if (row.title.length > 15) {
+                            return row.title.substring(0, 15) + "...";
+                        } else {
+                            return row.title;
+                        }
+                    }, "name": "title"
+                },
+                {
+                    "data": function (row) {
+                        if (row.description.length > 25) {
+                            return row.description.substring(0, 25) + "...";
+                        } else {
+                            if (row.description.length == 0)
+                                return "无";
+                            return row.description;
+                        }
+                    }, "name": "description"
+                },
+                {
+                    "data": function (row) {
+                        if (row.category.name.length > 10) {
+                            return row.category.name.substring(0, 10) + "...";
+                        } else {
+                            return row.category.name;
+                        }
+                    }, "name": "category"
+                },
+                {"data": "createTime", "name": "create_time"},
+                {"data": "updateTime", "name": "update_time"},
+                {
+                    "data": function (row) {
+                        return "<a href='javascript:;' class='editLink' data-id='" + row.id + "'>编辑</a> <a href='javascript:;' class='delLink' data-id='" + row.id + "'>删除</a>";
+                    }
+                }
+            ],
+            "columnDefs": [ //具体列的定义
+                {
+                    "targets": [0],
                     "searchable": true
                 },
                 {
-                    "targets":[3,4],
-                    "orderable":true
+                    "targets": [3, 4],
+                    "orderable": true
                 },
                 {
-                    "targets":[1,2],
-                    "orderable":false
+                    "targets": [1, 2],
+                    "orderable": false
                 }
             ],
-            "language":{
-                "lengthMenu":"显示 _MENU_ 条记录",
-                "search":"搜索:",
+            "language": {
+                "lengthMenu": "显示 _MENU_ 条记录",
+                "search": "搜索:",
                 "info": "从 _START_ 到 _END_ 共 _TOTAL_ 条记录",
-                "processing":"加载中...",
-                "zeroRecords":"暂无数据",
+                "processing": "加载中...",
+                "zeroRecords": "暂无数据",
                 "infoEmpty": "从 0 到 0 共 0 条记录",
-                "infoFiltered":"(从 _MAX_ 条记录中读取)",
+                "infoFiltered": "(从 _MAX_ 条记录中读取)",
                 "paginate": {
-                    "first":      "首页",
-                    "last":       "末页",
-                    "next":       "下一页",
-                    "previous":   "上一页"
+                    "first": "首页",
+                    "last": "末页",
+                    "next": "下一页",
+                    "previous": "上一页"
                 }
             }
         });
@@ -423,42 +431,23 @@
                 console.log("err");
         }
         });
-//            $.post("/wechat-tools/backend/new",
-//                {   "title":title,
-//                    "description":description,
-//                    "url":url,
-//                    "imgUrl":imgUrl,
-//                    "category.id":category,
-//                    "tags":tags
-//                }).done(function(result){
-//                    if("success" == result) {
-//                        $("#newUserForm")[0].reset();
-//                        $("#newUserModal").modal("hide");
-//                        dt.ajax.reload();
-//                    }else if("fail" == result){
-//                        alert("url不正确，请检查url");
-//                    }
-//                }).fail(function(){
-//                alert("添加时出现异常");
-//            });
         });
         //删除用户
-        $(document).delegate(".delLink","click",function(){
+        $(document).delegate(".delLink", "click", function () {
             var id = $(this).attr("data-id");
-            if(confirm("确定要删除该数据吗?")) {
-                $.post("/account/del",{"id":id}).done(function(result){
-                    if("success" == result) {
+            if (confirm("确定要删除该数据吗?")) {
+                $.post("/account/del", {"id": id}).done(function (result) {
+                    if ("success" == result) {
                         dt.ajax.reload();
                     }
-                }).fail(function(){
-                    alert("删除出现异常");
+                }).fail(function () {
+                    BootstrapDialog.alert("删除出现异常");
                 });
 
             }
         });
-
         //编辑用户
-        $(document).delegate(".editLink","click",function(){
+        $(document).delegate(".editLink", "click", function () {
             $.ajax({
                 type: "post",
                 url: "/wechat-tools/backend/category.json",
@@ -470,8 +459,8 @@
                     if (code == 0) {
                         var str = "";
                         for (var i in data) {
-                            str += '<label class="radio-inline">'+
-                                '<input type = "radio"  value = '+data[i].id+' name="category.id">' +data[i].name+
+                            str += '<label class="radio-inline">' +
+                                '<input type = "radio"  value = ' + data[i].id + ' name="category.id">' + data[i].name +
                                 '</label>';
                         }
                         $("#categoryEdit").html(str);
@@ -480,8 +469,8 @@
             });
             $("#editUserForm")[0].reset();
             var id = $(this).attr("data-id");
-            $.get("/wechat-tools/backend/item.json",{"id":id}).done(function(result){
-                if(result.code == 0){
+            $.get("/wechat-tools/backend/item.json", {"id": id}).done(function (result) {
+                if (result.code == 0) {
                     var data = result.data;
                     $("#id").val(data.id);
                     $("#title").val(data.title);
@@ -489,72 +478,99 @@
                     $("#url").val(data.url);
                     $("#imgUrl").val(data.imgUrl);
                     $('input:radio').each(function () {
-                        if(data.category.id == $(this).val()){
+                        if (data.category.id == $(this).val()) {
                             this.checked = true;
                         }
                     });
                     var str = '';
                     var tags = data.tags;
                     console.log(tags);
-                    for(i = 0;i<tags.length;i++){
-                        if(i != tags.length-1){
-                            str = str+tags[i].name+',';
-                        }else{
-                            str = str+tags[i].name;
+                    for (i = 0; i < tags.length; i++) {
+                        if (i != tags.length - 1) {
+                            str = str + tags[i].name + ',';
+                        } else {
+                            str = str + tags[i].name;
                         }
                     }
                     console.log(str);
                     $('#tags_2').importTags(str);
                     $('#tags_2').tagsInput({
-                        width:'auto',
-                        onChange: function(){
+                        width: 'auto',
+                        onChange: function () {
                             let len = $("#tags_2_tagsinput .tag").length;
                             tags_2_addTag.style.display = "";
-                            if(len >= 3){
+                            if (len >= 3) {
                                 tags_2_addTag.style.display = "none";
                             }
                         }
                     });
-//                    $(".role").each(function(){
-//                        var roleList = result.roleList;
-//                        for(var i = 0;i < roleList.length;i++) {
-//                            var role = roleList[i];
-//                            if($(this).val() == role.id) {
-//                                $(this)[0].checked = true;
-//                            }
-//                        }
-//                    });
-                }else{
-                    alert(result.msg);
+                } else {
+                    BootstrapDialog.alert(result.msg);
                 }
-
-
-//                if(result.state == "正常") {
-//                    $("#ok")[0].checked = true;
-//                } else {
-//                    $("#disable")[0].checked = true;
-//                }
-
-
-            }).fail(function(){
+            }).fail(function () {
 
             });
-
             $("#editUserModal").modal("show");
         });
-
-        $("#editBtn").click(function(){
-
-            $.post("/account/edit",$("#editUserForm").serialize()).done(function(result){
-                if(result == "success") {
-                    $("#editUserModal").modal("hide");
-                    dt.ajax.reload();
-                }
-            }).fail(function(){
-                alert("修改用户异常");
+        $("#editBtn").click(function () {
+            var id = $("#id").val();
+            var title = $("#title").val();
+            if (title.length > 30) {
+                title = title.substring(0, 30);
+            }
+            console.log(title);
+            var description = $("#description").val();
+            if (title.length > 50) {
+                title = title.substring(0, 50);
+            }
+            console.log(description);
+            var url = $("#url").val();
+            var imgUrl = $("#imgUrl").val();
+            var category = {};
+            category.id = parseInt($("input:radio:checked").val());
+            var spanTags = $(".tag").children("span");
+            console.log(spanTags.length);
+            var tags = new Array();
+            for (i = 0; i < spanTags.length; i++) {
+                console.log($.trim($(spanTags[i]).text().substring(0, 10)));
+                tags.push({name: $.trim($(spanTags[i]).text().substring(0, 10))});
+            }
+            $.ajax({
+                //            /wechat-tools/backend/category.json
+                url: "/wechat-tools/backend/edit",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                // 向后端传递的数据
+                data: JSON.stringify({
+                    "id":id,
+                    "title":title,
+                    "description":description,
+                    "url":url,
+                    "imgUrl":imgUrl,
+                    "category":category,
+                    "tags":tags
+                }),
+                success: function (result) {
+                    if("success" == result) {
+                        $("#editUserForm")[0].reset();
+                        $("#editUserModal").modal("hide");
+                        dt.ajax.reload();
+                    }else if("duplicate" == result){
+                        BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
+                    }
+                    else if("fail" == result){
+                        BootstrapDialog.alert("url不正确，请检查url!");
+                    }
+                },
+                error: () => {
+                console.log("err");
+        }
             });
 
         });
+
+
     });
 </script>
 

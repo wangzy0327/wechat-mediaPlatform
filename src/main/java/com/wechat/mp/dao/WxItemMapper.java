@@ -35,4 +35,14 @@ public interface WxItemMapper {
     WxItem findWxItemWithTagById(Integer id);
 
     WxItem findWxItemWithCateById(Integer id);
+
+    WxItem findWxItemByIndex(String itemId);
+
+    Integer updateWxItemCategory(WxItem wxItem);
+
+    List<Integer> getTagIdByItemId(Integer itemId);
+
+    Integer isRelation(Integer tagId,Integer itemId);
+
+    Integer deleteRelation(Integer tagId,Integer itemId);
 }

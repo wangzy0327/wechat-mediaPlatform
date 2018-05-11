@@ -146,8 +146,7 @@
       description = #{description,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       img_url = #{imgUrl,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findWxItemByParam" parameterType="map" resultMap="SimpleWxItem">
@@ -201,4 +200,51 @@
     from wechat_item a , cate_item b, category d
     where a.id = #{id} AND a.id = b.item_id AND b.cate_id = d.id
   </select>
+  <select id="findWxItemByIndex" resultMap="SimpleWxItem" parameterType="string">
+    select
+    <include refid="Base_Column_List"/>
+    from wechat_item
+    where item_id = #{itemId}
+  </select>
+  <update id="updateWxItemCategory" parameterType="com.wechat.mp.pojo.WxItem">
+    update wechat_item,cate_item
+    <set >
+      <if test="itemId != null" >
+        wechat_item.item_id = #{itemId},
+      </if>
+      <if test="title != null" >
+        wechat_item.title = #{title},
+      </if>
+      <if test="description != null" >
+        wechat_item.description = #{description},
+      </if>
+      <if test="url != null" >
+        wechat_item.url = #{url},
+      </if>
+      <if test="imgUrl != null" >
+        wechat_item.img_url = #{imgUrl},
+      </if>
+      <if test="category.id != null" >
+        cate_item.cate_id = #{category.id},
+        cate_item.update_time = now(),
+      </if>
+      wechat_item.update_time = now()
+    </set>
+    where wechat_item.id = #{id} AND cate_item.item_id = #{id}
+  </update>
+  <select id="getTagIdByItemId" resultType="int" parameterType="int">
+    select tag_id
+    from tag_item
+    where item_id = #{itemId}
+  </select>
+  <select id="isRelation" resultType="int">
+    select count(*)
+    from tag_item
+    where tag_id = #{param1.value} AND item_id = #{param2.value}
+  </select>
+  <delete id="deleteRelation">
+    delete
+    from tag_item
+    where tag_id = #{param1.value} AND item_id = #{param2.value}
+  </delete>
 </mapper>

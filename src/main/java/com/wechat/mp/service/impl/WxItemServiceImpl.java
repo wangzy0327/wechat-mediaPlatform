@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -182,6 +183,77 @@ public class WxItemServiceImpl implements IWxItemService {
             }
         }else {
             return ServerResponse.createBySuccess(wxItem);
+        }
+    }
+
+    @Transactional
+    public ResponseCode editWxItem(String path,String realPath,WxItem item){
+        int lastIndex = getLastIndex(item.getUrl());
+        String itemId = item.getUrl().substring(item.getUrl().lastIndexOf("/")+1, lastIndex);
+        WxItem findItem = wxItemMapper.findWxItemByIndex(itemId);
+        if(findItem!=null && !findItem.getId().equals(item.getId()) ){
+            return ResponseCode.DUPLICATE;
+        }else if(findItem!=null && findItem.getId().equals(item.getId()) ){
+            item.setUrl(null);
+            Category category = item.getCategory();
+            List<Tag> tags = item.getTags();
+            wxItemMapper.updateByPrimaryKeySelective(item);
+            wxItemMapper.updateWxItemCategory(item);
+            List<Integer> newAdd = new ArrayList<>();
+            List<Integer> oldAdd = wxItemMapper.getTagIdByItemId(item.getId());
+            for(int i = 0;i<tags.size();i++){
+                Tag temp = tagMapper.selectByName(tags.get(i).getName());
+                if(temp != null){
+                    tags.set(i,temp);
+                    if(wxItemMapper.isRelation(temp.getId(),item.getId()).intValue() == 0){
+                        wxItemMapper.insertWxItemTags(item,temp);
+                    }
+                }else{
+                    tagMapper.insert(tags.get(i));
+                    System.out.println("tagId:"+tags.get(i).getId());
+                    temp = tags.get(i);
+                    wxItemMapper.insertWxItemTags(item,temp);
+                }
+                newAdd.add(temp.getId());
+            }
+            for(int i = 0;i<oldAdd.size();i++){
+                if(!newAdd.contains(oldAdd.get(i))){
+                    wxItemMapper.deleteRelation(oldAdd.get(i),item.getId());
+                }
+            }
+            return ResponseCode.SUCCESS;
+        }else{
+            ResponseCode responseCode = this.H5Parse(path,item.getUrl(),realPath,item);
+            if(responseCode.getCode() != 0){
+                return ResponseCode.ERROR;
+            }
+            Category category = item.getCategory();
+            List<Tag> tags = item.getTags();
+            wxItemMapper.updateByPrimaryKeySelective(item);
+            wxItemMapper.updateWxItemCategory(item);
+            List<Integer> newAdd = new ArrayList<>();
+            List<Integer> oldAdd = wxItemMapper.getTagIdByItemId(item.getId());
+            for(int i = 0;i<tags.size();i++){
+                Tag temp = tagMapper.selectByName(tags.get(i).getName());
+                if(temp != null){
+                    tags.set(i,temp);
+                    if(wxItemMapper.isRelation(temp.getId(),item.getId()).intValue() == 0){
+                        wxItemMapper.insertWxItemTags(item,temp);
+                    }
+                }else{
+                    tagMapper.insert(tags.get(i));
+                    System.out.println("tagId:"+tags.get(i).getId());
+                    temp = tags.get(i);
+                    wxItemMapper.insertWxItemTags(item,temp);
+                }
+                newAdd.add(temp.getId());
+            }
+            for(int i = 0;i<oldAdd.size();i++){
+                if(!newAdd.contains(oldAdd.get(i))){
+                    wxItemMapper.deleteRelation(oldAdd.get(i),item.getId());
+                }
+            }
+            return ResponseCode.SUCCESS;
         }
     }
 
