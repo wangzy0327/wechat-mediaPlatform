@@ -9,7 +9,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="home.html"><i class="fa fa-coffee"></i> CRM</a>
+        <%--<a class="navbar-brand" href="home.html"><i class="fa fa-coffee"></i> CRM</a>--%>
+        <a class="navbar-brand" href="home.html"><i class="fa fa-coffee"></i> 后台管理</a>
     </div>
     <!-- /.navbar-header -->
 
@@ -36,20 +37,20 @@
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
-                    <a href="/home"><i class="fa fa-dashboard fa-fw"></i> 首页</a>
+                    <%--<a href="/home"><i class="fa fa-dashboard fa-fw"></i> 首页</a>--%>
                 </li>
                 <li>
                     <a href="/customer"><i class="fa fa-users fa-fw"></i> 客户</a>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="/progress"><i class="fa fa-table fa-fw"></i> 跟进</a>
+                    <%--<a href="/progress"><i class="fa fa-table fa-fw"></i> 跟进</a>--%>
                 </li>
                 <li>
-                    <a href="/task"><i class="fa fa-edit fa-fw"></i> 待办</a>
+                    <%--<a href="/task"><i class="fa fa-edit fa-fw"></i> 待办</a>--%>
                 </li>
                 <li>
-                    <a href="chart.html"><i class="fa fa-bar-chart"></i> 统计</a>
+                    <%--<a href="chart.html"><i class="fa fa-bar-chart"></i> 统计</a>--%>
 
                     <!-- /.nav-second-level -->
                 </li>

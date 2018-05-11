@@ -375,22 +375,22 @@
             });
         });
         $("#saveBtn").click(function(){
-            var title = $("input[name = 'title']").val();
+            var title = ($("input[name = 'title']"))[0].value;
             if(title.length>30){
                 title = title.substring(0,30);
             }
             console.log(title);
-            var description = $("input[name = 'description']").val();
+            var description = ($("input[name = 'description']"))[0].value;
             if(title.length>50){
                 title = title.substring(0,50);
             }
             console.log(description);
-            var url = $("input[name = 'url']").val();
+            var url = ($("input[name = 'url']"))[0].value;
             console.log(url);
-            var imgUrl = $("input[name = 'imgUrl']").val();
+            var imgUrl = ($("input[name = 'imgUrl']"))[0].value;
             console.log(imgUrl);
             var category = {};
-            category.id = parseInt($("input:radio:checked").val());
+            category.id = parseInt(($("input:radio:checked"))[0].value);
             console.log(category.id);
             var spanTags = $(".tag").children("span");
             console.log(spanTags.length);
@@ -418,13 +418,14 @@
                 success: function (result) {
                     if("success" == result) {
                         $("#newUserForm")[0].reset();
+                        $("#category").html("");
                         $("#newUserModal").modal("hide");
                         dt.ajax.reload();
                     }else if("duplicate" == result){
-                        alert("该图文消息已添加，请勿重复添加!");
+                        BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
                     }
                     else if("fail" == result){
-                        alert("url不正确，请检查url!");
+                        BootstrapDialog.alert("url不正确，请检查url!");
                     }
                 },
                 error: () => {
@@ -472,11 +473,11 @@
             $.get("/wechat-tools/backend/item.json", {"id": id}).done(function (result) {
                 if (result.code == 0) {
                     var data = result.data;
-                    $("#id").val(data.id);
-                    $("#title").val(data.title);
-                    $("#description").val(data.description);
-                    $("#url").val(data.url);
-                    $("#imgUrl").val(data.imgUrl);
+                    $("input[name='id']").val(data.id);
+                    $($("input[name='title']")[1]).val(data.title);
+                    $($("input[name='description']")[1]).val(data.description);
+                    $($("input[name='url']")[1]).val(data.url);
+                    $($("input[name='imgUrl']")[1]).val(data.imgUrl);
                     $('input:radio').each(function () {
                         if (data.category.id == $(this).val()) {
                             this.checked = true;
@@ -513,19 +514,19 @@
             $("#editUserModal").modal("show");
         });
         $("#editBtn").click(function () {
-            var id = $("#id").val();
-            var title = $("#title").val();
+            var id = $("input[name='id']").val();
+            var title = $($("input[name='title']")[1]).val();
             if (title.length > 30) {
                 title = title.substring(0, 30);
             }
             console.log(title);
-            var description = $("#description").val();
+            var description = $($("input[name='description']")[1]).val();
             if (title.length > 50) {
                 title = title.substring(0, 50);
             }
             console.log(description);
-            var url = $("#url").val();
-            var imgUrl = $("#imgUrl").val();
+            var url = $($("input[name='url']")[1]).val();
+            var imgUrl = $($("input[name='imgUrl']")[1]).val();
             var category = {};
             category.id = parseInt($("input:radio:checked").val());
             var spanTags = $(".tag").children("span");
@@ -554,6 +555,7 @@
                 success: function (result) {
                     if("success" == result) {
                         $("#editUserForm")[0].reset();
+                        $('#categoryEdit').html("");
                         $("#editUserModal").modal("hide");
                         dt.ajax.reload();
                     }else if("duplicate" == result){
@@ -567,7 +569,6 @@
                 console.log("err");
         }
             });
-
         });
 
 
