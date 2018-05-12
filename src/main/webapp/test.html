@@ -3,77 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
-    <!-- Bootstrap Core CSS -->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/wechat-tools/css/bootstrap-dialog.min.css">
-    <!-- jQuery -->
-    <script src="/wechat-tools/js/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/wechat-tools/js/bootstrap.min.js"></script>
-    <script src="/wechat-tools/js/bootstrap-dialog.min.js"></script>
-    <script src="/wechat-tools/js/bootstrap-validator.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet" />
 </head>
 <body>
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addMyModal">Open Modal</button>
+<div class="modal fade" id="addMyModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Stuff</h4>
+            </div>
+            <div class="modal-body">
+                <!-- To use feedback icons, ensure that you use Bootstrap v3.1.0 or later -->
+                <form id="registrationForm" method="post" class="form-horizontal"
+                      data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                      data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                      data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">
 
-<form data-toggle="validator" role="form">
-    <div class="form-group">
-        <label for="inputName" class="control-label">Name</label>
-        <input type="text" class="form-control" id="inputName" placeholder="Cina Saffary" required>
-    </div>
-    <div class="form-group has-feedback">
-        <label for="inputTwitter" class="control-label">Twitter</label>
-        <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputTwitter" placeholder="1000hz" required>
-        </div>
-        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-        <div class="help-block with-errors">Hey look, this one has feedback icons!</div>
-    </div>
-    <div class="form-group">
-        <label for="inputEmail" class="control-label">Email</label>
-        <input type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Bruh, that email address is invalid" required>
-        <div class="help-block with-errors"></div>
-    </div>
-    <div class="form-group">
-        <label for="inputPassword" class="control-label">Password</label>
-        <div class="form-inline row">
-            <div class="form-group col-sm-6">
-                <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Password" required>
-                <div class="help-block">Minimum of 6 characters</div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Username</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="username"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="The username is required and cannot be empty"
+
+                                   data-bv-stringlength="true"
+                                   data-bv-stringlength-min="6"
+                                   data-bv-stringlength-max="30"
+                                   data-bv-stringlength-message="The username must be more than 6 and less than 30 characters long"
+
+                                   data-bv-regexp="true"
+                                   data-bv-regexp-regexp="^[a-zA-Z0-9]+$"
+                                   data-bv-regexp-message="The username can only consist of alphabetical and number"
+
+                                   data-bv-different="true"
+                                   data-bv-different-field="password"
+                                   data-bv-different-message="The username and password cannot be the same as each other" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Email address</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="email"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="The email address is required and cannot be empty"
+
+                                   data-bv-emailaddress="true"
+                                   data-bv-emailaddress-message="The email address is not a valid" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-5">
+                            <input type="password" class="form-control" name="password"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="The password is required and cannot be empty"
+
+                                   data-bv-stringlength="true"
+                                   data-bv-stringlength-min="8"
+                                   data-bv-stringlength-message="The password must have at least 8 characters"
+
+                                   data-bv-different="true"
+                                   data-bv-different-field="username"
+                                   data-bv-different-message="The password cannot be the same as username" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Gender</label>
+                        <div class="col-sm-5">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="gender" value="male"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="The gender is required" /> Male
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="gender" value="female" /> Female
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="gender" value="other" /> Other
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Date of birth</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" name="birthday" placeholder="YYYY/MM/DD"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="The date of birth is required"
+
+                                   data-bv-date="true"
+                                   data-bv-date-format="YYYY/MM/DD"
+                                   data-bv-date-message="The date of birth is not valid" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-sm-9 col-sm-offset-3">-->
+                            <!-- Do NOT use name="submit" or id="submit" for the Submit button -->
+                            <button type="submit" class="btn btn-default">Sign up</button>
+                        <!--</div>-->
+                    <!--</div>-->
+                    </div>
+                </form>
             </div>
-            <div class="form-group col-sm-6">
-                <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
-                <div class="help-block with-errors"></div>
-            </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="radio">
-            <label>
-                <input type="radio" name="underwear" required>
-                Boxers
-            </label>
-        </div>
-        <div class="radio">
-            <label>
-                <input type="radio" name="underwear" required>
-                Briefs
-            </label>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="checkbox">
-            <label>
-                <input type="checkbox" id="terms" data-error="Before you wreck yourself" required>
-                Check yourself
-            </label>
-            <div class="help-block with-errors"></div>
-        </div>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</form>
+</div>
 </body>
+<script>
+    $(function() {
+        $('#registrationForm').bootstrapValidator();
+//        $("#newModalForm").validate({
+//            rules: {
+//                pName: {
+//                    required: true,
+//                    minlength: 8
+//                },
+//                action: "required"
+//            },
+//            messages: {
+//                pName: {
+//                    required: "Please enter some data",
+//                    minlength: "Your data must be at least 8 characters"
+//                },
+//                action: "Please provide some data"
+//            }
+//        });
+    });
+</script>
 </html>
