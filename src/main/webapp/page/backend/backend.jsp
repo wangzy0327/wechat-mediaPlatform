@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="/wechat-tools/js/datatables/media/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="/wechat-tools/css/jquery.tagsinput.min.css">
     <link rel="stylesheet" href="/wechat-tools/css/bootstrap-dialog.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="styrel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -108,28 +109,38 @@
                         <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="title"
-                                   required maxlength="30">
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="标题不能为空"
+                                   data-bv-stringlength-max="30"
+                                   data-bv-stringlength-message="标题长度必须小于30个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="description"
-                                   maxlength="50">
+                                   data-bv-stringlength-max="50"
+                                   data-bv-stringlength-message="描述长度必须小于50个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">内容URL</label>
                         <div class="col-sm-10">
                             <input type="url" class="form-control" name="url"
-                                   required >
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="内容URL不能为空"
+                                   data-bv-stringlength-max="100"
+                                   data-bv-stringlength-message="URL长度必须小于100个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">图片URL</label>
                         <div class="col-sm-10">
                             <input type="url" class="form-control" name="imgUrl"
-                                   required >
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="图片URL不能为空"
+                                   data-bv-stringlength-max="200"
+                                   data-bv-stringlength-message="URL长度必须小于200个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -151,13 +162,13 @@
                             </p>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="submit" id="saveBtn" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="submit" id="saveBtn" class="btn btn-primary">保存</button>
-                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -177,25 +188,39 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="title" id="title">
+                            <input type="text" class="form-control" name="title"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="标题不能为空"
+                                   data-bv-stringlength-max="30"
+                                   data-bv-stringlength-message="标题长度必须小于30个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="description" id="description">
+                            <input type="text" class="form-control" name="description"
+                                   data-bv-stringlength-max="50"
+                                   data-bv-stringlength-message="描述长度必须小于50个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">内容URL</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="url" id="url">
+                            <input type="text" class="form-control" name="url"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="内容URL不能为空"
+                                   data-bv-stringlength-max="100"
+                                   data-bv-stringlength-message="URL长度必须小于100个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">图片URL</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="imgUrl" id="imgUrl">
+                            <input type="text" class="form-control" name="imgUrl"
+                                   data-bv-notempty="true"
+                                   data-bv-notempty-message="图片URL不能为空"
+                                   data-bv-stringlength-max="200"
+                                   data-bv-stringlength-message="URL长度必须小于200个字符"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -217,24 +242,11 @@
                             </p>
                         </div>
                     </div>
-                    <%--<div class="form-group">--%>
-                        <%--<label class="col-sm-2 control-label">状态</label>--%>
-                        <%--<div class="col-sm-10">--%>
-                            <%--<div class="checkbox">--%>
-                                <%--<label class="radio-inline">--%>
-                                    <%--<input type="radio" name="state" value="正常" id="ok"> 正常--%>
-                                <%--</label>--%>
-                                <%--<label class="radio-inline">--%>
-                                    <%--<input type="radio" name="state" value="禁用" id="disable"> 禁用--%>
-                                <%--</label>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" id="editBtn" class="btn btn-primary">保存</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" id="editBtn" class="btn btn-primary">保存</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -257,10 +269,9 @@
 <script src="/wechat-tools/js/datatables/media/js/dataTables.bootstrap.min.js"></script>
 <script src="/wechat-tools/js/jquery.tagsinput.min.js"></script>
 <script src="/wechat-tools/js/bootstrap-dialog.min.js"></script>
-<script src="/wechat-tools/js/bootstrap-validator.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
 <script>
     $(function() {
-
         var dt = $("#userTable").DataTable({
             "processing": true, //loding效果
             "serverSide": true, //服务端处理
@@ -343,6 +354,7 @@
         });
         //添加新用户
         $("#addNewUser").click(function() {
+            $("#newUserForm")[0].reset();
             $.ajax({
                 type: "post",
                 url: "/wechat-tools/backend/category.json",
@@ -355,7 +367,9 @@
                         var str = "";
                         for (var i in data) {
                             str += '<label class="radio-inline">'+
-                                '<input type = "radio"  value = '+data[i].id+' name="category.id">' +data[i].name+
+                                '<input type = "radio"  value = '+data[i].id+' name="category.id"' +
+                                'data-bv-notempty="true"\n' +
+                                'data-bv-notempty-message="类别不能为空" />' +data[i].name+
                                 '</label>';
                         }
                         $("#category").html(str);
@@ -375,63 +389,68 @@
             });
         });
         $("#saveBtn").click(function(){
-            var title = ($("input[name = 'title']"))[0].value;
-            if(title.length>30){
-                title = title.substring(0,30);
-            }
-            console.log(title);
-            var description = ($("input[name = 'description']"))[0].value;
-            if(title.length>50){
-                title = title.substring(0,50);
-            }
-            console.log(description);
-            var url = ($("input[name = 'url']"))[0].value;
-            console.log(url);
-            var imgUrl = ($("input[name = 'imgUrl']"))[0].value;
-            console.log(imgUrl);
-            var category = {};
-            category.id = parseInt(($("input:radio:checked"))[0].value);
-            console.log(category.id);
-            var spanTags = $(".tag").children("span");
-            console.log(spanTags.length);
-            var tags = new Array();
-            for(i = 0;i<spanTags.length;i++){
-                console.log($.trim($(spanTags[i]).text().substring(0,10)));
-                tags.push({name:$.trim($(spanTags[i]).text().substring(0,10))});
-            }
+            $('#newUserForm').bootstrapValidator().on('success.form.bv',function (e) {
+                    e.preventDefault();
+                    var title = ($("input[name = 'title']"))[0].value;
+                    if(title.length>30){
+                        title = title.substring(0,30);
+                    }
+                    console.log(title);
+                    var description = ($("input[name = 'description']"))[0].value;
+                    if(title.length>50){
+                        title = title.substring(0,50);
+                    }
+                    console.log(description);
+                    var url = ($("input[name = 'url']"))[0].value;
+                    console.log(url);
+                    var imgUrl = ($("input[name = 'imgUrl']"))[0].value;
+                    console.log(imgUrl);
+                    var category = {};
+                    category.id = parseInt(($("input:radio:checked"))[0].value);
+                    console.log(category.id);
+                    var spanTags = $(".tag").children("span");
+                    console.log(spanTags.length);
+                    var tags = new Array();
+                    for(i = 0;i<spanTags.length;i++){
+                        console.log($.trim($(spanTags[i]).text().substring(0,10)));
+                        tags.push({name:$.trim($(spanTags[i]).text().substring(0,10))});
+                    }
 //            $("#newUserForm").serialize()
-            $.ajax({
+                    $.ajax({
 //            /wechat-tools/backend/category.json
-                url: "/wechat-tools/backend/new",
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                // 向后端传递的数据
-                data: JSON.stringify({
-                    "title":title,
-                    "description":description,
-                    "url":url,
-                    "imgUrl":imgUrl,
-                    "category":category,
-                    "tags":tags
-                }),
-                success: function (result) {
-                    if("success" == result) {
-                        $("#newUserForm")[0].reset();
-                        $("#category").html("");
-                        $("#newUserModal").modal("hide");
-                        dt.ajax.reload();
-                    }else if("duplicate" == result){
-                        BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
-                    }
-                    else if("fail" == result){
-                        BootstrapDialog.alert("url不正确，请检查url!");
-                    }
-                },
-                error: () => {
-                console.log("err");
-        }
-        });
+                        url: "/wechat-tools/backend/new",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json;charset=UTF-8",
+                        // 向后端传递的数据
+                        data: JSON.stringify({
+                            "title":title,
+                            "description":description,
+                            "url":url,
+                            "imgUrl":imgUrl,
+                            "category":category,
+                            "tags":tags
+                        }),
+                        success: function (result) {
+                            if("success" == result) {
+                                $("#newUserForm")[0].reset();
+                                $("#category").html("");
+                                $("#tags_1_tagsinput").html("");
+                                $("#newUserModal").modal("hide");
+                                dt.ajax.reload();
+                            }else if("duplicate" == result){
+                                BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
+                            }
+                            else if("fail" == result){
+                                BootstrapDialog.alert("url不正确，请检查url!");
+                            }
+                        },
+                        error: () => {
+                        console.log("err");
+                        }
+                });
+            })
+
         });
         //删除用户
         $(document).delegate(".delLink", "click", function () {
@@ -461,7 +480,9 @@
                         var str = "";
                         for (var i in data) {
                             str += '<label class="radio-inline">' +
-                                '<input type = "radio"  value = ' + data[i].id + ' name="category.id">' + data[i].name +
+                                '<input type = "radio"  value = ' + data[i].id + ' name="category.id"' +
+                                'data-bv-notempty="true"\n' +
+                                'data-bv-notempty-message="类别不能为空" />' + data[i].name +
                                 '</label>';
                         }
                         $("#categoryEdit").html(str);
@@ -514,61 +535,65 @@
             $("#editUserModal").modal("show");
         });
         $("#editBtn").click(function () {
-            var id = $("input[name='id']").val();
-            var title = $($("input[name='title']")[1]).val();
-            if (title.length > 30) {
-                title = title.substring(0, 30);
-            }
-            console.log(title);
-            var description = $($("input[name='description']")[1]).val();
-            if (title.length > 50) {
-                title = title.substring(0, 50);
-            }
-            console.log(description);
-            var url = $($("input[name='url']")[1]).val();
-            var imgUrl = $($("input[name='imgUrl']")[1]).val();
-            var category = {};
-            category.id = parseInt($("input:radio:checked").val());
-            var spanTags = $(".tag").children("span");
-            console.log(spanTags.length);
-            var tags = new Array();
-            for (i = 0; i < spanTags.length; i++) {
-                console.log($.trim($(spanTags[i]).text().substring(0, 10)));
-                tags.push({name: $.trim($(spanTags[i]).text().substring(0, 10))});
-            }
-            $.ajax({
-                //            /wechat-tools/backend/category.json
-                url: "/wechat-tools/backend/edit",
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                // 向后端传递的数据
-                data: JSON.stringify({
-                    "id":id,
-                    "title":title,
-                    "description":description,
-                    "url":url,
-                    "imgUrl":imgUrl,
-                    "category":category,
-                    "tags":tags
-                }),
-                success: function (result) {
-                    if("success" == result) {
-                        $("#editUserForm")[0].reset();
-                        $('#categoryEdit').html("");
-                        $("#editUserModal").modal("hide");
-                        dt.ajax.reload();
-                    }else if("duplicate" == result){
-                        BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
+            $('#editUserForm').bootstrapValidator().on('submit',function (e) {
+                e.preventDefault();
+                    var id = $("input[name='id']").val();
+                    var title = $($("input[name='title']")[1]).val();
+                    if (title.length > 30) {
+                        title = title.substring(0, 30);
                     }
-                    else if("fail" == result){
-                        BootstrapDialog.alert("url不正确，请检查url!");
+                    console.log(title);
+                    var description = $($("input[name='description']")[1]).val();
+                    if (title.length > 50) {
+                        title = title.substring(0, 50);
                     }
-                },
-                error: () => {
-                console.log("err");
-        }
+                    console.log(description);
+                    var url = $($("input[name='url']")[1]).val();
+                    var imgUrl = $($("input[name='imgUrl']")[1]).val();
+                    var category = {};
+                    category.id = parseInt($("input:radio:checked").val());
+                    var spanTags = $(".tag").children("span");
+                    console.log(spanTags.length);
+                    var tags = new Array();
+                    for (i = 0; i < spanTags.length; i++) {
+                        console.log($.trim($(spanTags[i]).text().substring(0, 10)));
+                        tags.push({name: $.trim($(spanTags[i]).text().substring(0, 10))});
+                    }
+                    $.ajax({
+                        //            /wechat-tools/backend/category.json
+                        url: "/wechat-tools/backend/edit",
+                        type: "POST",
+                        dataType: "json",
+                        contentType: "application/json;charset=UTF-8",
+                        // 向后端传递的数据
+                        data: JSON.stringify({
+                            "id":id,
+                            "title":title,
+                            "description":description,
+                            "url":url,
+                            "imgUrl":imgUrl,
+                            "category":category,
+                            "tags":tags
+                        }),
+                        success: function (result) {
+                            if("success" == result) {
+                                $("#editUserForm")[0].reset();
+                                $('#categoryEdit').html("");
+                                $("#editUserModal").modal("hide");
+                                dt.ajax.reload();
+                            }else if("duplicate" == result){
+                                BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
+                            }
+                            else if("fail" == result){
+                                BootstrapDialog.alert("url不正确，请检查url!");
+                            }
+                        },
+                        error: () => {
+                        console.log("err");
+                        }
+                });
             });
+
         });
 
 
