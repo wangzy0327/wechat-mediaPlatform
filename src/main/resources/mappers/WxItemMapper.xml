@@ -150,7 +150,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findWxItemByParam" parameterType="map" resultMap="SimpleWxItem">
-    SELECT a.id,a.item_id,a.title,a.description,a.create_time,a.update_time,
+    SELECT a.id,a.item_id,a.title,a.url,a.description,a.create_time,a.update_time,
     c.id c_id,c.`name`,c.create_time c_create_time,c.update_time c_update_time
     FROM wechat_item a,cate_item b,category c
     <where>
