@@ -326,7 +326,8 @@
                 {"data": "updateTime", "name": "update_time"},
                 {
                     "data": function (row) {
-                        return "<a href='javascript:;' class='editLink' data-id='" + row.id + "'>编辑</a> <a href='javascript:;' class='delLink' data-id='" + row.id + "'>删除</a>";
+                        return "<a href='" + row.url + "' target='view_window' class='previewLink' data-id='" + row.id + "'>预览</a> " +
+                            "<a href='javascript:;' class='editLink' data-id='" + row.id + "'>编辑</a> <a href='javascript:;' class='delLink' data-id='" + row.id + "'>删除</a>";
                     }
                 }
             ],
