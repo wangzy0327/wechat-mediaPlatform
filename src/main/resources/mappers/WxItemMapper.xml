@@ -154,9 +154,9 @@
     c.id c_id,c.`name`,c.create_time c_create_time,c.update_time c_update_time
     FROM wechat_item a,cate_item b,category c
     <where>
-      a.id = b.item_id AND b.cate_id = c.id
+      a.state = 0 AND a.id = b.item_id AND b.cate_id = c.id
       <if test="keyword != null and keyword != ''">
-        title LIKE #{keyword}
+        AND CONCAT(a.`title`, c.`name`) LIKE #{keyword}
       </if>
     </where>
     ORDER BY ${orderColumn} ${orderType}
@@ -164,6 +164,7 @@
   </select>
   <select id="findWxItemCount" resultType="int">
     SELECT COUNT(*) FROM wechat_item
+    where state = 0
   </select>
   <select id="findWxItemCountByParam" resultType="int" parameterType="map">
     SELECT COUNT(*) FROM wechat_item
@@ -171,6 +172,7 @@
       <if test="keyword != null and keyword != ''">
         title LIKE #{keyword}
       </if>
+      AND state = 0
     </where>
   </select>
   <insert id="insertWxItemTags" >
@@ -247,4 +249,10 @@
     from tag_item
     where tag_id = #{param1.value} AND item_id = #{param2.value}
   </delete>
+  <update id="delWxItem" parameterType="int">
+    update wechat_item
+    set state = 1,
+    update_time = now()
+    where id = #{id}
+  </update>
 </mapper>

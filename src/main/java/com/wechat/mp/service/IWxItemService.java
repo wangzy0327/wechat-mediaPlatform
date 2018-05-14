@@ -20,4 +20,6 @@ public interface IWxItemService {
     public ServerResponse findWxItemById(Integer id);
 
     public ResponseCode editWxItem(String path,String realPath,WxItem item);
+
+    public ServerResponse delWxItem(Integer id);
 }

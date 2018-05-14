@@ -284,7 +284,7 @@
             "processing": true, //loding效果
             "serverSide": true, //服务端处理
             "searchDelay": 1000,//搜索延迟
-            "order": [[0, 'desc']],//默认排序方式
+            "order": [[3, 'desc']],//默认排序方式
             "lengthMenu": [5, 10, 25, 50, 100],//每页显示数据条数菜单
             "ajax": {
                 url: "/wechat-tools/backend/items.json", //获取数据的URL
@@ -332,7 +332,7 @@
             ],
             "columnDefs": [ //具体列的定义
                 {
-                    "targets": [0],
+                    "targets": [0,2],
                     "searchable": true
                 },
                 {
@@ -340,7 +340,7 @@
                     "orderable": true
                 },
                 {
-                    "targets": [1, 2],
+                    "targets": [1,2],
                     "orderable": false
                 }
             ],
@@ -467,10 +467,12 @@
         //删除用户
         $(document).delegate(".delLink", "click", function () {
             var id = $(this).attr("data-id");
-            if (confirm("确定要删除该数据吗?")) {
-                $.post("/account/del", {"id": id}).done(function (result) {
-                    if ("success" == result) {
+            if (BootstrapDialog.confirm("确定要删除该数据吗?")) {
+                $.post("/wechat-tools/backend/del", {"id": id}).done(function (result) {
+                    if (result.code == 0) {
                         dt.ajax.reload();
+                    }else{
+                        BootstrapDialog.alert(result.msg);
                     }
                 }).fail(function () {
                     BootstrapDialog.alert("删除出现异常");
