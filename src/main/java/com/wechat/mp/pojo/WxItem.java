@@ -28,7 +28,9 @@ public class WxItem implements Serializable {
 
     private List<Tag> tags;
 
-    public WxItem(Integer id, String itemId, String title, String description, String url, String imgUrl, Date createTime, Date updateTime, Category category, List<Tag> tags) {
+    private Integer state;
+
+    public WxItem(Integer id, String itemId, String title, String description, String url, String imgUrl, Date createTime, Date updateTime, Category category, List<Tag> tags,Integer state) {
         this.id = id;
         this.itemId = itemId;
         this.title = title;
@@ -39,6 +41,7 @@ public class WxItem implements Serializable {
         this.updateTime = updateTime;
         this.category = category;
         this.tags = tags;
+        this.state = state;
     }
 
     public WxItem() {
@@ -117,6 +120,9 @@ public class WxItem implements Serializable {
 
     public void setTags(List<Tag> tags) { this.tags = tags; }
 
+    public Integer getState() { return state; }
+
+    public void setState(Integer state) { this.state = state; }
 
     @Override
     public String toString() {

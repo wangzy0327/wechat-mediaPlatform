@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `wechat_item`(
   `img_url` VARCHAR(200) NOT NULL COMMENT '图文图片URL',
   `create_time` DATETIME NOT NULL COMMENT '创建时间',
   `update_time` DATETIME NOT NULL COMMENT '最后一次更新时间',
+  `state` tinyint(4) DEFAULT '0' COMMENT '添加状态位来标识是否删除 0-未删除 1-已删除',
   PRIMARY KEY (`id`),
   UNIQUE KEY `item_id_unique` (`item_id`) USING BTREE
 )COMMENT'图文消息表',ENGINE = InnoDB AUTO_INCREMENT = 1000,DEFAULT CHARSET = utf8;

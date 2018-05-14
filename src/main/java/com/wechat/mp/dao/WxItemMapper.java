@@ -45,4 +45,6 @@ public interface WxItemMapper {
     Integer isRelation(Integer tagId,Integer itemId);
 
     Integer deleteRelation(Integer tagId,Integer itemId);
+
+    Integer delWxItem(Integer id);
 }

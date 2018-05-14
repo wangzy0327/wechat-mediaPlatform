@@ -11,10 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -52,6 +49,8 @@ public class WxItemManageController {
         param.put("start",String.valueOf(start));
         param.put("length",String.valueOf(length));
         if(StringUtils.isNotEmpty(searchValue)) {
+//            param.put("title","%" + (searchValue) + "%");
+//            param.put("category","%" + (searchValue) + "%");
             param.put("keyword", "%" + (searchValue) + "%");
         }
         param.put("orderColumn",orderColumnName);
@@ -141,6 +140,12 @@ public class WxItemManageController {
         }else{
             return "fail";
         }
+    }
+
+    @RequestMapping(value = "del",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse deleteWxItem(HttpServletRequest request, @RequestParam Integer id){
+        return iWxItemService.delWxItem(id);
     }
 
 }

@@ -171,7 +171,6 @@ public class WxItemServiceImpl implements IWxItemService {
     }
 
     public ServerResponse findWxItemById(Integer id){
-        System.out.println(id);
         WxItem wxItem = wxItemMapper.findWxItemWithTagById(id);
         System.out.println(wxItem);
         if(wxItem == null){
@@ -254,6 +253,15 @@ public class WxItemServiceImpl implements IWxItemService {
                 }
             }
             return ResponseCode.SUCCESS;
+        }
+    }
+
+    public ServerResponse delWxItem(Integer id){
+        int col = wxItemMapper.delWxItem(id).intValue();
+        if(col>0){
+            return ServerResponse.createBySuccess();
+        }else{
+            return ServerResponse.createByErrorMessage("删除异常");
         }
     }
 
