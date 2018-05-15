@@ -22,4 +22,12 @@ public interface IWxItemService {
     public ResponseCode editWxItem(String path,String realPath,WxItem item);
 
     public ServerResponse delWxItem(Integer id);
+
+    List<WxItem> findDelWxItemByParam(Map<String, String> param);
+
+    Integer findDelWxItemCount();
+
+    Integer findDelWxItemCountByParam(Map<String, String> param);
+
+    ServerResponse restoreWxItem(Integer id);
 }

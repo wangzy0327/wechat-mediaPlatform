@@ -14,12 +14,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/backend")
+@RequestMapping("/backend/wxItem")
 public class WxItemManageController {
     @Autowired
     private IWxItemService iWxItemService;
@@ -27,8 +26,8 @@ public class WxItemManageController {
     @Autowired
     private ICategoryService iCategoryService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String list(){return "backend/backend";}
+    @RequestMapping(value = "list",method = RequestMethod.GET)
+    public String list(){return "backend/wxItem/list";}
 
     /**
      * 让DataTables控件加载数据
@@ -123,7 +122,7 @@ public class WxItemManageController {
         return iWxItemService.findWxItemById(id);
     }
 
-    @RequestMapping(value = "edit",method = RequestMethod.POST)
+    @RequestMapping(value = "/edit",method = RequestMethod.POST)
     @ResponseBody
     public String editWxItem(HttpServletRequest request,@RequestBody WxItem item){
         System.out.println(item.toString());
@@ -142,10 +141,59 @@ public class WxItemManageController {
         }
     }
 
-    @RequestMapping(value = "del",method = RequestMethod.POST)
+    @RequestMapping(value = "/del",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse deleteWxItem(HttpServletRequest request, @RequestParam Integer id){
         return iWxItemService.delWxItem(id);
+    }
+
+    @RequestMapping(value = "/delList",method = RequestMethod.GET)
+    public String recycle(){return "backend/wxItem/delList";}
+
+    /**
+     * 让DataTables控件加载数据
+     */
+    @RequestMapping(value = "/delItems.json",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String,Object> loadDel(HttpServletRequest request){
+        String draw = request.getParameter("draw");
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length = Integer.valueOf(request.getParameter("length"));
+        String searchValue = request.getParameter("search[value]");
+        String orderColumnIndex = request.getParameter("order[0][column]");
+        String orderType = request.getParameter("order[0][dir]");
+        String orderColumnName = request.getParameter("columns["+orderColumnIndex+"][name]");
+
+        Map<String,String> param = Maps.newHashMap();
+        param.put("start",String.valueOf(start));
+        param.put("length",String.valueOf(length));
+        if(StringUtils.isNotEmpty(searchValue)) {
+            param.put("keyword", "%" + (searchValue) + "%");
+        }
+        param.put("orderColumn",orderColumnName);
+        param.put("orderType",orderType);
+
+        Map<String,Object> result = Maps.newHashMap();
+
+        List<WxItem> wxItemList = iWxItemService.findDelWxItemByParam(param); //
+        Integer count = iWxItemService.findDelWxItemCount();
+        Integer filteredCount = iWxItemService.findDelWxItemCountByParam(param);
+
+        result.put("draw",draw);
+        result.put("recordsTotal",count); //总记录数
+        result.put("recordsFiltered",filteredCount); //过滤出来的数量
+        result.put("data",wxItemList);
+
+        return result;
+    }
+
+    /**
+     * 还原删除列表的图文消息
+     */
+    @RequestMapping(value = "/restore",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse restoreWxItem(HttpServletRequest request, @RequestParam Integer id){
+        return iWxItemService.restoreWxItem(id);
     }
 
 }

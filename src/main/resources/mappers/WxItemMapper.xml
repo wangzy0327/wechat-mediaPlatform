@@ -255,4 +255,36 @@
     update_time = now()
     where id = #{id}
   </update>
+  <select id="findDelWxItemByParam" parameterType="map" resultMap="SimpleWxItem">
+    SELECT a.id,a.item_id,a.title,a.url,a.description,a.create_time,a.update_time,
+    c.id c_id,c.`name`,c.create_time c_create_time,c.update_time c_update_time
+    FROM wechat_item a,cate_item b,category c
+    <where>
+      a.state = 1 AND a.id = b.item_id AND b.cate_id = c.id
+      <if test="keyword != null and keyword != ''">
+        AND CONCAT(a.`title`, c.`name`) LIKE #{keyword}
+      </if>
+    </where>
+    ORDER BY ${orderColumn} ${orderType}
+    limit ${start},${length}
+  </select>
+  <select id="findDelWxItemCount" resultType="int">
+    SELECT COUNT(*) FROM wechat_item
+    where state = 1
+  </select>
+  <select id="findDelWxItemCountByParam" resultType="int" parameterType="map">
+    SELECT COUNT(*) FROM wechat_item
+    <where>
+      <if test="keyword != null and keyword != ''">
+        title LIKE #{keyword}
+      </if>
+      AND state = 1
+    </where>
+  </select>
+  <update id="restoreWxItem" parameterType="int">
+    update wechat_item
+    set state = 0,
+    update_time = now()
+    where id = #{id}
+  </update>
 </mapper>
