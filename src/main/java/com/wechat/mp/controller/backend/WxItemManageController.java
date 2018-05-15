@@ -27,7 +27,7 @@ public class WxItemManageController {
     private ICategoryService iCategoryService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)
-    public String list(){return "backend/wxItem/list";}
+    public String itemList(){return "backend/wxItem/list";}
 
     /**
      * 让DataTables控件加载数据
@@ -112,7 +112,7 @@ public class WxItemManageController {
     }
 
     /**
-     * 根据ID获取用户信息
+     * 根据ID获取图文消息
      * @param id
      * @return
      */
@@ -122,6 +122,12 @@ public class WxItemManageController {
         return iWxItemService.findWxItemById(id);
     }
 
+    /**
+     * 编辑图文消息
+     * @param request
+     * @param item
+     * @return
+     */
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     @ResponseBody
     public String editWxItem(HttpServletRequest request,@RequestBody WxItem item){
@@ -141,14 +147,24 @@ public class WxItemManageController {
         }
     }
 
+    /**
+     * 将图文消息放入回收站
+     * @param request
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse deleteWxItem(HttpServletRequest request, @RequestParam Integer id){
         return iWxItemService.delWxItem(id);
     }
 
+    /**
+     * 展示回收站中的图文消息
+     * @return
+     */
     @RequestMapping(value = "/delList",method = RequestMethod.GET)
-    public String recycle(){return "backend/wxItem/delList";}
+    public String delList(){return "backend/wxItem/delList";}
 
     /**
      * 让DataTables控件加载数据
@@ -194,6 +210,95 @@ public class WxItemManageController {
     @ResponseBody
     public ServerResponse restoreWxItem(HttpServletRequest request, @RequestParam Integer id){
         return iWxItemService.restoreWxItem(id);
+    }
+
+    @RequestMapping(value = "/categoryList",method = RequestMethod.GET)
+    public String categoryList(){return "backend/wxItem/categoryList";}
+
+    /**
+     * 让DataTables控件加载数据
+     */
+    @RequestMapping(value = "/categorys.json",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public Map<String,Object> loadCategory(HttpServletRequest request){
+        String draw = request.getParameter("draw");
+        Integer start = Integer.valueOf(request.getParameter("start"));
+        Integer length = Integer.valueOf(request.getParameter("length"));
+        String searchValue = request.getParameter("search[value]");
+        String orderColumnIndex = request.getParameter("order[0][column]");
+        String orderType = request.getParameter("order[0][dir]");
+        String orderColumnName = request.getParameter("columns["+orderColumnIndex+"][name]");
+
+        Map<String,String> param = Maps.newHashMap();
+        param.put("start",String.valueOf(start));
+        param.put("length",String.valueOf(length));
+        if(StringUtils.isNotEmpty(searchValue)) {
+            param.put("keyword", "%" + (searchValue) + "%");
+        }
+        param.put("orderColumn",orderColumnName);
+        param.put("orderType",orderType);
+
+        Map<String,Object> result = Maps.newHashMap();
+
+        List<Category> categoryList = iCategoryService.findCategoryByParam(param);
+        for (Category cate:categoryList) {
+            System.out.println(cate);
+        }
+        Integer count = iCategoryService.findCategoryCount();
+        Integer filteredCount = iCategoryService.findCategoryCountByParam(param);
+
+        result.put("draw",draw);
+        result.put("recordsTotal",count); //总记录数
+        result.put("recordsFiltered",filteredCount); //过滤出来的数量
+        result.put("data",categoryList);
+
+        return result;
+    }
+
+
+    /**
+     * 添加新的类别
+     *
+     */
+    @RequestMapping(value = "/newCategory",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String newCategory(HttpServletRequest request,@RequestBody Category category){
+        System.out.println(category.toString());
+        ResponseCode state = iCategoryService.saveNewCategory(category);
+        if(state.getCode() == 0){
+            return "success";
+        }else if(state.getCode() == 3){
+            return "duplicate";
+        }else{
+            return "fail";
+        }
+    }
+
+    /**
+     * 根据ID获取图文消息
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/category.json",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponse getCategoryInfo(Integer id){ return iCategoryService.findCategoryById(id); }
+
+    /**
+     * 编辑新的类别
+     *
+     */
+    @RequestMapping(value = "/editCategory",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
+    @ResponseBody
+    public String editCategory(HttpServletRequest request,@RequestBody Category category){
+        System.out.println(category.toString());
+        ResponseCode state = iCategoryService.editCategory(category);
+        if(state.getCode() == 0){
+            return "success";
+        }else if(state.getCode() == 3){
+            return "duplicate";
+        }else{
+            return "fail";
+        }
     }
 
 }

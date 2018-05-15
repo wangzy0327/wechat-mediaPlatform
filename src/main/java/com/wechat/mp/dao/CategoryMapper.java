@@ -3,6 +3,7 @@ package com.wechat.mp.dao;
 import com.wechat.mp.pojo.Category;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -20,4 +21,15 @@ public interface CategoryMapper {
     List<Category> findCategoryList();
 
     Category selectByName(String name);
+
+    List<Category> findCategoryByParam(Map<String,String> param);
+
+    Integer findCategoryCount();
+
+    Integer findCategoryCountByParam(Map<String,String> param);
+
+    Integer findCategoryCountByName(String name);
+
+    Category findCategoryByName(String name);
+
 }

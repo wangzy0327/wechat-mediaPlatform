@@ -53,10 +53,10 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             图文消息列表
-                            <a href="javascript:;" id="addNewUser" class="btn btn-success btn-xs pull-right"><i class="fa fa-plus"></i> 新增</a>
+                            <a href="javascript:;" id="addNewWxItem" class="btn btn-success btn-xs pull-right"><i class="fa fa-plus"></i> 新增</a>
                         </div>
                         <div class="panel-body">
-                            <table class="table" id="userTable">
+                            <table class="table" id="wxItemTable">
                                 <thead>
                                 <tr>
                                     <%--<th>ID标识</th>--%>
@@ -280,7 +280,7 @@
 <script src="/wechat-tools/js/bootstrapValidator.min.js"></script>
 <script>
     $(function() {
-        var dt = $("#userTable").DataTable({
+        var dt = $("#wxItemTable").DataTable({
             "processing": true, //loding效果
             "serverSide": true, //服务端处理
             "searchDelay": 1000,//搜索延迟
@@ -362,7 +362,7 @@
             }
         });
         //添加新用户
-        $("#addNewUser").click(function() {
+        $("#addNewWxItem").click(function() {
             $("#newWxItemForm")[0].reset();
             $.ajax({
                 type: "post",
