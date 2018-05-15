@@ -60,7 +60,7 @@ public class WxItemServiceImpl implements IWxItemService {
     }
 
     /**
-     * 根据查询条件获取用户的数量
+     * 根据查询条件获取图文消息的数量
      * @param param
      * @return
      */
@@ -264,6 +264,42 @@ public class WxItemServiceImpl implements IWxItemService {
             return ServerResponse.createByErrorMessage("删除异常");
         }
     }
+
+
+    /**
+     * 根据DataTables中的参数进行查询删除图文消息
+     * @param param
+     * @return
+     */
+    public List<WxItem> findDelWxItemByParam(Map<String,String> param){ return wxItemMapper.findDelWxItemByParam(param); }
+
+    /**
+     * 获取已删除图文消息的总数量
+     * @return
+     */
+    public Integer findDelWxItemCount() {
+        return wxItemMapper.findDelWxItemCount();
+    }
+
+    /**
+     * 根据查询条件获取已删除图文消息的数量
+     * @param param
+     * @return
+     */
+    public Integer findDelWxItemCountByParam(Map<String,String> param){
+        return wxItemMapper.findDelWxItemCountByParam(param);
+    }
+
+    public ServerResponse restoreWxItem(Integer id){
+        int col = wxItemMapper.restoreWxItem(id).intValue();
+        if(col>0){
+            return ServerResponse.createBySuccess();
+        }else{
+            return ServerResponse.createByErrorMessage("还原异常");
+        }
+    }
+
+
 
 
 }

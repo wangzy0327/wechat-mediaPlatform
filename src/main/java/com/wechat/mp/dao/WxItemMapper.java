@@ -47,4 +47,12 @@ public interface WxItemMapper {
     Integer deleteRelation(Integer tagId,Integer itemId);
 
     Integer delWxItem(Integer id);
+
+    List<WxItem> findDelWxItemByParam (Map<String,String> param);
+
+    Integer findDelWxItemCount();
+
+    Integer findDelWxItemCountByParam(Map<String,String> param);
+
+    Integer restoreWxItem(Integer id);
 }

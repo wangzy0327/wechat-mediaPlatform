@@ -91,7 +91,7 @@
                 if (result.status == 0) {
                     window.sessionStorage.setItem("CURRENT_USER",result.data.id);
                     console.log(window.sessionStorage.getItem("CURRENT_USER"));
-                    window.location.href = "/page/backend/backend.html";
+                    window.location.href = "/page/backend/wxItem/backend.html";
                 } else {
                     document.getElementById("message").style.color = "red";
                     document.getElementById("message").innerHTML = result.msg;

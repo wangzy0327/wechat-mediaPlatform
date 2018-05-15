@@ -41,7 +41,7 @@
 
 <div id="wrapper">
 
-    <%@ include file="../include/nav.jsp"%>
+    <%@ include file="../../include/nav.jsp"%>
     <%--<link rel="import" href="../include/nav.jsp" id="page1">--%>
     <!-- Page Content -->
     <div id="page-wrapper">
@@ -96,7 +96,7 @@
 <!-- /#wrapper -->
 
 
-<div class="modal fade" id="newUserModal">
+<div class="modal fade" id="newWxItemModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -104,7 +104,7 @@
                 <h4 class="modal-title">添加图文消息</h4>
             </div>
             <div class="modal-body">
-                <form id="newUserForm" class="form-horizontal" role="form" data-toggle="validator">
+                <form id="newWxItemForm" class="form-horizontal" role="form" data-toggle="validator">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">标题</label>
                         <div class="col-sm-10">
@@ -179,7 +179,7 @@
 </div><!-- /.modal -->
 
 
-<div class="modal fade" id="editUserModal">
+<div class="modal fade" id="editWxItemModal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -187,7 +187,7 @@
                 <h4 class="modal-title">编辑用户</h4>
             </div>
             <div class="modal-body">
-                <form id="editUserForm" class="form-horizontal">
+                <form id="editWxItemForm" class="form-horizontal">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">标题</label>
@@ -287,7 +287,7 @@
             "order": [[3, 'desc']],//默认排序方式
             "lengthMenu": [5, 10, 25, 50, 100],//每页显示数据条数菜单
             "ajax": {
-                url: "/wechat-tools/backend/items.json", //获取数据的URL
+                url: "/wechat-tools/backend/wxItem/items.json", //获取数据的URL
                 type: "get" //获取数据的方式
             },
             "columns": [  //返回的JSON中的对象和列的对应关系
@@ -363,10 +363,10 @@
         });
         //添加新用户
         $("#addNewUser").click(function() {
-            $("#newUserForm")[0].reset();
+            $("#newWxItemForm")[0].reset();
             $.ajax({
                 type: "post",
-                url: "/wechat-tools/backend/category.json",
+                url: "/wechat-tools/backend/wxItem/category.json",
                 async: true,
                 success: function (result) {
                     var code = result.code;
@@ -385,7 +385,7 @@
                     }
                 }
             });
-            $("#newUserModal").modal('show');
+            $("#newWxItemModal").modal('show');
             $('#tags_1').tagsInput({
                 width:'auto',
                 onChange: function(){
@@ -398,7 +398,7 @@
             });
         });
         function newFormValidator() {
-            $('#newUserForm').bootstrapValidator().on('success.form.bv',function (e) {
+            $('#newWxItemForm').bootstrapValidator().on('success.form.bv',function (e) {
                 e.preventDefault();
                 var title = ($("input[name = 'title']"))[0].value;
                 console.log(title);
@@ -418,9 +418,9 @@
                     console.log($.trim($(spanTags[i]).text().substring(0,10)));
                     tags.push({name:$.trim($(spanTags[i]).text().substring(0,10))});
                 }
-//            $("#newUserForm").serialize()
+//            $("#newWxItemForm").serialize()
                 $.ajax({
-                    url: "/wechat-tools/backend/new",
+                    url: "/wechat-tools/backend/wxItem/new",
                     type: "POST",
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
@@ -435,16 +435,16 @@
                     }),
                     success: function (result) {
                         if("success" == result) {
-                            $("#newUserForm")[0].reset();
+                            $("#newWxItemForm")[0].reset();
                             $("#category").html("");
                             $("#tags_1_tagsinput").html("");
-                            $("#newUserModal").modal("hide");
+                            $("#newWxItemModal").modal("hide");
                             dt.ajax.reload();
                         }else if("duplicate" == result){
-                            BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
+                            BootstrapDialog.alert({title:"提示",message:"该图文消息已添加，请勿重复添加!"});
                         }
                         else if("fail" == result){
-                            BootstrapDialog.alert("url不正确，请检查url!");
+                            BootstrapDialog.alert({title:"提示",message:"url不正确，请检查url!"});
                         }
                     },
                     error: () => {
@@ -457,10 +457,10 @@
             //开启验证
             newFormValidator();
         });
-        $("#newUserModal").on('hidden.bs.modal',function(e){
+        $("#newWxItemModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
-//            $("#newUserForm").data('bootstrapValidator').destroy();
-            $('#newUserForm').data('bootstrapValidator',null);
+//            $("#newWxItemForm").data('bootstrapValidator').destroy();
+            $('#newWxItemForm').data('bootstrapValidator',null);
             //重新添加校验
             newFormValidator();
             $("#category").html("");
@@ -468,24 +468,40 @@
         //删除用户
         $(document).delegate(".delLink", "click", function () {
             var id = $(this).attr("data-id");
-            if (BootstrapDialog.confirm("确定要删除该数据吗?")) {
-                $.post("/wechat-tools/backend/del", {"id": id}).done(function (result) {
-                    if (result.code == 0) {
-                        dt.ajax.reload();
-                    }else{
-                        BootstrapDialog.alert(result.msg);
+            BootstrapDialog.confirm({
+                    title:"删除数据",
+                    message:"是否要移动到回收站?",
+//                    btnOKClass: 'btn-warning',
+                    callback: function (res) {
+                        if (res) {
+                            $.post("/wechat-tools/backend/wxItem/del", {"id": id}).done(function (result) {
+                                if (result.code == 0) {
+                                    dt.ajax.reload();
+                                }else{
+                                    BootstrapDialog.alert({title:"提示",message:result.msg});
+                                }
+                            }).fail(function () {
+                                BootstrapDialog.alert({title:"提示",message:"删除出现异常"});
+                            });
+                        }
                     }
-                }).fail(function () {
-                    BootstrapDialog.alert("删除出现异常");
                 });
-
-            }
         });
+//                $.post("/wechat-tools/backend/wxItem/del", {"id": id}).done(function (result) {
+//                    if (result.code == 0) {
+//                        dt.ajax.reload();
+//                    }else{
+//                        BootstrapDialog.alert(result.msg);
+//                    }
+//                }).fail(function () {
+//                    BootstrapDialog.alert("删除出现异常");
+//                });
+
         //编辑用户
         $(document).delegate(".editLink", "click", function () {
             $.ajax({
                 type: "post",
-                url: "/wechat-tools/backend/category.json",
+                url: "/wechat-tools/backend/wxItem/category.json",
                 async: true,
                 success: function (result) {
                     var code = result.code;
@@ -504,9 +520,9 @@
                     }
                 }
             });
-            $("#editUserForm")[0].reset();
+            $("#editWxItemForm")[0].reset();
             var id = $(this).attr("data-id");
-            $.get("/wechat-tools/backend/item.json", {"id": id}).done(function (result) {
+            $.get("/wechat-tools/backend/wxItem/item.json", {"id": id}).done(function (result) {
                 if (result.code == 0) {
                     var data = result.data;
                     $("input[name='id']").val(data.id);
@@ -543,15 +559,15 @@
                         }
                     });
                 } else {
-                    BootstrapDialog.alert(result.msg);
+                    BootstrapDialog.alert({title:"提示",message:result.msg});
                 }
             }).fail(function () {
 
             });
-            $("#editUserModal").modal("show");
+            $("#editWxItemModal").modal("show");
         });
         function editFormValidator() {
-            $('#editUserForm').bootstrapValidator().on('submit',function (e) {
+            $('#editWxItemForm').bootstrapValidator().on('submit',function (e) {
                 e.preventDefault();
                 var id = $("input[name='id']").val();
                 var title = $($("input[name='title']")[1]).val();
@@ -570,8 +586,8 @@
                     tags.push({name: $.trim($(spanTags[i]).text().substring(0, 10))});
                 }
                 $.ajax({
-                    //            /wechat-tools/backend/category.json
-                    url: "/wechat-tools/backend/edit",
+                    //            /wechat-tools/backend/wxItem/category.json
+                    url: "/wechat-tools/backend/wxItem/edit",
                     type: "POST",
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
@@ -587,15 +603,15 @@
                     }),
                     success: function (result) {
                         if("success" == result) {
-                            $("#editUserForm")[0].reset();
+                            $("#editWxItemForm")[0].reset();
                             $('#categoryEdit').html("");
-                            $("#editUserModal").modal("hide");
+                            $("#editWxItemModal").modal("hide");
                             dt.ajax.reload();
                         }else if("duplicate" == result){
-                            BootstrapDialog.alert("该图文消息已添加，请勿重复添加!");
+                            BootstrapDialog.alert({title:"提示",message:"该图文消息已添加，请勿重复添加!"});
                         }
                         else if("fail" == result){
-                            BootstrapDialog.alert("url不正确，请检查url!");
+                            BootstrapDialog.alert({title:"提示",message:"url不正确，请检查url!"});
                         }
                     },
                     error: () => {
@@ -607,10 +623,10 @@
         $("#editBtn").click(function () {
             editFormValidator();
         });
-        $("#editUserModal").on('hidden.bs.modal',function(e){
+        $("#editWxItemModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
-//            $("#editUserForm").data('bootstrapValidator').destroy();
-            $('#editUserForm').data('bootstrapValidator',null);
+//            $("#editWxItemForm").data('bootstrapValidator').destroy();
+            $('#editWxItemForm').data('bootstrapValidator',null);
             //重新添加校验
             newFormValidator();
         });
