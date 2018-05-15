@@ -4,11 +4,12 @@
   <resultMap id="BaseResultMap" type="com.wechat.mp.pojo.Category" >
       <id property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <result property="name" column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result property="content" column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
       <result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <result property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, `name`, create_time, update_time
+    id, `name`,`content`, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -20,11 +21,9 @@
     delete from category
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.wechat.mp.pojo.Category" >
-    insert into category (id, `name`, create_time,
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wechat.mp.pojo.Category" >
+    insert into category ( `name`,`content`, create_time,update_time)
+    values ( #{name},#{content}, now(), now())
   </insert>
   <insert id="insertSelective" parameterType="com.wechat.mp.pojo.Category" >
     insert into category
@@ -33,7 +32,10 @@
         id,
       </if>
       <if test="name != null" >
-        name,
+        `name`,
+      </if>
+      <if test="content != null" >
+        content,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -49,11 +51,14 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        now()
       </if>
       <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
+        now(),
       </if>
     </trim>
   </insert>
@@ -62,6 +67,9 @@
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -75,8 +83,8 @@
   <update id="updateByPrimaryKey" parameterType="com.wechat.mp.pojo.Category" >
     update category
     set `name` = #{name,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      content = #{content,jdbcType=VARCHAR},
+      update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findCategoryList" resultMap="BaseResultMap">
@@ -85,6 +93,39 @@
     from category
   </select>
   <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
+    select
+    <include refid="Base_Column_List"/>
+    from category
+    where `name` = #{name}
+  </select>
+  <select id="findCategoryByParam" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM category
+    <where>
+      <if test="keyword != null and keyword != ''">
+        AND `name` LIKE #{keyword}
+      </if>
+    </where>
+    ORDER BY ${orderColumn} ${orderType}
+    limit ${start},${length}
+  </select>
+  <select id="findCategoryCount" resultType="int">
+    SELECT COUNT(*) FROM category
+  </select>
+  <select id="findCategoryCountByParam" resultType="int" parameterType="map">
+    SELECT COUNT(*) FROM category
+    <where>
+      <if test="keyword != null and keyword != ''">
+        AND `name` LIKE #{keyword}
+      </if>
+    </where>
+  </select>
+  <select id="findCategoryCountByName" resultType="int" parameterType="string">
+    SELECT COUNT(*) FROM category
+    WHERE `name` = #{name}
+  </select>
+  <select id="findCategoryByName" resultMap="BaseResultMap" parameterType="string">
     select
     <include refid="Base_Column_List"/>
     from category

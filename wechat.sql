@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `wechat_item`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '图文id',
   `item_id` VARCHAR(20) NOT NULL COMMENT '图文标识',
   `title` VARCHAR(30) NOT NULL COMMENT '图文标题',
-  `description` VARCHAR(50)  COMMENT '图文描述',
+  `description` VARCHAR(50) DEFAULT '' COMMENT '图文描述',
   `url` VARCHAR(100) NOT NULL COMMENT '图文内容URL',
   `img_url` VARCHAR(200) NOT NULL COMMENT '图文图片URL',
   `create_time` DATETIME NOT NULL COMMENT '创建时间',
@@ -53,6 +53,7 @@ DROP TABLE IF EXISTS `category`;
 CREATE TABLE IF NOT EXISTS `category`(
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '类别id',
   `name` VARCHAR(20) NOT NULL COMMENT '类别标题',
+  `content` varchar(200) DEFAULT '' COMMENT '类别内容包含',
   `create_time` DATETIME NOT NULL COMMENT '创建时间',
   `update_time` DATETIME NOT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)

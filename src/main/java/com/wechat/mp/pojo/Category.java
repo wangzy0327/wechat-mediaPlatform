@@ -1,6 +1,7 @@
 package com.wechat.mp.pojo;
 
 import com.wechat.mp.common.DateUtil;
+import me.chanjar.weixin.common.util.ToStringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,15 +12,18 @@ public class Category implements Serializable{
 
     private String name;
 
+    private String content;
+
     private Date createTime;
 
     private Date updateTime;
 
     private List<WxItem> wxItems;
 
-    public Category(Integer id, String name, Date createTime, Date updateTime,List<WxItem> wxItems) {
+    public Category(Integer id, String name, String content,Date createTime, Date updateTime,List<WxItem> wxItems) {
         this.id = id;
         this.name = name;
+        this.content = content;
         this.createTime = createTime;
         this.updateTime = updateTime;
         this.wxItems = wxItems;
@@ -45,6 +49,10 @@ public class Category implements Serializable{
         this.name = name == null ? null : name.trim();
     }
 
+    public String getContent() { return content; }
+
+    public void setContent(String content) { this.content = content; }
+
     public String getCreateTime() { return (createTime == null)?null:DateUtil.COMMON_FULL.getDateText(createTime); }
 
     public void setCreateTime(Date createTime) {
@@ -64,13 +72,5 @@ public class Category implements Serializable{
     public void setWxItems(List<WxItem> wxItems) { this.wxItems = wxItems; }
 
     @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", wxItems=" + wxItems +
-                '}';
-    }
+    public String toString() { return ToStringUtils.toSimpleString(this); }
 }
