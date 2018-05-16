@@ -301,4 +301,15 @@ public class WxItemManageController {
         }
     }
 
+    /**
+     * 删除分类
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/delCategory",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse delCategory(@RequestParam Integer id){
+        return iCategoryService.delCategory(id);
+    }
+
 }

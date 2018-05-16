@@ -340,7 +340,7 @@
 //                    btnOKClass: 'btn-warning',
                 callback: function (res) {
                     if (res) {
-                        $.post("/wechat-tools/backend/wxItem/del", {"id": id}).done(function (result) {
+                        $.post("/wechat-tools/backend/wxItem/delCategory", {"id": id}).done(function (result) {
                             if (result.code == 0) {
                                 dt.ajax.reload();
                             }else{

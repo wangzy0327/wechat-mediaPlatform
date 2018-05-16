@@ -110,3 +110,24 @@ INSERT INTO `tag_item` (`tag_id`,`item_id`,`create_time`,`update_time`) VALUES (
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+DROP TABLE  IF EXISTS `fans`;
+CREATE TABLE  IF NOT EXISTS `fans`(
+  `open_id` VARCHAR(28) NOT NULL COMMENT 'openId粉丝关注公众号唯一标识',
+  `subscribe_status` TINYINT NOT NULL COMMENT '粉丝订阅状态',
+  `subscribe_time` TIMESTAMP NOT NULL COMMENT '粉丝订阅时间',
+  `nickname` VARCHAR(255)   COMMENT '粉丝昵称',
+  `wxid` VARCHAR(255) COMMENT '微信号',
+  `gender` TINYINT NOT NULL DEFAULT 0 COMMENT '性别',
+  `language` VARCHAR(20) DEFAULT 'zh_CN' COMMENT '语言',
+  `country` VARCHAR(20) COMMENT '国家',
+  `province` VARCHAR(20) COMMENT '省份',
+  `city` VARCHAR(30) COMMENT '城市',
+  `head_img_url` VARCHAR(200) COMMENT '头像',
+  `remark` VARCHAR(200) COMMENT '备注',
+  `create_time` TIMESTAMP NOT NULL COMMENT '创建时间',
+  `update_time` TIMESTAMP NOT NULL COMMENT '最近更新时间',
+  PRIMARY KEY (`open_id`),
+  INDEX `gender_index` (`gender`) USING BTREE,
+  INDEX `province_index` (`province`) USING BTREE
+)COMMENT'粉丝表',ENGINE = InnoDB DEFAULT CHARSET = utf8;
