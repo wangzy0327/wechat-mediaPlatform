@@ -32,4 +32,6 @@ public interface CategoryMapper {
 
     Category findCategoryByName(String name);
 
+    Integer findCategoryItemCount(Integer cate_id);
+
 }

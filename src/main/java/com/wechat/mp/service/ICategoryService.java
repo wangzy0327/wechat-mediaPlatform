@@ -23,4 +23,6 @@ public interface ICategoryService {
 
     ResponseCode editCategory(Category category);
 
+    ServerResponse delCategory(Integer id);
+
 }

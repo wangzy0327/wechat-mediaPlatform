@@ -95,4 +95,14 @@ public class CategoryServiceImpl implements ICategoryService {
         }
     }
 
+    public ServerResponse delCategory(Integer id) {
+        int count = categoryMapper.findCategoryItemCount(id);
+        if (count > 0) {
+            return ServerResponse.createByErrorMessage("该分类包含有相关图文消息，不可删除！请先处理有关图文消息");
+        } else {
+            categoryMapper.deleteByPrimaryKey(id);
+            return ServerResponse.createBySuccess();
+        }
+    }
+
 }

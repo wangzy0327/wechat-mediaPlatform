@@ -131,4 +131,9 @@
     from category
     where `name` = #{name}
   </select>
+  <select id="findCategoryItemCount" resultType="int" parameterType="int">
+    select COUNT(*)
+    from cate_item
+    where cate_id = #{cate_id}
+  </select>
 </mapper>
