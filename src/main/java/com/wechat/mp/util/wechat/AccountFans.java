@@ -1,18 +1,21 @@
 package com.wechat.mp.util.wechat;
 
 
+import com.wechat.mp.common.DateUtil;
 import me.chanjar.weixin.common.util.ToStringUtils;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 
 /**
  * 账号粉丝信息
  */
-public class AccountFans{
+public class AccountFans implements Serializable{
 
     private String openId;//openId，每个用户都是唯一的
     private Integer subscribeStatus;//订阅状态
-    private String subscribeTime;//订阅时间
+    private Date subscribeTime;//订阅时间
     private byte[] nickname;//昵称,二进制保存emoji表情
     private String nicknameStr;//昵称显示
     private String wxid;//微信号
@@ -23,6 +26,31 @@ public class AccountFans{
     private String city;//城市
     private String headimgurl;//头像
     private String remark;//备注
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    public AccountFans() {
+    }
+
+    public AccountFans(String openId, Integer subscribeStatus, Date subscribeTime, byte[] nickname, String nicknameStr, String wxid, Integer gender, String language, String country, String province, String city, String headimgurl, String remark, Date createTime, Date updateTime) {
+        this.openId = openId;
+        this.subscribeStatus = subscribeStatus;
+        this.subscribeTime = subscribeTime;
+        this.nickname = nickname;
+        this.nicknameStr = nicknameStr;
+        this.wxid = wxid;
+        this.gender = gender;
+        this.language = language;
+        this.country = country;
+        this.province = province;
+        this.city = city;
+        this.headimgurl = headimgurl;
+        this.remark = remark;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 
     public String getOpenId() {
         return openId;
@@ -42,24 +70,11 @@ public class AccountFans{
     public void setSubscribeStatus(Integer subscribeStatus) {
         this.subscribeStatus = subscribeStatus;
     }
-    public String getSubscribeTime() {
-        return subscribeTime;
-    }
-    public void setSubscribeTime(String subscribeTime) {
-        this.subscribeTime = subscribeTime;
-    }
+    public String getSubscribeTime() { return (subscribeTime == null)?null:DateUtil.COMMON_FULL.getDateText(subscribeTime); }
+    public void setSubscribeTime(Date subscribeTime) { this.subscribeTime =  subscribeTime; }
     public byte[] getNickname() { return nickname; }
     public void setNickname(byte[] nickname) { this.nickname = nickname; }
-    public String getNicknameStr() {
-        if(this.getNickname() != null){
-            try {
-                this.nicknameStr = new String(this.getNickname(),"UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-        return nicknameStr;
-    }
+    public String getNicknameStr() { return nicknameStr; }
     public void setNicknameStr(String nicknameStr) {
         this.nicknameStr = nicknameStr;
     }
@@ -104,6 +119,21 @@ public class AccountFans{
     }
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+
+    public String getCreateTime() { return (createTime == null)?null:DateUtil.COMMON_FULL.getDateText(createTime); }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return (updateTime == null)?null:DateUtil.COMMON_FULL.getDateText(updateTime);
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String toString() {

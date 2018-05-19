@@ -34,6 +34,21 @@ public class WxApi {
     private static final String GET_OAUTH_CODE = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect";
     private static final String GET_CURRENT_AUTOREPLY_INFO_URL = "https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info";
     private static final String CLEAR_QUOTA_URL = "https://api.weixin.qq.com/cgi-bin/clear_quota";
+    //获取用户列表
+//    private static final String GET_FANS_LIST_FIRST = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s";
+    private static final String GET_FANS_LIST = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=%s&next_openid=%s";
+
+
+//    //获取第一次拉取用户列表接口
+//    public static String getFansListFirst(String token){
+//        return String.format(GET_FANS_LIST_FIRST,token);
+//    }
+
+    //获取拉取用户列表接口
+    public static String getFansList(String token,String openid){
+        return String.format(GET_FANS_LIST,token,openid);
+    }
+
 
     //获取token接口
     public static String getTokenUrl(String appId, String appSecret) {

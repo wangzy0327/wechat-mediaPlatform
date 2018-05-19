@@ -43,7 +43,7 @@ public class UserManageController {
             if (u.getRole() == Const.Role.ROLE_ADMIN) {
                 //说明登录的是管理员
                 session.setAttribute(Const.CURRENT_USER, u);
-                return "redirect:/backend/wxItem/list";
+                return "redirect:/backend/home";
             } else {
                 map.put("message",ServerResponse.createByErrorMessage("不是管理员无法登录!"));
                 return "backendLogin";
@@ -52,4 +52,16 @@ public class UserManageController {
         map.put("message",response);
         return "backendLogin";
     }
+
+    /**
+     * 安全退出
+     * @return
+     */
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    public String logout(HttpSession session, ModelMap map) {
+        session.invalidate();
+        map.put("message",ServerResponse.createBySuccessMessage("您已安全退出！"));
+        return "backendLogin";
+    }
+
 }

@@ -1,10 +1,14 @@
 package com.wechat.mp.util;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wechat.mp.common.ErrCode;
 import com.wechat.mp.util.wechat.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class WxApiClient {
 
@@ -177,12 +181,13 @@ public class WxApiClient {
                 fans.setOpenId(jsonObj.getString("openid"));// 用户的标识
                 fans.setSubscribeStatus(new Integer(jsonObj.getString("subscribe")));// 关注状态（1是关注，0是未关注），未关注时获取不到其余信息
                 if(jsonObj.containsKey("subscribe_time")){
-                    fans.setSubscribeTime(jsonObj.getString("subscribe_time"));// 用户关注时间
+                    fans.setSubscribeTime(new Date(jsonObj.getLong("subscribe_time")*1000));// 用户关注时间
                 }
                 if(jsonObj.containsKey("nickname")){// 昵称
                     try {
                         String nickname = jsonObj.getString("nickname");
                         fans.setNickname(nickname.getBytes("UTF-8"));
+                        fans.setNicknameStr(nickname);
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -212,6 +217,40 @@ public class WxApiClient {
             }
         }
         return null;
+    }
+
+    /**
+     * 根据accesstoken获取用户列表
+     */
+    public static List<String> getAccountFansList(){return getAccountFansList(mpAccount);}
+
+    public static List<String> getAccountFansList(MpAccount mpAccount) {
+        String accessToken = getAccessToken(mpAccount);
+        String fansListUrl = WxApi.getFansList(accessToken,"");
+        JSONObject jsonObject = WxApi.httpsRequest(fansListUrl, HttpMethod.GET.getMethodName(), null);
+        List<String> list = new ArrayList<>();
+        if (jsonObject != null && !jsonObject.containsKey("errcode")) {
+            JSONObject data = jsonObject.getJSONObject("data");
+            JSONArray openIdArr = data.getJSONArray("openid");
+            while (openIdArr.size() > 0) {
+                String nextOpenId = jsonObject.getString("next_openid");
+                for (int i = 0; i < openIdArr.size(); i++) {
+                    String openId = (String) openIdArr.get(i);
+                    list.add(openId);
+                }
+                fansListUrl = WxApi.getFansList(accessToken, nextOpenId);
+                jsonObject = WxApi.httpsRequest(fansListUrl, HttpMethod.GET.getMethodName(), null);
+                data = jsonObject.getJSONObject("data");
+                openIdArr = data.getJSONArray("openid");
+            }
+            return list;
+        } else if (null != jsonObject && jsonObject.containsKey("errcode")) {
+            int errorCode = Integer.valueOf(jsonObject.getString("errcode"));
+            System.out.println(String.format("获取用户信息失败 errcode:{} errmsg:{}", errorCode, ErrCode.errMsg(errorCode)));
+            return null;
+        } else {
+            return null;
+        }
     }
 
 }
