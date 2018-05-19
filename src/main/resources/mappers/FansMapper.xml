@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wechat.mp.dao.FansMapper" >
+  <resultMap id="BaseResultMap" type="com.wechat.mp.util.wechat.AccountFans" >
+    <id property="openId" column="open_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="subscribeStatus" column="subscribe_status" jdbcType="TINYINT" javaType="java.lang.Integer" />
+    <result property="subscribeTime" column="subscribe_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result property="nickname" column="nickname" jdbcType="BLOB"  typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>
+    <!--typeHandler="org.apache.ibatis.type.BlobTypeHandler"-->
+    <result property="wxid" column="wxid" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="gender" column="gender" jdbcType="TINYINT" javaType="java.lang.Integer" />
+    <result property="language" column="language" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="country" column="country" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="province" column="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="city" column="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="headimgurl" column="head_img_url" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="remark" column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <result property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    open_id, subscribe_status, subscribe_time, nickname, wxid, gender, `language`, country,
+    province, city, head_img_url, remark, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from fans
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fans
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wechat.mp.util.wechat.AccountFans" >
+    insert into fans (open_id, subscribe_status, subscribe_time,
+    nickname, wxid, gender,
+    language, country, province,
+    city, head_img_url, remark,
+    create_time, update_time)
+    values (#{openId,jdbcType=VARCHAR}, #{subscribeStatus,jdbcType=TINYINT}, #{subscribeTime,jdbcType=TIMESTAMP},
+    #{nickname,jdbcType=VARCHAR}, #{wxid,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT},
+    #{language,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},
+    #{city,jdbcType=VARCHAR}, #{headImgUrl,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+    #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wechat.mp.util.wechat.AccountFans" >
+    insert into fans
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="subscribeStatus != null" >
+        subscribe_status,
+      </if>
+      <if test="subscribeTime != null" >
+        subscribe_time,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="wxid != null" >
+        wxid,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="headimgurl != null" >
+        head_img_url,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+        create_time,
+        update_time,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribeStatus != null" >
+        #{subscribeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="subscribeTime != null" >
+        #{subscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="wxid != null" >
+        #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null" >
+        #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+        now(),
+        now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wechat.mp.util.wechat.AccountFans" >
+    update fans
+    <set >
+      <if test="subscribeStatus != null" >
+        subscribe_status = #{subscribeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="subscribeTime != null" >
+        subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="wxid != null" >
+        wxid = #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=TINYINT},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="headImgUrl != null" >
+        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wechat.mp.util.wechat.AccountFans" >
+    update fans
+    set subscribe_status = #{subscribeStatus,jdbcType=TINYINT},
+      subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      wxid = #{wxid,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=TINYINT},
+      `language` = #{language,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+  <select id="findProvince" resultType="string">
+    select
+    province
+    from fans
+    where subscribe_status = 1
+  </select>
+</mapper>

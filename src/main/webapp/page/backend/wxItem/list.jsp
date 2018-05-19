@@ -367,7 +367,7 @@
             $.ajax({
                 type: "post",
                 url: "/wechat-tools/backend/wxItem/category.json",
-                async: true,
+                async:false,
                 success: function (result) {
                     var code = result.code;
                     var data = result.data;
@@ -422,6 +422,7 @@
                 $.ajax({
                     url: "/wechat-tools/backend/wxItem/new",
                     type: "POST",
+                    async:true,
                     dataType: "json",
                     contentType: "application/json;charset=UTF-8",
                     // 向后端传递的数据
@@ -502,7 +503,7 @@
             $.ajax({
                 type: "post",
                 url: "/wechat-tools/backend/wxItem/category.json",
-                async: true,
+                async:false,
                 success: function (result) {
                     var code = result.code;
                     var data = result.data;
