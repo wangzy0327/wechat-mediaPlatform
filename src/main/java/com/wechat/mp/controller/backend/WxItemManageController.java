@@ -3,6 +3,7 @@ package com.wechat.mp.controller.backend;
 import com.google.common.collect.Maps;
 import com.wechat.mp.common.ResponseCode;
 import com.wechat.mp.common.ServerResponse;
+import com.wechat.mp.controller.common.ValidLogin;
 import com.wechat.mp.pojo.Category;
 import com.wechat.mp.pojo.WxItem;
 import com.wechat.mp.service.ICategoryService;
@@ -14,6 +15,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
 import java.util.List;
 import java.util.Map;
 
@@ -27,14 +30,22 @@ public class WxItemManageController {
     private ICategoryService iCategoryService;
 
     @RequestMapping(value = "list",method = RequestMethod.GET)
-    public String itemList(){return "backend/wxItem/list";}
+    public String itemList(HttpSession session,ModelMap map){
+        if(!ValidLogin.isLogin(session)){
+            return "redirect:/";
+        }
+        return "backend/wxItem/list";
+    }
 
     /**
      * 让DataTables控件加载数据
      */
     @RequestMapping(value = "/items.json",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String,Object> load(HttpServletRequest request){
+    public Map<String,Object> load(HttpServletRequest request,HttpSession session){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
 
         String draw = request.getParameter("draw");
         Integer start = Integer.valueOf(request.getParameter("start"));
@@ -82,7 +93,10 @@ public class WxItemManageController {
 
     @RequestMapping(value = "/category.json",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<List<Category>> loadCategory(HttpServletRequest request, ModelMap map){
+    public ServerResponse<List<Category>> loadCategory(HttpServletRequest request,HttpSession session, ModelMap map){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         ServerResponse<List<Category>> response = iCategoryService.findCategory();
 //        map.addAttribute("message",response);
         return response;
@@ -94,7 +108,11 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/new",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String newItem(HttpServletRequest request,@RequestBody WxItem item){
+    public String newItem(HttpServletRequest request,HttpSession session,@RequestBody WxItem item){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
+
         System.out.println(item.toString());
         String realPath = request.getSession().getServletContext().getRealPath("/");
         String path = request.getScheme()+"://"
@@ -118,7 +136,10 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/item.json",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getWxItemInfo(Integer id){
+    public ServerResponse getWxItemInfo(HttpSession session,Integer id){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         return iWxItemService.findWxItemById(id);
     }
 
@@ -130,7 +151,10 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     @ResponseBody
-    public String editWxItem(HttpServletRequest request,@RequestBody WxItem item){
+    public String editWxItem(HttpServletRequest request,HttpSession session,@RequestBody WxItem item){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         System.out.println(item.toString());
         String realPath = request.getSession().getServletContext().getRealPath("/");
         String path = request.getScheme()+"://"
@@ -155,7 +179,10 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse deleteWxItem(HttpServletRequest request, @RequestParam Integer id){
+    public ServerResponse deleteWxItem(HttpServletRequest request,HttpSession session, @RequestParam Integer id){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         return iWxItemService.delWxItem(id);
     }
 
@@ -164,14 +191,22 @@ public class WxItemManageController {
      * @return
      */
     @RequestMapping(value = "/delList",method = RequestMethod.GET)
-    public String delList(){return "backend/wxItem/delList";}
+    public String delList(HttpSession session){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
+        return "backend/wxItem/delList";
+    }
 
     /**
      * 让DataTables控件加载数据
      */
     @RequestMapping(value = "/delItems.json",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String,Object> loadDel(HttpServletRequest request){
+    public Map<String,Object> loadDel(HttpServletRequest request,HttpSession session){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         String draw = request.getParameter("draw");
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length = Integer.valueOf(request.getParameter("length"));
@@ -208,19 +243,30 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/restore",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse restoreWxItem(HttpServletRequest request, @RequestParam Integer id){
+    public ServerResponse restoreWxItem(HttpServletRequest request, HttpSession session,@RequestParam Integer id){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         return iWxItemService.restoreWxItem(id);
     }
 
     @RequestMapping(value = "/categoryList",method = RequestMethod.GET)
-    public String categoryList(){return "backend/wxItem/categoryList";}
+    public String categoryList(HttpSession session){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
+        return "backend/wxItem/categoryList";
+    }
 
     /**
      * 让DataTables控件加载数据
      */
     @RequestMapping(value = "/categorys.json",method = RequestMethod.GET,produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Map<String,Object> loadCategory(HttpServletRequest request){
+    public Map<String,Object> loadCategory(HttpServletRequest request,HttpSession session){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         String draw = request.getParameter("draw");
         Integer start = Integer.valueOf(request.getParameter("start"));
         Integer length = Integer.valueOf(request.getParameter("length"));
@@ -262,7 +308,10 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/newCategory",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String newCategory(HttpServletRequest request,@RequestBody Category category){
+    public String newCategory(HttpServletRequest request,HttpSession session,@RequestBody Category category){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         System.out.println(category.toString());
         ResponseCode state = iCategoryService.saveNewCategory(category);
         if(state.getCode() == 0){
@@ -281,7 +330,12 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/category.json",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse getCategoryInfo(Integer id){ return iCategoryService.findCategoryById(id); }
+    public ServerResponse getCategoryInfo(HttpSession session,Integer id){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
+        return iCategoryService.findCategoryById(id);
+    }
 
     /**
      * 编辑新的类别
@@ -289,7 +343,10 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/editCategory",method = RequestMethod.POST,produces = {"application/json;charset=UTF-8"})
     @ResponseBody
-    public String editCategory(HttpServletRequest request,@RequestBody Category category){
+    public String editCategory(HttpServletRequest request,HttpSession session,@RequestBody Category category){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         System.out.println(category.toString());
         ResponseCode state = iCategoryService.editCategory(category);
         if(state.getCode() == 0){
@@ -308,7 +365,10 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/delCategory",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse delCategory(@RequestParam Integer id){
+    public ServerResponse delCategory(HttpSession session,@RequestParam Integer id){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
         return iCategoryService.delCategory(id);
     }
 
