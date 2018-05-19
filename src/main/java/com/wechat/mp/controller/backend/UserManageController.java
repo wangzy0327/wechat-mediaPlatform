@@ -59,6 +59,7 @@ public class UserManageController {
      */
     @RequestMapping(value = "/logout",method = RequestMethod.GET)
     public String logout(HttpSession session, ModelMap map) {
+        session.removeAttribute(Const.CURRENT_USER);
         session.invalidate();
         map.put("message",ServerResponse.createBySuccessMessage("您已安全退出！"));
         return "backendLogin";
