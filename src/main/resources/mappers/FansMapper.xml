@@ -157,18 +157,13 @@
       <if test="city != null" >
         city = #{city,jdbcType=VARCHAR},
       </if>
-      <if test="headImgUrl != null" >
-        head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      <if test="headimgurl != null" >
+        head_img_url = #{headimgurl,jdbcType=VARCHAR},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
+        update_time = now()
     </set>
     where open_id = #{openId,jdbcType=VARCHAR}
   </update>
@@ -183,7 +178,7 @@
       country = #{country,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
-      head_img_url = #{headImgUrl,jdbcType=VARCHAR},
+      head_img_url = #{headimgurl,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
@@ -194,5 +189,10 @@
     province
     from fans
     where subscribe_status = 1
+  </select>
+  <select id="findCountByPrimaryKey" parameterType="java.lang.String" resultType="int">
+    select count(*)
+    from fans
+    where open_id = #{openId}
   </select>
 </mapper>

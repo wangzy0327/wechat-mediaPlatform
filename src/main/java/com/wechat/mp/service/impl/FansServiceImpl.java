@@ -1,5 +1,6 @@
 package com.wechat.mp.service.impl;
 
+import com.wechat.mp.common.DateUtil;
 import com.wechat.mp.common.ServerResponse;
 import com.wechat.mp.dao.FansMapper;
 import com.wechat.mp.service.IFansService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,19 +32,22 @@ public class FansServiceImpl implements IFansService {
 
 //        try {
 //            AccountFans fan = new AccountFans();
-//            fan.setOpenId("ohIIkv0EWHRMIFNgCn9iM4obFktI");
+//            fan.setOpenId("ohIIkv91Vv6UGB9C_bty0NT-EgJc");
 //            fan.setSubscribeStatus(1);
-//            fan.setNicknameStr("笑傲江湖");
-//            fan.setNickname("笑傲江湖".getBytes("UTF-8"));
+//            fan.setSubscribeTime(DateUtil.COMMON_FULL.getTextDate("2018-05-17 20:12:57"));
+//            fan.setNicknameStr("伊邪");
+//            fan.setNickname("伊邪".getBytes("UTF-8"));
 //            fan.setSubscribeTime(new Date());
 //            fan.setGender(1);
-//            fan.setCountry("中国");
-//            fan.setProvince("山西");
-//            fan.setCity("临汾");
-//            fan.setHeadimgurl("http://thirdwx.qlogo.cn/mmopen/1LlgQzJVOyCoetYw1a2MXwTX785vnABwc4reUOibB2oBcrKs0QxibsWHRmeL3PlbluibOuicaXP7ukFVBWLcAehqibTJRmYQibeFl4/132");
+//            fan.setCountry("挪威");
+//            fan.setProvince("");
+//            fan.setCity("");
+//            fan.setHeadimgurl("http://thirdwx.qlogo.cn/mmopen/BicpoNMJYncY71daWYia9WXbM6e60KXeh9ZXbzicNBUjvVqJlFEAnS1c5c5nYd9IZBQdtbLeCVUZf1LkmUccgYJ1ytaCDhdVzNw/132");
 //            fansMapper.insertSelective(fan);
 //
 //        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
 
