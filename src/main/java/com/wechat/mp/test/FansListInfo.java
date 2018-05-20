@@ -89,6 +89,7 @@ public class FansListInfo {
             fansList.add(fans);
 //            System.out.println(fans.getSubscribeTime());
             System.out.println(fans);
+            System.out.println(fans.getSubscribeTime());
         }
         return fansList;
     }

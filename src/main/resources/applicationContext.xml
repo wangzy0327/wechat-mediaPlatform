@@ -13,4 +13,39 @@
   <import resource="classpath*:spring-service-bean.xml" />
   <util:properties id="wxProperties" location="classpath:/wx.properties" />
 
+  <!-- 系统任务类 -->
+
+  <bean id="myScheduledJob"
+        class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <property name="jobClass"
+              value="com.wechat.mp.quartz.MyScheduledJob" />
+    <property name="jobDataMap">
+      <map>
+        <entry key="iWxQuartzService" value-ref="iWxQuartzService" />
+        <entry key="iWxQuartzService" value-ref="iWxQuartzService" />
+      </map>
+    </property>
+    <property name="Durability" value="true"/>
+  </bean>
+
+  <!-- 每隔1天执行一次 -->
+  <bean id="myCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail"  ref="myScheduledJob"/>
+    <property name="cronExpression"  value="0 43 17 * * ?"/>
+  </bean>
+
+  <!-- 系统定时任务工厂类 -->
+  <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="jobDetails">
+      <list>
+        <ref bean="myScheduledJob"/>
+      </list>
+    </property>
+    <property name="triggers">
+      <list>
+        <ref bean="myCronTrigger"/>
+      </list>
+    </property>
+  </bean>
+
 </beans>

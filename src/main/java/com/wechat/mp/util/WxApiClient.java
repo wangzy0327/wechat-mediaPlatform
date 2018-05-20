@@ -241,6 +241,9 @@ public class WxApiClient {
                 fansListUrl = WxApi.getFansList(accessToken, nextOpenId);
                 jsonObject = WxApi.httpsRequest(fansListUrl, HttpMethod.GET.getMethodName(), null);
                 data = jsonObject.getJSONObject("data");
+                if(data == null){
+                    break;
+                }
                 openIdArr = data.getJSONArray("openid");
             }
             return list;

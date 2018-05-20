@@ -15,9 +15,10 @@ public interface FansMapper {
 
     int updateByPrimaryKeySelective(AccountFans record);
 
-
     int updateByPrimaryKey(AccountFans record);
 
     List<String> findProvince();
+
+    int findCountByPrimaryKey(String openId);
 
 }
