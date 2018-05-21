@@ -83,7 +83,7 @@ public class CategoryServiceImpl implements ICategoryService {
     public ResponseCode editCategory(Category category){
         String name = category.getName();
         Category findCategory = categoryMapper.findCategoryByName(category.getName());
-        if(findCategory == null || !findCategory.getId().equals(category)){
+        if(findCategory == null || findCategory.getId().equals(category.getId())){
             // TODO
             if(categoryMapper.updateByPrimaryKey(category)>0)
                 return ResponseCode.SUCCESS;

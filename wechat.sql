@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `category`(
 )COMMENT'类表',ENGINE = InnoDB AUTO_INCREMENT = 10,DEFAULT CHARSET = utf8;
 
 BEGIN;
-INSERT INTO `category` (`name`,`create_time`,`update_time`) VALUES ('时尚',now(),now()),('财经',now(),now()),('服装',now(),now()),('汽车',now(),now()),('数码',now(),now()),('科技',now(),now()),('旅游',now(),now()),('房产',now(),now()),('家居',now(),now()),('教育',now(),now()),('健康',now(),now()),('艺术',now(),now()),('娱乐',now(),now()),('手机',now(),now()),('游戏',now(),now());
+INSERT INTO `category` (`name`,`create_time`,`update_time`) VALUES ('时尚',now(),now()),('财经',now(),now()),('服装',now(),now()),('汽车',now(),now()),('数码',now(),now()),('科技',now(),now()),('旅游',now(),now()),('房产',now(),now()),('家居',now(),now()),('教育',now(),now()),('健康',now(),now()),('艺术',now(),now()),('娱乐',now(),now()),('手机',now(),now()),('游戏',now(),now()),('餐饮',now(),now());
 COMMIT;
 
 DROP TABLE  IF EXISTS `cate_item`;

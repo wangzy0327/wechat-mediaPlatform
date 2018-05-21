@@ -361,7 +361,7 @@
                 }
             }
         });
-        //添加新用户
+        //添加新图文消息
         $("#addNewWxItem").click(function() {
             $("#newWxItemForm")[0].reset();
             $.ajax({
@@ -447,6 +447,7 @@
                         else if("fail" == result){
                             BootstrapDialog.alert({title:"提示",message:"url不正确，请检查url!"});
                         }
+                        lock = true;
                     },
                     error: () => {
                     console.log("err");
@@ -480,9 +481,11 @@
                                     dt.ajax.reload();
                                 }else{
                                     BootstrapDialog.alert({title:"提示",message:result.msg});
+                                    dt.ajax.reload();
                                 }
                             }).fail(function () {
                                 BootstrapDialog.alert({title:"提示",message:"删除出现异常"});
+                                dt.ajax.reload();
                             });
                         }
                     }
@@ -610,9 +613,11 @@
                             dt.ajax.reload();
                         }else if("duplicate" == result){
                             BootstrapDialog.alert({title:"提示",message:"该图文消息已添加，请勿重复添加!"});
+                            dt.ajax.reload();
                         }
                         else if("fail" == result){
                             BootstrapDialog.alert({title:"提示",message:"url不正确，请检查url!"});
+                            dt.ajax.reload();
                         }
                     },
                     error: () => {
