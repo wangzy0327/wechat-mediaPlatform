@@ -207,6 +207,7 @@
 <script src="/wechat-tools/js/jquery.tagsinput.min.js"></script>
 <script src="/wechat-tools/js/bootstrap-dialog.min.js"></script>
 <script src="/wechat-tools/js/bootstrapValidator.min.js"></script>
+<%--<script src="/wechat-tools/js/validator.min.js"></script>--%>
 <script>
     $(function() {
         var dt = $("#categoryTable").DataTable({
@@ -285,51 +286,91 @@
             $("#newCategoryForm")[0].reset();
             $("#newCategoryModal").modal('show');
         });
-//        var lock = true;//防止重复提交定义锁
-        function newFormValidator() {
-            $('#newCategoryForm').bootstrapValidator().on('success.form.bv',function (e) {
-                e.preventDefault();
-            })
-        }
-        newFormValidator();
         $("#saveBtn").click(function(){
-            //开启验证
-            console.log("click....");
-            var name = ($("input[name = 'name']"))[0].value;
-            console.log(name);
-            var content = ($("textarea[name = 'content']"))[0].value;
-            console.log(content);
-            $.ajax({
-                url: "/wechat-tools/backend/wxItem/newCategory",
-                type: "POST",
-                async:false,
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                // 向后端传递的数据
-                data: JSON.stringify({
-                    "name":name,
-                    "content":content
-                }),
-                success: function (result) {
-                    if("success" == result) {
-                        $("#newCategoryForm")[0].reset();
-                        $("#newCategoryModal").modal("hide");
-                        dt.ajax.reload();
-                    }else if("duplicate" == result){
-                        BootstrapDialog.alert({title:"提示",message:"该分类已添加，请勿重复添加!"});
-                    }else{
-                        BootstrapDialog.alert({title:"提示",message:"添加分类异常!"});
-                    }
-                    lock = true;//如果业务执行失败，修改锁状态
+            newFormValidator();
+        });
+        var lock = true;
+        function newFormValidator(){
+            $('#newCategoryForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
                 },
-                error: () => {
-                console.log("err");
+                fields: {
+                    name: {
+                        validators: {
+                            notEmpty: {        // 非空校验+提示信息
+                                message: '类别名不能为空'
+                            },
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 20,
+                                message: '类别名长度必须小于20个字符'
+                            },
+                        }
+                    },
+                    content: {
+                        validators: {
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 200,
+                                message: '内容长度必须小于200个字符'
+                            },
+                        }
+                    },
+                }
+            }).on('success.form.bv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Get the form instance
+                var $form = $(e.target);
+
+                // Get the BootstrapValidator instance
+                var bv = $form.data('bootstrapValidator');
+
+                var name = ($("input[name = 'name']"))[0].value;
+                console.log(name);
+                var content = ($("textarea[name = 'content']"))[0].value;
+                console.log(content);
+                // Use Ajax to submit form data
+                if(!lock){// 2.判断该锁是否打开，如果是关闭的，则直接返回
+                    return false;
+                }
+                lock = false ; //3.进来后，立马把锁锁住
+                $.ajax({
+                    url: "/wechat-tools/backend/wxItem/newCategory",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    // 向后端传递的数据
+                    data: JSON.stringify({
+                        "name": name,
+                        "content": content
+                    }),
+                    success: function (result) {
+                        if ("success" == result) {
+                            $("#newCategoryForm")[0].reset();
+                            $("#newCategoryModal").modal("hide");
+                            dt.ajax.reload();
+                        } else if ("duplicate" == result) {
+                            BootstrapDialog.alert({title: "提示", message: "该分类已添加，请勿重复添加!"});
+                        } else {
+                            BootstrapDialog.alert({title: "提示", message: "添加分类异常!"});
+                        }
+                        lock = true;
+                    },
+                    error: function () {
+                        console.log("err");
+                    }
+                });
+            });
         }
-        });
-        });
+
+
         $("#newCategoryModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
-//            $("#newCategoryForm").data('bootstrapValidator').destroy();
+            $("#newCategoryForm").data('bootstrapValidator').destroy();
             $('#newCategoryForm').data('bootstrapValidator',null);
             //重新添加校验
 //            newFormValidator();
@@ -337,10 +378,6 @@
         //删除用户
         $(document).delegate(".delLink", "click", function () {
             var id = $(this).attr("data-id");
-            if(!lock){// 2.判断该锁是否打开，如果是关闭的，则直接返回
-                return false;
-            }
-            lock = false ; //3.进来后，立马把锁锁住
             BootstrapDialog.confirm({
                 title:"删除数据",
                 message:"是否要删除该分类?",
@@ -353,7 +390,6 @@
                             }else{
                                 BootstrapDialog.alert({title:"提示",message:result.msg});
                             }
-                            lock = true;
                         }).fail(function () {
                             BootstrapDialog.alert({title:"提示",message:"删除出现异常"});
                             dt.ajax.reload();
@@ -373,6 +409,86 @@
 //                });
 
         //编辑用户
+        function editFormValidator(){
+            $('#editCategoryForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    name: {
+                        validators: {
+                            notEmpty: {        // 非空校验+提示信息
+                                message: '类别名不能为空'
+                            },
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 20,
+                                message: '类别名长度必须小于20个字符'
+                            },
+                        }
+                    },
+                    content: {
+                        validators: {
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 200,
+                                message: '内容长度必须小于200个字符'
+                            },
+                        }
+                    },
+                }
+            }).on('success.form.bv', function(e) {
+                // Prevent form submission
+                e.preventDefault();
+
+                // Get the form instance
+                var $form = $(e.target);
+
+                // Get the BootstrapValidator instance
+                var bv = $form.data('bootstrapValidator');
+
+                var id = $("input[name='id']").val();
+                console.log(id);
+                var name = $($("input[name='name']")[1]).val();
+                console.log(name);
+                var content = $($("textarea[name ='content']")[1]).val();
+                console.log(content);
+                if(!lock){// 2.判断该锁是否打开，如果是关闭的，则直接返回
+                    return false;
+                }
+                lock = false ; //3.进来后，立马把锁锁住
+                $.ajax({
+                    url: "/wechat-tools/backend/wxItem/editCategory",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json;charset=UTF-8",
+                    // 向后端传递的数据
+                    data: JSON.stringify({
+                        "id":id,
+                        "name":name,
+                        "content":content,
+                    }),
+                    success: function (result) {
+                        if("success" == result) {
+                            $("#editCategoryForm")[0].reset();
+                            $("#editCategoryModal").modal("hide");
+                            dt.ajax.reload();
+                        }else if("duplicate" == result){
+                            BootstrapDialog.alert({title:"提示",message:"您编辑的分类已存在，请勿重复添加!"});
+                        }
+                        else{
+                            BootstrapDialog.alert({title:"提示",message:"分类编辑异常!"});
+                        }
+                        lock = true;
+                    },
+                    error: () => {
+                    console.log("err");
+            }
+            });
+            });
+        }
+
         $(document).delegate(".editLink", "click", function () {
             $("#editCategoryForm")[0].reset();
             var id = $(this).attr("data-id");
@@ -392,51 +508,12 @@
             });
             $("#editCategoryModal").modal("show");
         });
-        function editFormValidator() {
-            $('#editCategoryForm').bootstrapValidator().on('submit',function (e) {
-                e.preventDefault();
-            });
-        }
-        editFormValidator();
         $("#editBtn").click(function () {
-            var id = $("input[name='id']").val();
-            console.log(id);
-            var name = $($("input[name='name']")[1]).val();
-            console.log(name);
-            var content = $($("textarea[name ='content']")[1]).val();
-            console.log(content);
-            $.ajax({
-                url: "/wechat-tools/backend/wxItem/editCategory",
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json;charset=UTF-8",
-                // 向后端传递的数据
-                data: JSON.stringify({
-                    "id":id,
-                    "name":name,
-                    "content":content,
-                }),
-                success: function (result) {
-                    if("success" == result) {
-                        $("#editCategoryForm")[0].reset();
-                        $("#editCategoryModal").modal("hide");
-                        dt.ajax.reload();
-                    }else if("duplicate" == result){
-                        BootstrapDialog.alert({title:"提示",message:"您编辑的分类已存在，请勿重复添加!"});
-                    }
-                    else{
-                        BootstrapDialog.alert({title:"提示",message:"分类编辑异常!"});
-                    }
-                    lock = true;
-                },
-                error: () => {
-                console.log("err");
-        }
-        });
+            editFormValidator();
         });
         $("#editCategoryModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
-//            $("#editCategoryForm").data('bootstrapValidator').destroy();
+            $("#editCategoryForm").data('bootstrapValidator').destroy();
             $('#editCategoryForm').data('bootstrapValidator',null);
             //重新添加校验
 //            newFormValidator();
