@@ -285,55 +285,62 @@
             $("#newCategoryForm")[0].reset();
             $("#newCategoryModal").modal('show');
         });
+//        var lock = true;//防止重复提交定义锁
         function newFormValidator() {
             $('#newCategoryForm').bootstrapValidator().on('success.form.bv',function (e) {
                 e.preventDefault();
-                var name = ($("input[name = 'name']"))[0].value;
-                console.log(name);
-                var content = ($("textarea[name = 'content']"))[0].value;
-                console.log(content);
-//            $("#newCategoryForm").serialize()
-                $.ajax({
-                    url: "/wechat-tools/backend/wxItem/newCategory",
-                    type: "POST",
-                    dataType: "json",
-                    contentType: "application/json;charset=UTF-8",
-                    // 向后端传递的数据
-                    data: JSON.stringify({
-                        "name":name,
-                        "content":content
-                    }),
-                    success: function (result) {
-                        if("success" == result) {
-                            $("#newCategoryForm")[0].reset();
-                            $("#newCategoryModal").modal("hide");
-                            dt.ajax.reload();
-                        }else if("duplicate" == result){
-                            BootstrapDialog.alert({title:"提示",message:"该分类已添加，请勿重复添加!"});
-                        }else{
-                            BootstrapDialog.alert({title:"提示",message:"添加分类异常!"});
-                        }
-                    },
-                    error: () => {
-                    console.log("err");
-            }
-            });
             })
         }
+        newFormValidator();
         $("#saveBtn").click(function(){
             //开启验证
-            newFormValidator();
+            console.log("click....");
+            var name = ($("input[name = 'name']"))[0].value;
+            console.log(name);
+            var content = ($("textarea[name = 'content']"))[0].value;
+            console.log(content);
+            $.ajax({
+                url: "/wechat-tools/backend/wxItem/newCategory",
+                type: "POST",
+                async:false,
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                // 向后端传递的数据
+                data: JSON.stringify({
+                    "name":name,
+                    "content":content
+                }),
+                success: function (result) {
+                    if("success" == result) {
+                        $("#newCategoryForm")[0].reset();
+                        $("#newCategoryModal").modal("hide");
+                        dt.ajax.reload();
+                    }else if("duplicate" == result){
+                        BootstrapDialog.alert({title:"提示",message:"该分类已添加，请勿重复添加!"});
+                    }else{
+                        BootstrapDialog.alert({title:"提示",message:"添加分类异常!"});
+                    }
+                    lock = true;//如果业务执行失败，修改锁状态
+                },
+                error: () => {
+                console.log("err");
+        }
+        });
         });
         $("#newCategoryModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
 //            $("#newCategoryForm").data('bootstrapValidator').destroy();
             $('#newCategoryForm').data('bootstrapValidator',null);
             //重新添加校验
-            newFormValidator();
+//            newFormValidator();
         });
         //删除用户
         $(document).delegate(".delLink", "click", function () {
             var id = $(this).attr("data-id");
+            if(!lock){// 2.判断该锁是否打开，如果是关闭的，则直接返回
+                return false;
+            }
+            lock = false ; //3.进来后，立马把锁锁住
             BootstrapDialog.confirm({
                 title:"删除数据",
                 message:"是否要删除该分类?",
@@ -346,8 +353,10 @@
                             }else{
                                 BootstrapDialog.alert({title:"提示",message:result.msg});
                             }
+                            lock = true;
                         }).fail(function () {
                             BootstrapDialog.alert({title:"提示",message:"删除出现异常"});
+                            dt.ajax.reload();
                         });
                     }
                 }
@@ -367,6 +376,7 @@
         $(document).delegate(".editLink", "click", function () {
             $("#editCategoryForm")[0].reset();
             var id = $(this).attr("data-id");
+            console.log(id);
             $.get("/wechat-tools/backend/wxItem/category.json", {"id": id}).done(function (result) {
                 if (result.code == 0) {
                     var data = result.data;
@@ -375,6 +385,7 @@
                     $($("textarea[name='content']")[1]).val(data.content);
                 } else {
                     BootstrapDialog.alert({title:"提示",message:result.msg});
+                    dt.ajax.reload();
                 }
             }).fail(function () {
 
@@ -384,49 +395,51 @@
         function editFormValidator() {
             $('#editCategoryForm').bootstrapValidator().on('submit',function (e) {
                 e.preventDefault();
-                var id = $("input[name='id']").val();
-                var name = $($("input[name='name']")[1]).val();
-                console.log(name);
-                var content = $($("textarea[name ='content']")[1]).val();
-                console.log(content);
-                $.ajax({
-                    url: "/wechat-tools/backend/wxItem/editCategory",
-                    type: "POST",
-                    dataType: "json",
-                    contentType: "application/json;charset=UTF-8",
-                    // 向后端传递的数据
-                    data: JSON.stringify({
-                        "id":id,
-                        "name":name,
-                        "content":content,
-                    }),
-                    success: function (result) {
-                        if("success" == result) {
-                            $("#editCategoryForm")[0].reset();
-                            $("#editCategoryModal").modal("hide");
-                            dt.ajax.reload();
-                        }else if("duplicate" == result){
-                            BootstrapDialog.alert({title:"提示",message:"该分类已添加，请勿重复添加!"});
-                        }
-                        else{
-                            BootstrapDialog.alert({title:"提示",message:"分类编辑异常!"});
-                        }
-                    },
-                    error: () => {
-                    console.log("err");
-            }
-            });
             });
         }
+        editFormValidator();
         $("#editBtn").click(function () {
-            editFormValidator();
+            var id = $("input[name='id']").val();
+            console.log(id);
+            var name = $($("input[name='name']")[1]).val();
+            console.log(name);
+            var content = $($("textarea[name ='content']")[1]).val();
+            console.log(content);
+            $.ajax({
+                url: "/wechat-tools/backend/wxItem/editCategory",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                // 向后端传递的数据
+                data: JSON.stringify({
+                    "id":id,
+                    "name":name,
+                    "content":content,
+                }),
+                success: function (result) {
+                    if("success" == result) {
+                        $("#editCategoryForm")[0].reset();
+                        $("#editCategoryModal").modal("hide");
+                        dt.ajax.reload();
+                    }else if("duplicate" == result){
+                        BootstrapDialog.alert({title:"提示",message:"您编辑的分类已存在，请勿重复添加!"});
+                    }
+                    else{
+                        BootstrapDialog.alert({title:"提示",message:"分类编辑异常!"});
+                    }
+                    lock = true;
+                },
+                error: () => {
+                console.log("err");
+        }
+        });
         });
         $("#editCategoryModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
 //            $("#editCategoryForm").data('bootstrapValidator').destroy();
             $('#editCategoryForm').data('bootstrapValidator',null);
             //重新添加校验
-            newFormValidator();
+//            newFormValidator();
         });
 
     });

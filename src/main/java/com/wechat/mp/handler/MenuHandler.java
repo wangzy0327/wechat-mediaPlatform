@@ -36,10 +36,10 @@ public class MenuHandler extends AbstractHandler {
     }
     else if(WxConsts.EventType.CLICK.equals(wxMessage.getEvent())){
       Item item = new Item();
-      item.setUrl("http://v6.rabbitpre.com/m/neUzquH?mobile=1");
-      item.setTitle("大辣娇--加1元再来1桶");
-      item.setPicUrl("http://cdn5.rabbitpre.com/e6efb2b6-3758-4a10-9439-32c65cab1406.png@0-0-0-0a_284w_70Q_1an.src?crossorigin=1");
-      item.setDescription("白象大辣娇，加1元再来1桶，感恩回馈消费者！");
+      item.setUrl("https://www.jianshu.com/p/1266379bdcaa");
+      item.setTitle("微信公众号开发-简书");
+      item.setPicUrl("https://cdn2.jianshu.io/assets/web/nav-logo-4c7bbafe27adc892f3046e6978459bac.png");
+      item.setDescription("微信公众号开发JS—SDK");
       return new NewsBuilder().addArticle(item).
               fromUser(wxMessage.getToUser()).
               toUser(wxMessage.getFromUser()).
