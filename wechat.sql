@@ -1,8 +1,8 @@
 DROP DATABASE IF EXISTS `wechat`;
-CREATE DATABASE IF NOT EXISTS `wechat` DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `wechat` CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 use `wechat`;
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `wechat_user`;
@@ -60,7 +60,37 @@ CREATE TABLE IF NOT EXISTS `category`(
 )COMMENT'类表',ENGINE = InnoDB AUTO_INCREMENT = 10,DEFAULT CHARSET = utf8;
 
 BEGIN;
-INSERT INTO `category` (`name`,`create_time`,`update_time`) VALUES ('时尚',now(),now()),('财经',now(),now()),('服装',now(),now()),('汽车',now(),now()),('数码',now(),now()),('科技',now(),now()),('旅游',now(),now()),('房产',now(),now()),('家居',now(),now()),('教育',now(),now()),('健康',now(),now()),('艺术',now(),now()),('娱乐',now(),now()),('手机',now(),now()),('游戏',now(),now()),('餐饮',now(),now());
+INSERT INTO `category` (`name`,`create_time`,`update_time`) VALUES
+  ('时尚/服饰',now(),now()),
+  ('金融/银行',now(),now()),
+  ('电子数码',now(),now()),
+  ('旅游/景区',now(),now()),
+  ('地产/家具',now(),now()),
+  ('家居家电',now(),now()),
+  ('教育/培训',now(),now()),
+  ('美容',now(),now()),
+  ('文化/娱乐',now(),now()),
+  ('媒体/广告',now(),now()),
+  ('互联网/IT',now(),now()),
+  ('电商/微商',now(),now()),
+  ('酒店/酒业',now(),now()),
+  ('婚庆',now(),now()),
+  ('母婴',now(),now()),
+  ('装修/设计',now(),now()),
+  ('农林渔牧',now(),now()),
+  ('个人',now(),now()),
+  ('企业招聘',now(),now()),
+  ('企业宣传',now(),now()),
+  ('会议邀请',now(),now()),
+  ('产品介绍',now(),now()),
+  ('报名培训',now(),now()),
+  ('品牌推广',now(),now()),
+  ('节日推广',now(),now()),
+  ('数据报告',now(),now()),
+  ('事件祝福',now(),now()),
+  ('新品发布',now(),now()),
+  ('周年庆',now(),now()),
+  ('餐饮/食品',now(),now());
 COMMIT;
 
 DROP TABLE  IF EXISTS `cate_item`;
@@ -109,25 +139,45 @@ BEGIN;
 INSERT INTO `tag_item` (`tag_id`,`item_id`,`create_time`,`update_time`) VALUES (100,1000,now(),now()),(101,1000,now(),now());
 COMMIT;
 
-SET FOREIGN_KEY_CHECKS = 1;
 
 DROP TABLE  IF EXISTS `fans`;
-CREATE TABLE  IF NOT EXISTS `fans`(
-  `open_id` VARCHAR(32) NOT NULL COMMENT 'openId粉丝关注公众号唯一标识',
-  `subscribe_status` TINYINT NOT NULL COMMENT '粉丝订阅状态',
-  `subscribe_time` TIMESTAMP NOT NULL COMMENT '粉丝订阅时间',
-  `nickname` BLOB   COMMENT '粉丝昵称',
-  `wxid` VARCHAR(255) COMMENT '微信号',
-  `gender` TINYINT NOT NULL DEFAULT 0 COMMENT '性别',
-  `language` VARCHAR(20) DEFAULT 'zh_CN' COMMENT '语言',
-  `country` VARCHAR(20) COMMENT '国家',
-  `province` VARCHAR(20) COMMENT '省份',
-  `city` VARCHAR(30) COMMENT '城市',
-  `head_img_url` VARCHAR(200) COMMENT '头像',
-  `remark` VARCHAR(200) COMMENT '备注',
-  `create_time` TIMESTAMP NOT NULL DEFAULT NOW() COMMENT '创建时间',
-  `update_time` TIMESTAMP NOT NULL DEFAULT NOW() COMMENT '最近更新时间',
+CREATE TABLE IF NOT EXISTS `fans` (
+  `open_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'openId粉丝关注公众号唯一标识',
+  `subscribe_status` tinyint(4) NOT NULL COMMENT '粉丝订阅状态 0-未订阅,1-订阅',
+  `subscribe_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '粉丝订阅时间',
+  `nickname` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户昵称',
+  `wxid` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '微信号',
+  `gender` tinyint(4) NOT NULL DEFAULT '0' COMMENT '性别',
+  `language` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT 'zh_CN' COMMENT '语言',
+  `country` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '国家',
+  `province` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '省份',
+  `city` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '城市',
+  `head_img_url` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
+  `remark` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '备注',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近更新时间',
   PRIMARY KEY (`open_id`),
-  INDEX `gender_index` (`gender`) USING BTREE,
-  INDEX `province_index` (`province`) USING BTREE
-)COMMENT'粉丝表',ENGINE = InnoDB DEFAULT CHARSET = utf8;
+  KEY `gender_index` (`gender`) USING BTREE,
+  KEY `province_index` (`province`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='粉丝表';
+
+
+INSERT fans(`open_id`,`subscribe_status`,`subscribe_time`,`nickname`,`gender`,`language`,`country`,`province`,`city`,`head_img_url`,`create_time`,`update_time`)
+VALUES
+  ('ohIIkvzAbG-xRrXO1Fso2uH97EdA',1,'2018-04-03 11:43:34','段沛奇',1,'zh_CN','中国','重庆','南岸','http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLDo5WiaBhpfxibChZl2T1HsVCZX5GzDW7Bwz2TC5JiclfhkMc9nZj4qfRLDj9PYibrBIaL50o3lrLJibSQ/132',now(),now()),
+  ('ohIIkv2d--Ndb-yeD1xwCnbAKDyI',1,'2018-04-02 22:01:59','李岩',1,'zh_CN','中国','北京','朝阳','http://thirdwx.qlogo.cn/mmopen/BicpoNMJYncY71daWYia9WXcnX5XMPvT2T46X23Nw7xuRkyPpGByVaicD5mta9SII0hzsUmFGfhrdibOoBJnDFA8zicjKgkw57go4/132',now(),now()),
+  ('ohIIkv1EQR3QlLDx1nDZFA-eJ9Rw',1,'2018-04-02 13:22:29','畅叙幽情',1,'zh_CN','中国','辽宁','锦州','http://thirdwx.qlogo.cn/mmopen/C1icxQuONQ5RgufI7oZrhrzoDFUviayF0Qerd3GnsMicHpA9E3oQrakynibADZTuNibEmPlshFJKibyGjooTNS6BOaXGtW5GTp2av9/132',now(),now()),
+  ('ohIIkv2yQrt-o1QVnf5U1V2HgUQI',1,'2018-04-27 16:09:10','小小',2,'zh_CN','中国','河南','洛阳','http://thirdwx.qlogo.cn/mmopen/C1icxQuONQ5RgufI7oZrhr7krwJzzAW7EicLUzAPSaA0XGRhrwdl4BjwjY0dloiaia4DJQFawQribnibt8ib3zLQZibDBWdWM8mDJicst/132',now(),now()),
+  ('ohIIkv0EWHRMIFNgCn9iM4obFktI',1,'2018-04-27 16:15:03','笑傲江湖',1,'zh_CN','中国','山西','临汾','http://thirdwx.qlogo.cn/mmopen/C1icxQuONQ5RgufI7oZrhr7krwJzzAW7EicLUzAPSaA0XGRhrwdl4BjwjY0dloiaia4DJQFawQribnibt8ib3zLQZibDBWdWM8mDJicst/132',now(),now()),
+  ('ohIIkvzGeXvrBfpPvY6R-F-hGbtk',1,'2018-05-17 20:07:41','飞奔的小考拉',2,'zh_CN','中国','辽宁','沈阳','http://thirdwx.qlogo.cn/mmopen/1LlgQzJVOyC5vWEcm5QOcibEOQKvRxAbatRibMo1DHBxBzGUibv9U3PKYs7icjA8hIE7xhTIsRkLLJNNu1jzFxFhfA/132',now(),now()),
+  ('ohIIkv7YSqaQhDIwKYo-ldf-dkc4',1,'2018-05-17 20:14:43','小马',1,'zh_CN','中国','山西','运城','http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLDlIqib95ny0Kibx4JGN83KzWiavYTfIDMpx5OzcPVs4pmOiaSiar3dhycZPagRY5qMeF7nsKTia7cO8ZPA/132',now(),now()),
+  ('oohIIkv6X9n_yeANlLqEk2JpMavwQ',1,'2018-05-18 10:47:51','BAI',1,'zh_CN','中国','陕西','西安','http://thirdwx.qlogo.cn/mmopen/ILAyqAIJUDGX0FiaQDoAq8luYe8dLXKqpZKu4b36FUtg0icFLgU77UibnsNJsFd6D34AUeiaWt4iaiaEaru2BWibArm9Waw3xUQzfrB/132',now(),now()),
+  ('ohIIkvzRa0Ydg9Am1HNQhZTGOS6o',1,'2018-05-18 11:14:49','huihui.',2,'zh_CN','中国','山西','临汾','http://thirdwx.qlogo.cn/mmopen/C1icxQuONQ5RgufI7oZrhr6hwUkTD0NYDwic56zgcd4JGu4ax0iaic6dGvszU9WvDvzaCjN4susoI7JnBxMhA8K731oL1asxMAw9/132',now(),now()),
+  ('oohIIkv5987LlIEThyGbnacUnD1PY',1,'2018-05-18 10:44:55','浩宕天涯',1,'zh_CN','中国','江苏','南京','http://thirdwx.qlogo.cn/mmopen/1LlgQzJVOyCoetYw1a2MXibHq35VLKrBM8sO6GDB4c7dRGZppbbCz5MvfKTUaA9hPQgeYNLgBxPsB9jvm8KSfNoFIACf4E1ic9/132',now(),now()),
+  ('ohIIkvw0WSTNTC60NORfdvKlGQ2U',1,'2018-05-18 10:54:58','10',1,'zh_CN','中国','山西','运城','http://thirdwx.qlogo.cn/mmopen/ILAyqAIJUDH3PhJN75vM9cSpibL6qeqCFcdOKPsWW885XKDQMr3UUDSVMibQOMsnfV3Q2sO3P3icBBymLQVhErnlnA7Aw9icZZ48/132',now(),now()),
+  ('ohIIkv5dPrjtGbbTAwgeV4isWXeg',1,'2018-05-18 11:51:46','击剑___婧🤺🤺🤺',2,'zh_CN','中国','山西','太原','http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM6nm4TwcmjyKwamfXgJAic5kIWueX7OFN3fzhOP82ibUA8Nt4BDD1GkHDHUVrtS96a1ibX746EQCAtnXvnrwzSSDwx1aWibEjSZDs0/132',now(),now()),
+  ('ohIIkv7k85OlLDFwStncbQTulgc8',1,'2018-05-18 11:48:58','独自等待',1,'zh_CN','中国','北京','海淀','http://thirdwx.qlogo.cn/mmopen/C1icxQuONQ5RgufI7oZrhribicC1Owyd476YcObrktGEGNttORpnkTWEDlIMJicxicZGEOx7NhnX0KzPqt6hIN880T0XCs7ANN6Kk/132',now(),now()),
+  ('ohIIkvyWrBmozKAHehHjI9Pb4zNs',1,'2018-05-18 12:11:14','侯子',1,'zh_CN','中国','山西','临汾','http://thirdwx.qlogo.cn/mmopen/ILAyqAIJUDGLwzzpKicib07hu7EQXplbiaiboNuVicoscBic8EUwuny6cuic5KiaGz1fvRGcXRw5rpyWvxichm5JmveicpSjmwqDOGfhMY/132',now(),now()),
+  ('ohIIkv7W02M5XXv7OshLnghnXFdg',1,'2018-05-18 12:08:18','仰望星空',1,'zh_CN','中国','北京','海淀','http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM5oj7SicW5iaUGbjTQOtLRmIxnib1EBJuO3oYxZ8uiauVFoKiayiabMrncNlDIbTS4oAldcEmf2My7UynCw/132',now(),now());
+
+SET FOREIGN_KEY_CHECKS = 1;

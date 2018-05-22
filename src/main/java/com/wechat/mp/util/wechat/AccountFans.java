@@ -16,8 +16,8 @@ public class AccountFans implements Serializable{
     private String openId;//openId，每个用户都是唯一的
     private Integer subscribeStatus;//订阅状态
     private Date subscribeTime;//订阅时间
-    private byte[] nickname;//昵称,二进制保存emoji表情
-    private String nicknameStr;//昵称显示
+//    private byte[] nickname;
+    private String nicknameStr;//昵称显示  //昵称,二进制保存emoji表情
     private String wxid;//微信号
     private Integer gender;//性别 0-未知；1-男；2-女
     private String language;//语言
@@ -34,11 +34,11 @@ public class AccountFans implements Serializable{
     public AccountFans() {
     }
 
-    public AccountFans(String openId, Integer subscribeStatus, Date subscribeTime, byte[] nickname, String nicknameStr, String wxid, Integer gender, String language, String country, String province, String city, String headimgurl, String remark, Date createTime, Date updateTime) {
+    public AccountFans(String openId, Integer subscribeStatus, Date subscribeTime, String nicknameStr, String wxid, Integer gender, String language, String country, String province, String city, String headimgurl, String remark, Date createTime, Date updateTime) {
         this.openId = openId;
         this.subscribeStatus = subscribeStatus;
         this.subscribeTime = subscribeTime;
-        this.nickname = nickname;
+//        this.nickname = nickname;
         this.nicknameStr = nicknameStr;
         this.wxid = wxid;
         this.gender = gender;
@@ -72,8 +72,8 @@ public class AccountFans implements Serializable{
     }
     public String getSubscribeTime() { return (subscribeTime == null)?null:DateUtil.COMMON_FULL.getDateText(subscribeTime); }
     public void setSubscribeTime(Date subscribeTime) { this.subscribeTime =  subscribeTime; }
-    public byte[] getNickname() { return nickname; }
-    public void setNickname(byte[] nickname) { this.nickname = nickname; }
+//    public byte[] getNickname() { return nickname; }
+//    public void setNickname(byte[] nickname) { this.nickname = nickname; }
     public String getNicknameStr() { return nicknameStr; }
     public void setNicknameStr(String nicknameStr) {
         this.nicknameStr = nicknameStr;

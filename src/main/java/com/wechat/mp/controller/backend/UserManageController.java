@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.nio.charset.Charset;
 
 @Controller
 @RequestMapping("/manage/user")
@@ -35,6 +36,10 @@ public class UserManageController {
     @PostMapping(value = "/login")
 //    @ResponseBody
     public String login(String username, String password, HttpServletRequest request, HttpSession session, ModelMap map){
+
+        System.out.println(System.getProperty("file.encoding"));
+        System.out.println(Charset.defaultCharset().name());
+
         ServerResponse<User> response = iUserService.login(username, password);
         session.invalidate();
         session = request.getSession();

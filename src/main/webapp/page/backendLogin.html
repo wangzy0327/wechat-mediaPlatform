@@ -68,18 +68,13 @@
         $("#login_btn").click(login);
     })
     function login() {
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var msg = document.getElementById("message");
-        if (username == null || username.replace(/(^s*)|(s*$)/g, "").length == 0) {
-            document.getElementById("message").style.color = "red";
-            document.getElementById("message").innerHTML = "用户名不能为空";
-            return false;
+        if(!$("#username").val()) {
+            $("#username").focus();
+            return;
         }
-        if (password == null || password.replace(/(^s*)|(s*$)/g, "").length == 0) {
-            document.getElementById("message").style.color = "red";
-            document.getElementById("message").innerHTML = "密码不能为空";
-            return false;
+        if(!$("#password").val()) {
+            $("#password").focus();
+            return;
         }
         var str = $("#form").serialize();
 //        var data = {"username":username, "password":password};
@@ -87,6 +82,8 @@
             url: "/wechat-tools/manage/user/login",
             data: $("#form").serialize(),
             success: function (result) {
+                var msg =${message};
+                console.log("message:"+message);//打印'随便写点东西'
                 console.log(result);
                 if (result.status == 0) {
                     window.sessionStorage.setItem("CURRENT_USER",result.data.id);
