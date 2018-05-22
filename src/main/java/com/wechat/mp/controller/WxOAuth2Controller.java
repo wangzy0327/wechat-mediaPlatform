@@ -40,7 +40,6 @@ public class WxOAuth2Controller {
                     System.out.println("用户未关注....");
                 } else {
                     subscribe = 1;
-                    fans.setNicknameStr(new String(fans.getNickname()));
                 }
                 mv.addObject("curUser", fans);
                 mv.addObject("subscribe", subscribe);

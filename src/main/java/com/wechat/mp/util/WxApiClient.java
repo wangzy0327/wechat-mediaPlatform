@@ -184,13 +184,8 @@ public class WxApiClient {
                     fans.setSubscribeTime(new Date(jsonObj.getLong("subscribe_time")*1000));// 用户关注时间
                 }
                 if(jsonObj.containsKey("nickname")){// 昵称
-                    try {
-                        String nickname = jsonObj.getString("nickname");
-                        fans.setNickname(nickname.getBytes("UTF-8"));
-                        fans.setNicknameStr(nickname);
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
+                    String nickname = jsonObj.getString("nickname");
+                    fans.setNicknameStr(nickname);
                 }
                 if(jsonObj.containsKey("sex")){// 用户的性别（1是男性，2是女性，0是未知）
                     fans.setGender(Integer.valueOf(jsonObj.getString("sex")));

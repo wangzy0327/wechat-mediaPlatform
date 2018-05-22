@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>CRM-系统登录</title>
+    <title>后台管理系统登录</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/wechat-tools/css/bootstrap.min.css" rel="stylesheet">
@@ -81,7 +81,7 @@
 <!-- Custom Theme JavaScript -->
 <script src="/wechat-tools/js/sb-admin-2.js"></script>
 
-<script>
+<script >
 
     $("#loginBtn").click(function(){
         if(!$("#username").val()) {
@@ -94,6 +94,7 @@
         }
         $("#loginForm").submit();
     });
+
 </script>
 
 

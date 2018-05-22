@@ -28,31 +28,30 @@ public class FansServiceImpl implements IFansService {
         List<String> provinces = fansMapper.findProvince();
 
         //插入一个AccountFans类型
-
+//        AccountFans fan = fansMapper.selectByPrimaryKey("ohIIkv5dPrjtGbbTAwgeV4isWXeg");
+//        System.out.println(fan);
+//        System.out.println(fan.getNicknameStr());
 
 //        try {
 //            AccountFans fan = new AccountFans();
-//            fan.setOpenId("ohIIkv91Vv6UGB9C_bty0NT-EgJc");
+//            fan.setOpenId("ohIIkv5dPrjtGbbTAwgeV4isWXeg");
 //            fan.setSubscribeStatus(1);
-//            fan.setSubscribeTime(DateUtil.COMMON_FULL.getTextDate("2018-05-17 20:12:57"));
-//            fan.setNicknameStr("伊邪");
-//            fan.setNickname("伊邪".getBytes("UTF-8"));
-//            fan.setSubscribeTime(new Date());
-//            fan.setGender(1);
-//            fan.setCountry("挪威");
-//            fan.setProvince("");
-//            fan.setCity("");
-//            fan.setHeadimgurl("http://thirdwx.qlogo.cn/mmopen/BicpoNMJYncY71daWYia9WXbM6e60KXeh9ZXbzicNBUjvVqJlFEAnS1c5c5nYd9IZBQdtbLeCVUZf1LkmUccgYJ1ytaCDhdVzNw/132");
+//            fan.setSubscribeTime(DateUtil.COMMON_FULL.getTextDate("2018-05-18 11:51:46"));
+//            fan.setNicknameStr("击剑___婧\uD83E\uDD3A\uD83E\uDD3A\uD83E\uDD3A");
+//            System.out.println(fan.getNicknameStr());
+//            fan.setGender(2);
+//            fan.setCountry("中国");
+//            fan.setProvince("山西");
+//            fan.setCity("太原");
+//            fan.setHeadimgurl("http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM6nm4TwcmjyKwamfXgJAic5kIWueX7OFN3fzhOP82ibUA8Nt4BDD1GkHDHUVrtS96a1ibX746EQCAtnXvnrwzSSDwx1aWibEjSZDs0/132");
 //            fansMapper.insertSelective(fan);
 //
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
-
-
 //        System.out.println("insert success!");
+
+
 
         int max = 0;
         for(int i = 0;i < provinces.size();i++){

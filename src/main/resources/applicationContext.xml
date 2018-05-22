@@ -31,7 +31,7 @@
   <!-- 每隔1天执行一次 -->
   <bean id="myCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
     <property name="jobDetail"  ref="myScheduledJob"/>
-    <property name="cronExpression"  value="0 43 17 * * ?"/>
+    <property name="cronExpression"  value="0 22 17 * * ?"/>
   </bean>
 
   <!-- 系统定时任务工厂类 -->

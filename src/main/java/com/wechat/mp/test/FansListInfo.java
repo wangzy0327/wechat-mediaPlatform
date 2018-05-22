@@ -50,12 +50,12 @@ public class FansListInfo {
 //        byte[] b = coolString.getBytes(Charset.forName("UTF-8"));
 //        System.out.println("b"+b);
 
-//        String hexStr = "E7AC91E582B2E6B19FE6B996";
-//        String str = "笑傲江湖";
-//        String s = StrHexUtil.hexStr2Str("E587BBE589915F5F5FE5A9A7F09FA4BAF09FA4BAF09FA4BA");
-//        System.out.println(s);
-//        System.out.println(StrHexUtil.hexStr2Str("E7AC91E582B2E6B19FE6B996").equals(str));
-//        System.out.println(StrHexUtil.str2HexStr(str).equals(hexStr));
+        String hexStr = "E7AC91E582B2E6B19FE6B996";
+        String str = "笑傲江湖";
+        String s = StrHexUtil.hexStr2Str("E587BBE589915F5F5FE5A9A7F09FA4BAF09FA4BAF09FA4BA");
+        System.out.println(s);
+        System.out.println(StrHexUtil.hexStr2Str("E7AC91E582B2E6B19FE6B996").equals(str));
+        System.out.println(StrHexUtil.str2HexStr(str).equals(hexStr));
 
 //        byte[] bytes = {-25,-84,-111,-27,-126,-78,-26,-79,-97,-26,-71,-106};
 //        System.out.println(new String(bytes));

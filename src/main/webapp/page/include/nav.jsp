@@ -64,8 +64,9 @@
                     <li>
                         <a href="#message" class="nav-header side-nav-item item-title collapsed" data-toggle="collapse"><i class="fa fa-sitemap fa-fw"></i> 消息管理</a>
                         <ul id="message" class="nav nav-list collapse">
-                            <li ><a href="/wechat-tools/backend/wxItem/list"><i class="fa fa-edit fa-fw"></i>&nbsp;图文管理</a></li>
+                            <li ><a href="http://www.rabbitpre.com/discover" target='view_window'><i class="fa fab fa-html5 fa-fw"></i>&nbsp;消息素材</a></li>
                             <li ><a href="/wechat-tools/backend/wxItem/categoryList"><i class="fa fa-table fa-fw"></i>&nbsp;消息分类</a></li>
+                            <li ><a href="/wechat-tools/backend/wxItem/list"><i class="fa fa-edit fa-fw"></i>&nbsp;图文管理</a></li>
                             <li ><a href="/wechat-tools/backend/wxItem/delList"><i class="fa fas fa-recycle fa-fw"></i>&nbsp;消息回收</a></li>
                         </ul>
                         <%--<a href="/backend"><i class="fa fa-sitemap fa-fw"></i> 消息管理</a>--%>

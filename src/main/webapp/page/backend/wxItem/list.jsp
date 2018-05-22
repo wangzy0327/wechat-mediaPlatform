@@ -62,7 +62,7 @@
                                     <%--<th>ID标识</th>--%>
                                     <th>标题</th>
                                     <th>描述</th>
-                                    <th width="5%" >分类</th>
+                                    <th width="10%" >分类</th>
                                     <th width="15%">创建时间</th>
                                     <th width="15%">最近修改时间</th>
                                     <th width="100">操作</th>
@@ -119,10 +119,10 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="description"
+                            <textarea type="text" class="form-control" cols="30" rows="3" name="description"
                                    data-bv-stringlength="true"
                                    data-bv-stringlength-max="50"
-                                   data-bv-stringlength-message="描述长度必须小于50个字符"/>
+                                      data-bv-stringlength-message="描述长度必须小于50个字符"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -133,7 +133,7 @@
                                    data-bv-notempty-message="内容URL不能为空"
                                    data-bv-stringlength="true"
                                    data-bv-stringlength-max="100"
-                                   data-bv-stringlength-message="URL长度必须小于100个字符"/>
+                                   data-bv-stringlength-message="URL长度必须小于100个字符" placeholder="根据素材库中的URL填写"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -203,10 +203,10 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="description"
-                                   data-bv-stringlength="true"
-                                   data-bv-stringlength-max="50"
-                                   data-bv-stringlength-message="描述长度必须小于50个字符"/>
+                            <textarea type="text" class="form-control" cols="30" rows="3" name="description"
+                                      data-bv-stringlength="true"
+                                      data-bv-stringlength-max="50"
+                                      data-bv-stringlength-message="描述长度必须小于50个字符"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -217,7 +217,7 @@
                                    data-bv-notempty-message="内容URL不能为空"
                                    data-bv-stringlength="true"
                                    data-bv-stringlength-max="100"
-                                   data-bv-stringlength-message="URL长度必须小于100个字符"/>
+                                   data-bv-stringlength-message="URL长度必须小于100个字符" placeholder="根据素材库中的URL填写"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -402,7 +402,7 @@
                 e.preventDefault();
                 var title = ($("input[name = 'title']"))[0].value;
                 console.log(title);
-                var description = ($("input[name = 'description']"))[0].value;
+                var description = ($("textarea[name = 'description']"))[0].value;
                 console.log(description);
                 var url = ($("input[name = 'url']"))[0].value;
                 console.log(url);
@@ -531,7 +531,7 @@
                     var data = result.data;
                     $("input[name='id']").val(data.id);
                     $($("input[name='title']")[1]).val(data.title);
-                    $($("input[name='description']")[1]).val(data.description);
+                    $($("textarea[name='description']")[1]).val(data.description);
                     $($("input[name='url']")[1]).val(data.url);
                     $($("input[name='imgUrl']")[1]).val(data.imgUrl);
                     console.log($("#categoryEdit input:radio"));
@@ -576,7 +576,7 @@
                 var id = $("input[name='id']").val();
                 var title = $($("input[name='title']")[1]).val();
                 console.log(title);
-                var description = $($("input[name='description']")[1]).val();
+                var description = $($("textarea[name='description']")[1]).val();
                 console.log(description);
                 var url = $($("input[name='url']")[1]).val();
                 var imgUrl = $($("input[name='imgUrl']")[1]).val();

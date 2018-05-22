@@ -30,12 +30,6 @@ public class HomeController {
      */
     @RequestMapping(value = "/home",method = RequestMethod.GET)
     public String home(HttpServletRequest request, HttpSession session,ModelMap map) {
-//        List<Map<String,Object>> result = customerService.homeTotal();
-//
-//        Gson gson = new Gson();
-//        String json = gson.toJson(result);
-//
-//        model.addAttribute("json",json);
         if(!ValidLogin.isLogin(session)){
             return "redirect:/";
         }
