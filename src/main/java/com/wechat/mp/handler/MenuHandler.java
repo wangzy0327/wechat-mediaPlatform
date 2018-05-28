@@ -2,6 +2,7 @@ package com.wechat.mp.handler;
 
 import java.util.Map;
 
+import com.wechat.mp.builder.TextBuilder;
 import com.wechat.mp.controller.WxOAuth2Controller;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutNewsMessage;
 import me.chanjar.weixin.mp.builder.outxml.NewsBuilder;
@@ -35,15 +36,25 @@ public class MenuHandler extends AbstractHandler {
       return null;
     }
     else if(WxConsts.EventType.CLICK.equals(wxMessage.getEvent())){
-      Item item = new Item();
-      item.setUrl("https://www.jianshu.com/p/1266379bdcaa");
-      item.setTitle("微信公众号开发-简书");
-      item.setPicUrl("https://cdn2.jianshu.io/assets/web/nav-logo-4c7bbafe27adc892f3046e6978459bac.png");
-      item.setDescription("微信公众号开发JS—SDK");
-      return new NewsBuilder().addArticle(item).
-              fromUser(wxMessage.getToUser()).
-              toUser(wxMessage.getFromUser()).
-              build();
+      String eventKey = wxMessage.getEventKey();
+      switch (eventKey){
+        case "1_2":
+          Item item = new Item();
+          item.setUrl("https://www.jianshu.com/p/1266379bdcaa");
+          item.setTitle("微信公众号开发-简书");
+          item.setPicUrl("https://cdn2.jianshu.io/assets/web/nav-logo-4c7bbafe27adc892f3046e6978459bac.png");
+          item.setDescription("微信公众号开发JS—SDK");
+          return new NewsBuilder().addArticle(item).
+                  fromUser(wxMessage.getToUser()).
+                  toUser(wxMessage.getFromUser()).
+                  build();
+        case "2_1":
+          StringBuffer content = new StringBuffer("点击好文推荐，推送相关好文\n" +
+                  "发送地理位置信息，可获取您的地理经纬度\n"+
+                  "点击个人详情，查看个人信息\n");
+          return new TextBuilder().build(content.toString(), wxMessage, null);
+      }
+
     }
 
     return WxMpXmlOutMessage.TEXT().content(msg)
