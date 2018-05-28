@@ -2,6 +2,8 @@ package com.wechat.mp.handler;
 
 import java.util.Map;
 
+import com.wechat.mp.dao.FansMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.wechat.mp.builder.TextBuilder;
@@ -22,6 +24,9 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 @Component
 public class SubscribeHandler extends AbstractHandler {
 
+  @Autowired
+  private FansMapper fansMapper;
+
   @Override
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
       WxSessionManager sessionManager) throws WxErrorException {
@@ -38,10 +43,14 @@ public class SubscribeHandler extends AbstractHandler {
     }
 
     WxMpXmlOutMessage responseResult = null;
-    try {
-      responseResult = handleSpecial(wxMessage);
-    } catch (Exception e) {
-      this.logger.error(e.getMessage(), e);
+
+    System.out.println("关注EventKey:"+wxMessage.getEventKey());
+    if(wxMessage.getEventKey().startsWith("qrscene_")){
+      try {
+        responseResult = handleSpecial(wxMessage);
+      } catch (Exception e) {
+        this.logger.error(e.getMessage(), e);
+      }
     }
 
     if (responseResult != null) {
@@ -62,6 +71,13 @@ public class SubscribeHandler extends AbstractHandler {
    */
   protected WxMpXmlOutMessage handleSpecial(WxMpXmlMessage wxMessage) throws Exception {
     //TODO
+    this.logger.info("新关注用户（扫码关注） OPENID: " + wxMessage.getFromUser());
+
+    try {
+      return new TextBuilder().build("感谢扫码关注", wxMessage, null);
+    } catch (Exception e) {
+      this.logger.error(e.getMessage(), e);
+    }
     return null;
   }
 

@@ -22,6 +22,10 @@ public interface WxItemMapper {
 
     List<WxItem> findWxItemByParam(Map<String,String> param);
 
+    List<WxItem> findWxItemDetailByParam(Map<String,String> param);
+
+    List<WxItem> findWxItemDetailList();
+
     Integer findWxItemCount();
 
     Integer findWxItemCountByParam(Map<String,String> param);

@@ -19,8 +19,10 @@ public class WxQuartzServiceImpl implements IWxQuartzService {
     public void updateFans(List<AccountFans> fansList){
         for(int i = 0;i<fansList.size();i++){
             if(fansMapper.findCountByPrimaryKey(fansList.get(i).getOpenId())>0){
+                System.out.println("update(更新):"+fansList.get(i).getNicknameStr());
                 fansMapper.updateByPrimaryKeySelective(fansList.get(i));
             }else{
+                System.out.println("insert(插入):"+fansList.get(i).getNicknameStr());
                 fansMapper.insertSelective(fansList.get(i));
             }
         }

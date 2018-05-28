@@ -185,6 +185,11 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where open_id = #{openId,jdbcType=VARCHAR}
   </update>
+  <update id="updateUnsubscribeByPrimaryKey" parameterType="string">
+    update fans
+    set subscribe_status = 0
+    where open_id = #{openId}
+  </update>
   <select id="findProvince" resultType="string">
     select
     province

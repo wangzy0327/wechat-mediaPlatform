@@ -150,7 +150,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="findWxItemByParam" parameterType="map" resultMap="SimpleWxItem">
-    SELECT a.id,a.item_id,a.title,a.url,a.description,a.create_time,a.update_time,
+    SELECT a.id,a.item_id,a.title,a.url,a.img_url,a.description,a.create_time,a.update_time,
     c.id c_id,c.`name`,c.create_time c_create_time,c.update_time c_update_time
     FROM wechat_item a,cate_item b,category c
     <where>
@@ -161,6 +161,31 @@
     </where>
     ORDER BY ${orderColumn} ${orderType}
     limit ${start},${length}
+  </select>
+  <select id="findWxItemDetailByParam" parameterType="map" resultMap="WxItemDetail">
+    SELECT a.id,a.item_id,a.title,a.url,a.img_url,a.description,a.create_time,a.update_time,
+    c.id c_id,c.`name` c_name,
+    t.id t_id,t.`name` t_name
+    FROM wechat_item a,cate_item b,category c,tag t,tag_item d
+    <where>
+      a.state = 0 AND a.id = b.item_id AND b.cate_id = c.id AND t.id = d.tag_id AND a.id = d.item_id
+      <if test="keyword != null and keyword != ''">
+        AND CONCAT(a.`title`, c.`name`,t.`name`) LIKE #{keyword}
+      </if>
+    </where>
+    ORDER BY ${orderColumn} ${orderType}
+    limit ${start},${length}
+  </select>
+  <select id="findWxItemDetailList" resultMap="WxItemDetail">
+    SELECT a.id,a.item_id,a.title,a.url,a.img_url,a.description,a.create_time,a.update_time,
+    c.id c_id,c.`name` c_name,
+    t.id t_id,t.`name` t_name
+    FROM wechat_item a,cate_item b,category c,tag t,tag_item d
+    <where>
+      a.state = 0 AND a.id = b.item_id AND b.cate_id = c.id AND t.id = d.tag_id AND a.id = d.item_id
+    </where>
+    ORDER BY a.create_time DESC
+    limit 0,100
   </select>
   <select id="findWxItemCount" resultType="int">
     SELECT COUNT(*) FROM wechat_item

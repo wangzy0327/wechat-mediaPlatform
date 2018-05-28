@@ -13,15 +13,14 @@ import com.wechat.mp.util.PropertiesUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +47,11 @@ public class WxItemServiceImpl implements IWxItemService {
 //        for(Map.Entry<String, String> entry : param.entrySet()){
 //            System.out.println(entry.getKey()+":"+entry.getValue());
 //        }
-        return wxItemMapper.findWxItemByParam(param);
+        return wxItemMapper.findWxItemDetailByParam(param);
+    }
+
+    public List<WxItem> findWxItemByParam(){
+        return wxItemMapper.findWxItemDetailList();
     }
 
     /**
@@ -146,6 +149,28 @@ public class WxItemServiceImpl implements IWxItemService {
             e.printStackTrace();
             return ResponseCode.ERROR;
         }
+    }
+
+    private  void downloadImg(String urlString, String filename) throws Exception {
+        // 构造URL
+        URL url = new URL(urlString);
+        // 打开连接
+        URLConnection con = url.openConnection();
+        // 输入流
+        InputStream is = con.getInputStream();
+        // 1K的数据缓冲
+        byte[] bs = new byte[1024];
+        // 读取到的数据长度
+        int len;
+        // 输出的文件流
+        OutputStream os = new FileOutputStream(filename);
+        // 开始读取
+        while ((len = is.read(bs)) != -1) {
+            os.write(bs, 0, len);
+        }
+        // 完毕，关闭所有链接
+        os.close();
+        is.close();
     }
 
     private int getLastIndex(String h5_url_str){

@@ -149,7 +149,7 @@ public class WxItemManageController {
      * @param item
      * @return
      */
-    @RequestMapping(value = "/edit",method = RequestMethod.POST)
+    @RequestMapping(value = "edit",method = RequestMethod.POST)
     @ResponseBody
     public String editWxItem(HttpServletRequest request,HttpSession session,@RequestBody WxItem item){
         if(!ValidLogin.isLogin(session)){
