@@ -64,7 +64,7 @@
                                     <th width="35%">内容</th>
                                     <th width="20%">创建时间</th>
                                     <th width="20%">最近修改时间</th>
-                                    <th width="100">操作</th>
+                                    <th width="10%">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -207,6 +207,7 @@
 <script src="/wechat-tools/js/jquery.tagsinput.min.js"></script>
 <script src="/wechat-tools/js/bootstrap-dialog.min.js"></script>
 <script src="/wechat-tools/js/bootstrapValidator.min.js"></script>
+<script src="/wechat-tools/js/time.js"></script>
 <%--<script src="/wechat-tools/js/validator.min.js"></script>--%>
 <script>
     $(function() {
@@ -242,8 +243,12 @@
                     }, "name": "content"
                 },
 //                {"data": "content", "name": "content"},
-                {"data": "createTime", "name": "create_time"},
-                {"data": "updateTime", "name": "update_time"},
+                {"data": function (row) {
+                    return getDateDiff(row.createTime);
+                }, "name": "create_time"},
+                {"data": function (row) {
+                    return getDateDiff(row.updateTime);
+                }, "name": "update_time"},
                 {
                     "data": function (row) {
                         return  "<a href='javascript:;' class='editLink' data-id='" + row.id + "'>编辑</a> " +

@@ -11,7 +11,9 @@ public interface IWxItemService {
 
     List<WxItem> findWxItemByParam(Map<String, String> param);
 
-    List<WxItem> findWxItemByParam();
+    List<WxItem> findWxItemDetailByParam(Map<String,String> param);
+
+    List<WxItem> findWxItemDetailByParam();
 
     Integer findWxItemCount();
 
