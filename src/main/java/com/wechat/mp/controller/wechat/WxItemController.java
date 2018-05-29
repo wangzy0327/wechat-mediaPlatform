@@ -44,9 +44,9 @@ public class WxItemController {
             param.put("orderColumn","create_time");
             param.put("orderType","desc");
 
-            wxItemList = iWxItemService.findWxItemByParam(param);
+            wxItemList = iWxItemService.findWxItemDetailByParam(param);
         }else{
-            wxItemList = iWxItemService.findWxItemByParam();
+            wxItemList = iWxItemService.findWxItemDetailByParam();
         }
         for(int i = 0;i<wxItemList.size();i++){
             Category category = wxItemList.get(i).getCategory();

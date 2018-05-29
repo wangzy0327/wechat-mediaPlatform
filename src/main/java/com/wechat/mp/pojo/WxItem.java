@@ -96,16 +96,16 @@ public class WxItem implements Serializable {
         this.imgUrl = imgUrl == null ? null : imgUrl.trim();
     }
 
-    public String getCreateTime() {
-        return (createTime == null)?null:DateUtil.COMMON_FULL.getDateText(createTime);
+    public Date getCreateTime() {
+        return createTime;
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
-        return (updateTime == null)?null:DateUtil.COMMON_FULL.getDateText(updateTime);
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
     public void setUpdateTime(Date updateTime) {

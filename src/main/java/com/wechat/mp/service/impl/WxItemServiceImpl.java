@@ -47,10 +47,25 @@ public class WxItemServiceImpl implements IWxItemService {
 //        for(Map.Entry<String, String> entry : param.entrySet()){
 //            System.out.println(entry.getKey()+":"+entry.getValue());
 //        }
+        return wxItemMapper.findWxItemByParam(param);
+    }
+
+    /**
+     * 微信端查询wxItem
+     * @return
+     */
+    public List<WxItem> findWxItemDetailByParam(Map<String,String> param){
+//        for(Map.Entry<String, String> entry : param.entrySet()){
+//            System.out.println(entry.getKey()+":"+entry.getValue());
+//        }
         return wxItemMapper.findWxItemDetailByParam(param);
     }
 
-    public List<WxItem> findWxItemByParam(){
+    /**
+     * 微信端图文列表
+     * @return
+     */
+    public List<WxItem> findWxItemDetailByParam(){
         return wxItemMapper.findWxItemDetailList();
     }
 

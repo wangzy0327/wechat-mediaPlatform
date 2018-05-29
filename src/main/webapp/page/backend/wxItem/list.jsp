@@ -61,11 +61,11 @@
                                 <tr>
                                     <%--<th>ID标识</th>--%>
                                     <th>标题</th>
-                                    <th>描述</th>
-                                    <th width="10%" >分类</th>
-                                    <th width="15%">创建时间</th>
-                                    <th width="15%">最近修改时间</th>
-                                    <th width="100">操作</th>
+                                    <th width="35%">描述</th>
+                                    <th width="8%" >分类</th>
+                                    <th width="12%">创建时间</th>
+                                    <th width="12%">最近修改时间</th>
+                                    <th width="10%">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -278,6 +278,7 @@
 <script src="/wechat-tools/js/jquery.tagsinput.min.js"></script>
 <script src="/wechat-tools/js/bootstrap-dialog.min.js"></script>
 <script src="/wechat-tools/js/bootstrapValidator.min.js"></script>
+<script src="/wechat-tools/js/time.js"></script>
 <script>
     $(function() {
         var dt = $("#wxItemTable").DataTable({
@@ -322,8 +323,12 @@
                         }
                     }, "name": "category"
                 },
-                {"data": "createTime", "name": "create_time"},
-                {"data": "updateTime", "name": "update_time"},
+                {"data": function (row) {
+                    return getDateDiff(row.createTime);
+                }, "name": "create_time"},
+                {"data": function (row) {
+                    return getDateDiff(row.updateTime);
+                }, "name": "update_time"},
                 {
                     "data": function (row) {
                         return "<a href='" + row.url + "' target='view_window' class='previewLink' data-id='" + row.id + "'>预览</a> " +
