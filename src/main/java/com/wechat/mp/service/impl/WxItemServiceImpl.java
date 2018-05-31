@@ -207,7 +207,26 @@ public class WxItemServiceImpl implements IWxItemService {
         else{
             h5_url.append(h5_url_str);
         }
+        if(h5_url_str.indexOf("a3.rabbitpre.com")>=0&&h5_url.indexOf("/m")>0){
+            String newS1 = h5_url.toString().replace("/m/","/m2/");
+            System.out.println(newS1);
+            h5_url = new StringBuffer("").append(newS1);
+        }
         return h5_url.append("?mobile=1").toString();
+    }
+
+    private boolean CheckUrl(String urlStr){
+        try {
+            URL url = new URL(urlStr);
+            InputStream input;
+            input = url.openStream();   // 打开输入流
+            String text = IOUtils.toString(input, "UTF-8");
+            input.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public ServerResponse findWxItemById(Integer id){
@@ -230,69 +249,48 @@ public class WxItemServiceImpl implements IWxItemService {
         int lastIndex = getLastIndex(item.getUrl());
         String itemId = item.getUrl().substring(item.getUrl().lastIndexOf("/")+1, lastIndex);
         WxItem findItem = wxItemMapper.findWxItemByIndex(itemId);
+        Category category = item.getCategory();
+        List<Tag> tags = item.getTags();
+        wxItemMapper.updateByPrimaryKeySelective(item);
+        wxItemMapper.updateWxItemCategory(item);
+        List<Integer> newAdd = new ArrayList<>();
+        List<Integer> oldAdd = wxItemMapper.getTagIdByItemId(item.getId());
         if(findItem!=null && !findItem.getId().equals(item.getId()) ){
             return ResponseCode.DUPLICATE;
         }else if(findItem!=null && findItem.getId().equals(item.getId()) ){
             item.setUrl(null);
-            Category category = item.getCategory();
-            List<Tag> tags = item.getTags();
-            wxItemMapper.updateByPrimaryKeySelective(item);
-            wxItemMapper.updateWxItemCategory(item);
-            List<Integer> newAdd = new ArrayList<>();
-            List<Integer> oldAdd = wxItemMapper.getTagIdByItemId(item.getId());
-            for(int i = 0;i<tags.size();i++){
-                Tag temp = tagMapper.selectByName(tags.get(i).getName());
-                if(temp != null){
-                    tags.set(i,temp);
-                    if(wxItemMapper.isRelation(temp.getId(),item.getId()).intValue() == 0){
-                        wxItemMapper.insertWxItemTags(item,temp);
-                    }
-                }else{
-                    tagMapper.insert(tags.get(i));
-                    System.out.println("tagId:"+tags.get(i).getId());
-                    temp = tags.get(i);
-                    wxItemMapper.insertWxItemTags(item,temp);
-                }
-                newAdd.add(temp.getId());
-            }
-            for(int i = 0;i<oldAdd.size();i++){
-                if(!newAdd.contains(oldAdd.get(i))){
-                    wxItemMapper.deleteRelation(oldAdd.get(i),item.getId());
-                }
-            }
+            updateTags(tags,newAdd,oldAdd,item);
             return ResponseCode.SUCCESS;
         }else{
             ResponseCode responseCode = this.H5Parse(path,item.getUrl(),realPath,item);
             if(responseCode.getCode() != 0){
                 return ResponseCode.ERROR;
             }
-            Category category = item.getCategory();
-            List<Tag> tags = item.getTags();
-            wxItemMapper.updateByPrimaryKeySelective(item);
-            wxItemMapper.updateWxItemCategory(item);
-            List<Integer> newAdd = new ArrayList<>();
-            List<Integer> oldAdd = wxItemMapper.getTagIdByItemId(item.getId());
-            for(int i = 0;i<tags.size();i++){
-                Tag temp = tagMapper.selectByName(tags.get(i).getName());
-                if(temp != null){
-                    tags.set(i,temp);
-                    if(wxItemMapper.isRelation(temp.getId(),item.getId()).intValue() == 0){
-                        wxItemMapper.insertWxItemTags(item,temp);
-                    }
-                }else{
-                    tagMapper.insert(tags.get(i));
-                    System.out.println("tagId:"+tags.get(i).getId());
-                    temp = tags.get(i);
+            updateTags(tags,newAdd,oldAdd,item);
+            return ResponseCode.SUCCESS;
+        }
+    }
+
+    private void updateTags(List<Tag> tags,List<Integer> newAdd,List<Integer> oldAdd,WxItem item){
+        for(int i = 0;i<tags.size();i++){
+            Tag temp = tagMapper.selectByName(tags.get(i).getName());
+            if(temp != null){
+                tags.set(i,temp);
+                if(wxItemMapper.isRelation(temp.getId(),item.getId()).intValue() == 0){
                     wxItemMapper.insertWxItemTags(item,temp);
                 }
-                newAdd.add(temp.getId());
+            }else{
+                tagMapper.insert(tags.get(i));
+                System.out.println("tagId:"+tags.get(i).getId());
+                temp = tags.get(i);
+                wxItemMapper.insertWxItemTags(item,temp);
             }
-            for(int i = 0;i<oldAdd.size();i++){
-                if(!newAdd.contains(oldAdd.get(i))){
-                    wxItemMapper.deleteRelation(oldAdd.get(i),item.getId());
-                }
+            newAdd.add(temp.getId());
+        }
+        for(int i = 0;i<oldAdd.size();i++){
+            if(!newAdd.contains(oldAdd.get(i))){
+                wxItemMapper.deleteRelation(oldAdd.get(i),item.getId());
             }
-            return ResponseCode.SUCCESS;
         }
     }
 
@@ -336,6 +334,18 @@ public class WxItemServiceImpl implements IWxItemService {
             return ServerResponse.createBySuccess();
         }else{
             return ServerResponse.createByErrorMessage("还原异常");
+        }
+    }
+
+    /**
+     * 彻底删除图文消息
+     */
+    public ServerResponse deleteWxItem(Integer id){
+        int col = wxItemMapper.deleteByPrimaryKey(id);
+        if(col>0){
+            return ServerResponse.createBySuccess();
+        }else{
+            return ServerResponse.createByErrorMessage("删除异常");
         }
     }
 

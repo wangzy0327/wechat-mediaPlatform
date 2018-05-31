@@ -34,4 +34,6 @@ public interface IWxItemService {
     Integer findDelWxItemCountByParam(Map<String, String> param);
 
     ServerResponse restoreWxItem(Integer id);
+
+    ServerResponse deleteWxItem(Integer id);
 }
