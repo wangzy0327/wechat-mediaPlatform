@@ -46,8 +46,11 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from wechat_item
-    where id = #{id,jdbcType=INTEGER}
+    delete wechat_item,cate_item,tag_item
+     from wechat_item
+      LEFT JOIN cate_item ON wechat_item.id = cate_item.item_id
+      LEFT JOIN tag_item ON wechat_item.id = tag_item.item_id
+    where wechat_item.id = #{id}
   </delete>
   <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.wechat.mp.pojo.WxItem" >
     insert into wechat_item (item_id, title,

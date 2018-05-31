@@ -1,5 +1,6 @@
 package com.wechat.mp.interceptor;
 
+import com.wechat.mp.controller.common.ValidLogin;
 import com.wechat.mp.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,6 +9,7 @@ import com.wechat.mp.util.wechat.OAuthScope;
 import com.wechat.mp.util.wechat.MpAccount;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -20,7 +22,7 @@ public class OAuth2Interceptor extends HandlerInterceptorAdapter {
     private String[] excludes;//不需要拦截的
     private String[] includes;//
 
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, HttpSession session, Object handler)
             throws Exception {
         String uri = request.getRequestURI();
         System.out.println(uri);
@@ -35,6 +37,10 @@ public class OAuth2Interceptor extends HandlerInterceptorAdapter {
 //        if (!oauthFlag) {//如果不需要oauth认证
 //            return true;
 //        }
+
+        if(!ValidLogin.isLogin(session)){
+            return true;
+        }
 
         String sessionid = request.getSession().getId();
 

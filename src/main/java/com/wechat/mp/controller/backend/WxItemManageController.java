@@ -179,7 +179,7 @@ public class WxItemManageController {
      */
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse deleteWxItem(HttpServletRequest request,HttpSession session, @RequestParam Integer id){
+    public ServerResponse delWxItem(HttpServletRequest request,HttpSession session, @RequestParam Integer id){
         if(!ValidLogin.isLogin(session)){
             return null;
         }
@@ -248,6 +248,20 @@ public class WxItemManageController {
             return null;
         }
         return iWxItemService.restoreWxItem(id);
+    }
+
+    /**
+     * 彻底删除图文消息
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse deleteWxItem(HttpServletRequest request,HttpSession session, @RequestParam Integer id){
+        if(!ValidLogin.isLogin(session)){
+            return null;
+        }
+        return iWxItemService.deleteWxItem(id);
     }
 
     @RequestMapping(value = "/categoryList",method = RequestMethod.GET)

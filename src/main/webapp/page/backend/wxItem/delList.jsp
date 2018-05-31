@@ -61,11 +61,11 @@
                                 <tr>
                                     <%--<th>ID标识</th>--%>
                                     <th>标题</th>
-                                    <th>描述</th>
-                                    <th width="5%" >分类</th>
-                                    <th width="15%">创建时间</th>
-                                    <th width="15%">最近修改时间</th>
-                                    <th width="100">操作</th>
+                                    <th width="35%">描述</th>
+                                    <th width="8%" >分类</th>
+                                    <th width="12%">创建时间</th>
+                                    <th width="12%">最近修改时间</th>
+                                    <th width="10%">操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -164,7 +164,7 @@
                     "data": function (row) {
                         return "<a href='" + row.url + "' target='view_window' class='previewLink' data-id='" + row.id + "'>预览</a> " +
 //                            "<a href='javascript:;' class='editLink' data-id='" + row.id + "'>编辑</a> " +
-                            "<a href='javascript:;' class='restoreLink' data-id='" + row.id + "'>还原</a> ";
+                            "<a href='javascript:;' class='restoreLink' data-id='" + row.id + "'>还原</a>  <a href='javascript:;' class='delLink' data-id='" + row.id + "'>删除</a>";
                     }
                 }
             ],
@@ -215,6 +215,31 @@
                             }
                         }).fail(function () {
                             BootstrapDialog.alert({title:"提示",message:"还原出现异常"});
+                        });
+                    }
+                }
+            });
+        });
+
+        //删除图文消息
+        $(document).delegate(".delLink", "click", function () {
+            var id = $(this).attr("data-id");
+            BootstrapDialog.confirm({
+                title:"删除数据",
+                message:"是否彻底删除数据，不可还原",
+//                    btnOKClass: 'btn-warning',
+                callback: function (res) {
+                    if (res) {
+                        $.post("/wechat-tools/backend/wxItem/delete", {"id": id}).done(function (result) {
+                            if (result.code == 0) {
+                                dt.ajax.reload();
+                            }else{
+                                BootstrapDialog.alert({title:"提示",message:result.msg});
+                                dt.ajax.reload();
+                            }
+                        }).fail(function () {
+                            BootstrapDialog.alert({title:"提示",message:"删除出现异常"});
+                            dt.ajax.reload();
                         });
                     }
                 }
