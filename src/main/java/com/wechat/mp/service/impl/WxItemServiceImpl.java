@@ -129,7 +129,7 @@ public class WxItemServiceImpl implements IWxItemService {
 
             int index = text.indexOf("</body>");
             // 指定位置插入js
-            sb.insert(index, "<script src=\"/wechat-tools/js/h5-page-listen.js\"></script>");
+            sb.insert(index, "<script src=\"../../js/h5-page-listen.js\"></script>");
 
 //            String path = ""; // 项目地址
             StringBuffer pagePath = new StringBuffer("");
@@ -201,14 +201,9 @@ public class WxItemServiceImpl implements IWxItemService {
 
     private String formatUrl(String urlStr){
         String h5_url_str = urlStr;
-        StringBuffer h5_url = new StringBuffer();
-        if (h5_url_str.indexOf("http://") < 0 && h5_url_str.indexOf("https://") < 0)
-            h5_url = new StringBuffer("http://").append(h5_url_str);
-        else{
-            h5_url.append(h5_url_str);
-        }
-        if(h5_url_str.indexOf("a3.rabbitpre.com")>=0&&h5_url.indexOf("/m")>0){
-            String newS1 = h5_url.toString().replace("/m/","/m2/");
+        StringBuffer h5_url = new StringBuffer("");
+        if(urlStr.indexOf("/aUe1Zi")>=0&&urlStr.indexOf("/m")>0){
+            String newS1 = urlStr.replace("/m/","/m2/");
             System.out.println(newS1);
             h5_url = new StringBuffer("").append(newS1);
         }
