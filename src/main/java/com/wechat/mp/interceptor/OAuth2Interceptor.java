@@ -22,23 +22,19 @@ public class OAuth2Interceptor extends HandlerInterceptorAdapter {
     private String[] excludes;//不需要拦截的
     private String[] includes;//
 
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, HttpSession session, Object handler)
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String uri = request.getRequestURI();
         System.out.println(uri);
         boolean oauthFlag = false;//为方便展示的参数，开发者自行处理
-//        for (String s : includes) {
-//            boolean isMatch = Pattern.matches(s,uri);
-//            if (isMatch) {//如果包含，就拦截
-//                oauthFlag = true;
-//                break;
-//            }
-//        }
-//        if (!oauthFlag) {//如果不需要oauth认证
-//            return true;
-//        }
-
-        if(!ValidLogin.isLogin(session)){
+        for (String s : includes) {
+            if (uri.contains(s)) {//如果包含，就拦截
+                oauthFlag = true;
+                break;
+            }
+        }
+        //如果是网页端登录用户预览或者已经认证后不需要oauth认证
+        if (!oauthFlag || ValidLogin.isLogin(request.getSession())) {//如果不需要oauth认证
             return true;
         }
 
