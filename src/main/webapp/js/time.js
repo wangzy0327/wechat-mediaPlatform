@@ -36,8 +36,8 @@ function getDateDiff(dateTimeStamp){
 
     var Nmonth = datetime.getMonth() + 1;
     var Ndate = datetime.getDate();
-    var Nhour = datetime.getHours();
-    var Nminute = datetime.getMinutes();
+    var Nhour = datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours();;
+    var Nminute = datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes();
     var Nsecond = datetime.getSeconds();
 
 

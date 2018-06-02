@@ -12,12 +12,23 @@ var prevIndex = 0, // 上一页
     time = Date.now();
 
 
-// 监听页面转动信息
+// m类监听页面转动信息
 document.addEventListener("changedTo", function(e){
     updateArr();
     // 获取changeTo之后的页面索引
     let active = document.getElementsByClassName('page current')[0].id;
     index = +active.split('-')[1]; // 当前页
+    pageInfo[index] = pageInfo[index] || 0;
+    // 发生changeTo事件的时间点
+    time = Date.now();
+});
+
+// m2类型页面转动信息
+document.addEventListener("mousemove", function(e){
+    updateArr();
+    // 获取changeTo之后的页面索引
+    let active = document.getElementsByClassName('page-list')[0].dataset.currPage;
+    index = parseInt(active); // 当前页
     pageInfo[index] = pageInfo[index] || 0;
     // 发生changeTo事件的时间点
     time = Date.now();
@@ -29,6 +40,28 @@ function updateArr(){
     time = Date.now();
     return pageInfo;
 }
+
+function getContent(){
+    let text = "";
+    // 未加载完成获取不到信息
+    if (!window.updateArr){
+        return text;
+    }
+    let info = window.updateArr();
+    info.forEach(function(val, index){
+        if(val === undefined){
+            return;
+        }
+        text = text + "页面" + (index+1) + "的浏览时间为：" + parseInt(val / 1000) + "秒<br>";
+    });
+    return text;
+}
+
+setInterval(function(){
+    let text = getContent();
+    console.log(text);
+}, 1000);
+
 
 function initLabel() {
     if (parent.module) {
