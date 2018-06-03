@@ -150,7 +150,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">类别</label>
                         <div class="col-sm-10">
-                            <div class="checkbox" id = "category">
+                            <div id = "category" >
                             </div>
                         </div>
                     </div>
@@ -234,7 +234,7 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">类别</label>
                         <div class="col-sm-10">
-                            <div class="checkbox" id = "categoryEdit">
+                            <div id = "categoryEdit">
                             </div>
                         </div>
                     </div>
@@ -367,8 +367,10 @@
             }
         });
         //添加新图文消息
+        var lock = true;
         $("#addNewWxItem").click(function() {
             $("#newWxItemForm")[0].reset();
+            $('#newWxItemForm').bootstrapValidator('disableSubmitButtons', false);
             $.ajax({
                 type: "post",
                 url: "/wechat-tools/backend/wxItem/category.json",
@@ -381,12 +383,20 @@
                         var str = "";
                         for (var i in data) {
                             str += '<label class="radio-inline">'+
-                                '<input type = "radio"  value = '+data[i].id+' name="category.id"' +
+                                '<input type = "radio"  value = "'+data[i].id+'" name="category.id"' +
                                 'data-bv-notempty="true"\n' +
                                 'data-bv-notempty-message="类别不能为空" />' +data[i].name+
                                 '</label>';
                         }
                         $("#category").html(str);
+                        $('#newWxItemForm').bootstrapValidator('addField', 'category.id', {
+                            validators: {
+                                notEmpty: {
+                                    message: '类别不能为空'
+                                }
+                            }
+                        });
+//                        $("#newWxItemForm").bootstrapValidator("addField",$("[name='category.id']"));
                     }
                 }
             });
@@ -423,6 +433,10 @@
                     console.log($.trim($(spanTags[i]).text().substring(0,10)));
                     tags.push({name:$.trim($(spanTags[i]).text().substring(0,10))});
                 }
+                if(!lock){// 2.判断该锁是否打开，如果是关闭的，则直接返回
+                    return false;
+                }
+                lock = false ; //3.进来后，立马把锁锁住
 //            $("#newWxItemForm").serialize()
                 $.ajax({
                     url: "/wechat-tools/backend/wxItem/new",
@@ -463,6 +477,7 @@
         $("#saveBtn").click(function(){
             //开启验证
             newFormValidator();
+
         });
         $("#newWxItemModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
@@ -470,7 +485,7 @@
             $('#newWxItemForm').data('bootstrapValidator',null);
             //重新添加校验
             newFormValidator();
-            $("#category").html("");
+//            $("#category").html("");
         });
         //删除用户
         $(document).delegate(".delLink", "click", function () {
@@ -508,6 +523,8 @@
 
         //编辑用户
         $(document).delegate(".editLink", "click", function () {
+            $("#editWxItemForm")[0].reset();
+            $('#editWxItemForm').bootstrapValidator('disableSubmitButtons', false);
             $.ajax({
                 type: "post",
                 url: "/wechat-tools/backend/wxItem/category.json",
@@ -520,7 +537,7 @@
                         var str = "";
                         for (var i in data) {
                             str += '<label class="radio-inline">' +
-                                '<input type = "radio"  value = ' + data[i].id + ' name="category.id"' +
+                                '<input type = "radio"  value = "'+data[i].id+ '" name="category.id"' +
                                 'data-bv-notempty="true"\n' +
                                 'data-bv-notempty-message="类别不能为空" />' + data[i].name +
                                 '</label>';
@@ -529,7 +546,6 @@
                     }
                 }
             });
-            $("#editWxItemForm")[0].reset();
             var id = $(this).attr("data-id");
             $.get("/wechat-tools/backend/wxItem/item.json", {"id": id}).done(function (result) {
                 if (result.code == 0) {
@@ -576,7 +592,64 @@
             $("#editWxItemModal").modal("show");
         });
         function editFormValidator() {
-            $('#editWxItemForm').bootstrapValidator().on('submit',function (e) {
+            $('#editWxItemForm').bootstrapValidator({
+                message: 'This value is not valid',
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+                    title: {
+                        validators: {
+                            notEmpty: {        // 非空校验+提示信息
+                                message: '标题不能为空'
+                            },
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 30,
+                                message: '标题长度必须小于30个字符'
+                            },
+                        }
+                    },
+                    description: {
+                        validators: {
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 50,
+                                message: '描述长度必须小于50个字符'
+                            },
+                        }
+                    },
+                    url: {
+                        validators: {
+                            notEmpty: {        // 非空校验+提示信息
+                                message: 'URL不能为空'
+                            },
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 100,
+                                message: 'URL长度必须小于100个字符'
+                            },
+                        }
+                    },
+                    imgUrl: {
+                        validators: {
+                            notEmpty: {        // 非空校验+提示信息
+                                message: '图片URL不能为空'
+                            },
+                            stringLength: {     //输入　长度限制　　校验
+                                max: 200,
+                                message: '图片URL长度必须小于200个字符'
+                            },
+                        }
+                    },
+                "category.id":{
+                        validators: {
+                            notEmpty: {
+                                message: '类别不能为空'
+                            }
+                        }
+                    }
+                }
+            }).on('submit',function (e) {
                 e.preventDefault();
                 var id = $("input[name='id']").val();
                 var title = $($("input[name='title']")[1]).val();
@@ -594,6 +667,10 @@
                     console.log($.trim($(spanTags[i]).text().substring(0, 10)));
                     tags.push({name: $.trim($(spanTags[i]).text().substring(0, 10))});
                 }
+                if(!lock){// 2.判断该锁是否打开，如果是关闭的，则直接返回
+                    return false;
+                }
+                lock = false ; //3.进来后，立马把锁锁住
                 $.ajax({
                     //            /wechat-tools/backend/wxItem/category.json
                     url: "/wechat-tools/backend/wxItem/edit",
@@ -624,6 +701,7 @@
                             BootstrapDialog.alert({title:"提示",message:"url不正确，请检查url!"});
                             dt.ajax.reload();
                         }
+                        lock = true;
                     },
                     error: () => {
                     console.log("err");
@@ -633,13 +711,18 @@
         }
         $("#editBtn").click(function () {
             editFormValidator();
+//            var bootstrapValidator = $("#editWxItemForm").data('bootstrapValidator');
+//            bootstrapValidator.validate();
+//            if(bootstrapValidator.isValid())
+//                $("#editWxItemForm").submit();
+//            else return;
         });
         $("#editWxItemModal").on('hidden.bs.modal',function(e){
             //移除上次的校验配置
 //            $("#editWxItemForm").data('bootstrapValidator').destroy();
             $('#editWxItemForm').data('bootstrapValidator',null);
             //重新添加校验
-            newFormValidator();
+//            editFormValidator();
         });
 
     });
