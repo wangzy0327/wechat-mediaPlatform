@@ -70,7 +70,7 @@ public class AccountFans implements Serializable{
     public void setSubscribeStatus(Integer subscribeStatus) {
         this.subscribeStatus = subscribeStatus;
     }
-    public String getSubscribeTime() { return (subscribeTime == null)?null:DateUtil.COMMON_FULL.getDateText(subscribeTime); }
+    public Date getSubscribeTime() { return subscribeTime; }
     public void setSubscribeTime(Date subscribeTime) { this.subscribeTime =  subscribeTime; }
 //    public byte[] getNickname() { return nickname; }
 //    public void setNickname(byte[] nickname) { this.nickname = nickname; }
