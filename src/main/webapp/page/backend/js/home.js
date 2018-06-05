@@ -33,10 +33,6 @@ $(function () {
                     max = result.data.max;
                     // dataMap = JSON.parse(result);
                     console.log(mapData);
-                    console.log(mapData["北京"]);
-                    console.log(mapData["山西"]);
-                    console.log(mapData["河北"]);
-                    console.log(mapData["北京"]+10);
                 }
             }
     });

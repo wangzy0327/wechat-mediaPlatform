@@ -44,7 +44,7 @@
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 		<property name="prefix" value="/page/"/>
-		<property name="suffix" value=".jsp"/>
+		<property name="suffix" value=".html"/>
 	</bean>
 
 	<!--配置拦截器, 多个拦截器,顺序执行 -->

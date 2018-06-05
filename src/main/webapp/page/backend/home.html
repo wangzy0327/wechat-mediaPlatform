@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,13 +33,16 @@
     <!--emoji表情-->
     <link href="http://cdn.staticfile.org/emoji/0.2.2/emoji.css" rel="stylesheet" type="text/css" />
     <script src="http://cdn.staticfile.org/emoji/0.2.2/emoji.js"></script>
-</head>
 
+</head>
 <body>
 
 <div id="wrapper">
 
-    <%@ include file="../include/nav.jsp"%>
+    <!--<%@ include file="../include/nav.jsp"%>-->
+    <!--<embed type="text/html" src="/wechat-tools/page/include/nav.html" />-->
+
+    <div id="top"></div>
     <!-- Page Content -->
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -85,20 +87,18 @@
 <script src="/wechat-tools/js/echarts/theme/macarons.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="/wechat-tools/page/backend/js/home.js"></script>
-<%--<script src="/wechat-tools/js/sb-admin-2.js"></script>--%>
-<%--<script src="/wechat-tools/js/morris/raphael-min.js"></script>--%>
-<%--<script src="/wechat-tools/js/morris/morris.min.js"></script>--%>
+
 <script>
-    $(function(){
-        <%--Morris.Bar({--%>
-            <%--element: 'myfirstchart',--%>
-            <%--data: ${json},--%>
-            <%--xkey: 'custtype',--%>
-            <%--ykeys: ['total'],--%>
-            <%--labels: ['total']--%>
-        <%--}).on('click', function(i, row){--%>
-            <%--console.log(i, row);--%>
-        <%--});--%>
+//    var post = document.querySelector("link[rel = 'import']").import;
+//    var con = post.querySelector("nav");
+//    document.querySelector(".top").appendChild(con.cloneNode(true));
+//
+//    var clone = document.importNode(con,true)
+//    document.querySelector(".top").appendChild(clone)
+
+    $(document).ready(function(){
+        $("#top").load("/wechat-tools/page/include/nav.html",function () {
+        });
     });
 </script>
 

@@ -206,6 +206,8 @@ public class WxItemServiceImpl implements IWxItemService {
             String newS1 = urlStr.replace("/m/","/m2/");
             System.out.println(newS1);
             h5_url = new StringBuffer("").append(newS1);
+        }else{
+            h5_url.append(urlStr);
         }
         return h5_url.append("?mobile=1").toString();
     }
