@@ -1,73 +1,113 @@
 <!DOCTYPE html>
-<html>
+<html >
+
 <head>
+
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Bootstrap用户登录页面实现</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
-    <!-- 这里要替换成你自己的BootStrap引入方式 -->
-    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="author" content="">
+
+    <title>后台管理系统登录</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/wechat-tools/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/wechat-tools/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/wechat-tools/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/wechat-tools/js/metisMenu/metisMenu.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
+
 <body>
-<header class="page-header text-center">
-    <h1>后台登录页面</h1>
-</header>
+
 <div class="container">
-    <!--<form role="form" action = "manage/user/login" method="post">-->
-    <form role="form" id="form">
-        <div class="form-horizontal">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">用户名</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="username" name = "username" placeholder="请输入用户名">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-coffee"></i> 后台管理系统登录</h3>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">密码</label>
-                <div class="col-sm-10">
-                    <input type="password" class="form-control" id="password" name = "password" placeholder="请输入密码">
-                </div>
-            </div>
-            <strong>
-                <div class="span12 centered-text"><p style="text-align: center" id="message"></p></div>
-            </strong>
-            <!--<div class="form-group">-->
-            <!--<label class="control-label col-sm-2">-->
-            <!--性别-->
-            <!--</label>-->
-            <!--<div class="col-sm-10">-->
-            <!--<input type="radio" name="sex"> 男-->
-            <!--<input type="radio" name="sex"> 女-->
-            <!--</div>-->
-            <!--</div>-->
-
-            <div class="form-group">
-                <div class="col-sm-2">
-
-                </div>
-                <div class="col-sm-8">
-                    <!--<button class="btn btn-success">注册</button>-->
-                    <input type="button" id = "login_btn" class="btn btn-primary" value = "提交"/>
-                    <!--<button id = "forget_password_btn" class="btn btn-info">忘记密码</button>-->
-                </div>
-                <div class="col-sm-2">
-                    <a class="btn btn-info" href="#" target="_blank">忘记密码</a>
+                <div class="panel-body">
+                    <div id="message">
+                        <!--<c:if test="${not empty message}">-->
+                            <!--<div class="alert ${message.status}">-->
+                                <!--<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                                    <!--${message.msg}-->
+                            <!--</div>-->
+                        <!--</c:if>-->
+                    </div>
+                    <form id="loginForm" method="post" action="/wechat-tools/manage/user/login">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="账号" name="username" type="text" id="username" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="密码" name="password" type="password" id="password" value="">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="remember" type="checkbox" value="Remember Me">记住用户名
+                                </label>
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button id="loginBtn" type="button" class="btn btn-lg btn-success btn-block">进入系统</button>
+                        </fieldset>
+                    </form>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
-</body>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#login_btn").click(login);
+
+<!-- jQuery -->
+<script src="/wechat-tools/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/wechat-tools/js/bootstrap.min.js"></script>
+<script src="/wechat-tools/js/datatables/media/js/jquery.dataTables.js"></script>
+<script src="/wechat-tools/js/datatables/media/js/dataTables.bootstrap.min.js"></script>
+<script src="/wechat-tools/js/metisMenu/metisMenu.min.js"></script>
+<!-- Custom Theme JavaScript -->
+<script src="/wechat-tools/js/sb-admin-2.js"></script>
+
+<script >
+
+    //获取url中的参数
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    }
+
+    $(function () {
+        var url = window.location.href;
+        console.log("url:"+url);
+        if(url.indexOf("/manage/user/logout")>=0){
+            var str = "";
+            str+= '<div class="alert alert-success">' +
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>您已安全退出！\n</div>';
+            $('#message').html(str);
+        }
+//        if(logout == true){
+//            var str = "";
+//            str+= '<div class="alert alert-success">' +
+//                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>您已安全退出！\n</div>';
+//            $('#message').html(str);
+//        }
     })
-    function login() {
+
+    $("#loginBtn").click(function(){
         if(!$("#username").val()) {
             $("#username").focus();
             return;
@@ -76,55 +116,29 @@
             $("#password").focus();
             return;
         }
-        var str = $("#form").serialize();
-//        var data = {"username":username, "password":password};
-        $.post({
-            url: "/wechat-tools/manage/user/login",
-            data: $("#form").serialize(),
-            success: function (result) {
-                var msg =${message};
-                console.log("message:"+message);//打印'随便写点东西'
+//        $("#loginForm").submit();
+
+        $.ajax({
+            type: "POST",
+            url:"/wechat-tools/manage/user/login",
+            data:$('#loginForm').serialize(),// 要提交的表单
+            success: function(result) {
                 console.log(result);
-                if (result.status == 0) {
-                    window.sessionStorage.setItem("CURRENT_USER",result.data.id);
-                    console.log(window.sessionStorage.getItem("CURRENT_USER"));
-                    window.location.href = "/page/backend/wxItem/backend.html";
-                } else {
-                    document.getElementById("message").style.color = "red";
-                    document.getElementById("message").innerHTML = result.msg;
-                    window.cookie
-                    window.sessionStorage.clear();
-                    return;
+                if(result.code == 0){
+                    window.location.href = "/wechat-tools/backend/home";
+                }else{
+                    var str = "";
+                    str+= '<div class="alert '+result.status+'">' +
+                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +result.msg+ '\n</div>';
+                    $('#message').html(str);
                 }
-            },
-            error: function (result) {
-                document.getElementById("message").style.color = "red";
-                document.getElementById("message").innerHTML = "请求失败，网络异常";
-                console.log(result);
             }
-        })
-//        $.ajax({
-//            type: "POST",
-//            url: "manage/user/login",
-//            async: false,
-//            data: JSON.stringify(data),
-//            contentType: "application/json",
-//            success: function(response){
-//                console.log(response);
-//                if(response.status == 0){
-//                    window.location.href="backend.html";
-//                }else{
-//                    document.getElementById("message").style.color ="red";
-//                    document.getElementById("message").innerHTML = response.msg;
-//                    return;
-//                }
-//            },
-//            error:function(response){
-//                document.getElementById("message").style.color = "red";
-//                document.getElementById("message").innerHTML = "请求失败，网络异常";
-//                console.log(response);
-//            }
-//    });
-    }
+        });
+    });
+
 </script>
+
+
+</body>
+
 </html>

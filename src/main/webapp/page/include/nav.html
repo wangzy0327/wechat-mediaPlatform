@@ -1,111 +1,80 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-    <title>柠檬酒店</title>
-    <style>
-        /*设置导航每个主菜单的样式*/
-        .main_nav{
-            display:block;
-            width:200px;
-            padding:10px;
-            font-weight:bold;
-            background-color:#BADFF2;
-        }
-        li{list-style:none;}
-        #globalNav {
-            position:absolute;
-            top:3px;
-            left:2px;
-        }
-        /*导航中每个子菜单的样式*/
-        #globalNav ul li a{
-            margin:auto 10px;
-            display:block;
-            width:140px;
-            color:#fff;
-            font-weight:bold;
-            text-decoration:none;
-        }
-        #globalNav li ul li a{
-            background:#6DBBE1;
-        }
-        #globalNav li ul li a:hover{
-            background:#BCF2F0;<!--鼠标经过的颜色-->
-        }
-    </style>
-    <script type="text/javascript" >
-        function initTree(t) {
-            var tree=document.getElementById(t);//生成树
-            tree.style.display="none";//设置样式为隐藏形式，不显示
-            var lis=tree.getElementsByTagName("li");
-            for(var i=0;i<lis.length;i++) {  //取出主要的导航栏
-                lis[i].id="li"+i;
-                var uls=lis[i].getElementsByTagName("ul"); //子导航栏
-                if(uls.length!=0) {
-                    uls[0].id="ul"+i;
-                    uls[0].style.display="none";
-                    var as=lis[i].getElementsByTagName("a"); //子导航栏的内容
-                    as[0].id="a"+i;
-                    as[0].className="folder";
-                    as[0].href="#this";
-                    as[0].tget=uls[0];
-                    as[0].onclick=function() {
-                        openTag(this,this.tget);
-                    }
-                }
-            }
-            tree.style.display="block";
-        }
-        function openTag(a,t) {
-            if(t.style.display=="block") { //点击一些展开，再点击一下折叠
-                t.style.display="none";
-                a.className="folder";
-            } else {
-                t.style.display="block";
-                a.className="";
-            }
-        }
-        window.onload=function() {
-            initTree("globalNav");
-        }
-    </script>
-</head>
-<body id="index">
-<ul id="globalNav">
-    <li class="main_nav"><a href="#">房间信息</a>
-        <ul>
-            <li><a href="nullroom.php" target="mainFrame">空房</a></li>
-            <li><a href="room.php" target="mainFrame">所有房间</a></li>
-            <li><a href="orderroom.php" target="mainFrame">被订房间</a></li>
-            <li><a href="register/room.html" target="mainFrame">录入房间信息</a></li>
+ <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<a class="navbar-brand" href="home.html"><i class="fa fa-coffee"></i> CRM</a>-->
+            <a class="navbar-brand" href="/wechat-tools/backend/home"><i class="fa fa-coffee"></i>&nbsp;鍚庡彴绠＄悊</a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <!--<li><a href="#"><i class="fa fa-gear fa-fw"></i>&nbsp;璁剧疆</a>-->
+                    <!--</li>-->
+                    <li class="divider"></li>
+                    <li><a href="/wechat-tools/manage/user/logout"><i class="fa fa-sign-out fa-fw"></i>&nbsp;瀹夊叏閫�鍑�</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
         </ul>
-    </li>
-    <li class="main_nav"><a href="#">房客信息</a>
-        <ul>
-            <li><a href="register/custom.html" target="mainFrame">录入房客信息</a></li>
-            <li><a href="custom_info.php" target="mainFrame">客史档案</a></li>
-        </ul>
-    </li>
-    <li class="main_nav"><a href="#">订单</a>
-        <ul>
-            <li><a href="register/order.html" target="mainFrame">录入订单信息</a></li>
-            <li><a href="order.php" target="mainFrame">查看订单</a></li>
-        </ul>
-    </li>
-    <li class="main_nav"><a href="#">会员</a>
-        <ul>
-            <li><a href="register/member.html" target="mainFrame">录入会员信息</a></li>
-            <li><a href="member.php" target="mainFrame">查看会员信息</a></li>
-        </ul>
-    </li>
-    <li class="main_nav"><a href="#">财务</a>
-        <ul>
-            <li><a href="register/cash.html" target="mainFrame">录入财务信息</a></li>
-            <li><a href="cash.php" target="mainFrame">查看财务信息 </a></li>
-        </ul>
-    </li>
-    <li class="main_nav"><a href="login/login.html"  target="_parent">退出</a></li>
-</ul>
-</body>
-</html>
+        <!-- /.navbar-top-links 椤堕儴瀵艰埅鏍忕粨鏉�-->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="/wechat-tools/backend/home" class="nav nav-list collapse"><i class="fa fa-dashboard fa-fw"></i>&nbsp;棣栭〉</a>
+                    </li>
+                    <!--<li>-->
+                        <!--<a href="/customer"><i class="fa fa-users fa-fw"></i>&nbsp;瀹㈡埛</a>-->
+                        <!--&lt;!&ndash; /.nav-second-level &ndash;&gt;-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="/progress"><i class="fa fa-table fa-fw"></i> 璺熻繘</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="/task"><i class="fa fa-edit fa-fw"></i> 寰呭姙</a>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="chart.html"><i class="fa fa-bar-chart"></i> 缁熻</a>-->
+                        <!--<a href="#manage" class="nav-header collapsed" data-toggle="collapse"><i class="fa fa-bar-chart"></i>&nbsp;JavaScript</a>-->
+                        <!--<ul id="manage" class="nav nav-list collapse">-->
+                            <!--<li ><a href="#"><i class="fa fa-edit fa-fw"></i>&nbsp;jQuery</a></li>-->
+                            <!--<li ><a href="#"><i class="fa fa-table fa-fw"></i>&nbsp;Vue</a></li>-->
+                            <!--<li ><a href="#"><i class="fa fa-dashboard fa-fw"></i>&nbsp;NodeJS</a></li>-->
+                        <!--</ul>-->
+                    <!-- /.nav-second-level -->
+                    <!--</li>-->
+                    <!--<shiro:hasRole name="绠＄悊鍛�">-->
+                    <li>
+                        <a href="#message" class="nav-header side-nav-item item-title collapsed" data-toggle="collapse"><i class="fa fa-sitemap fa-fw"></i> 娑堟伅绠＄悊<span class="caret"></span></a>
+                        <ul id="message" class="nav nav-list collapse">
+                            <li ><a href="http://www.rabbitpre.com/discover" target='view_window'><i class="fa fab fa-html5 fa-fw"></i>&nbsp;娑堟伅绱犳潗</a></li>
+                            <li ><a href="/wechat-tools/backend/wxItem/categoryList"><i class="fa fa-table fa-fw"></i>&nbsp;娑堟伅鍒嗙被</a></li>
+                            <li ><a href="/wechat-tools/backend/wxItem/list"><i class="fa fa-edit fa-fw"></i>&nbsp;鍥炬枃绠＄悊</a></li>
+                            <li ><a href="/wechat-tools/backend/wxItem/delList"><i class="fa fas fa-recycle fa-fw"></i>&nbsp;娑堟伅鍥炴敹</a></li>
+                        </ul>
+                        <!--<a href="/backend"><i class="fa fa-sitemap fa-fw"></i> 娑堟伅绠＄悊</a>-->
+
+                        <!--<i class="fas fa-recycle"></i>-->
+                    </li>
+                    <!--</shiro:hasRole>-->
+                </ul>
+
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>

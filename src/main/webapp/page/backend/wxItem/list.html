@@ -1,5 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,8 +39,7 @@
 
 <div id="wrapper">
 
-    <%@ include file="../../include/nav.jsp"%>
-    <%--<link rel="import" href="../include/nav.jsp" id="page1">--%>
+    <div id="top"></div>
     <!-- Page Content -->
     <div id="page-wrapper">
         <div class="container-fluid">
@@ -59,7 +56,7 @@
                             <table class="table" id="wxItemTable">
                                 <thead>
                                 <tr>
-                                    <%--<th>ID标识</th>--%>
+                                    <!--<th>ID标识</th>-->
                                     <th>标题</th>
                                     <th width="35%">描述</th>
                                     <th width="8%" >分类</th>
@@ -120,8 +117,8 @@
                         <label class="col-sm-2 control-label">描述</label>
                         <div class="col-sm-10">
                             <textarea type="text" class="form-control" cols="30" rows="3" name="description"
-                                   data-bv-stringlength="true"
-                                   data-bv-stringlength-max="50"
+                                      data-bv-stringlength="true"
+                                      data-bv-stringlength-max="50"
                                       data-bv-stringlength-message="描述长度必须小于50个字符"></textarea>
                         </div>
                     </div>
@@ -280,6 +277,11 @@
 <script src="/wechat-tools/js/bootstrapValidator.min.js"></script>
 <script src="/wechat-tools/js/time.js"></script>
 <script>
+    $(document).ready(function(){
+        $("#top").load("/wechat-tools/page/include/nav.html",function () {
+            $($(".nav.nav-list.collapse")[1]).addClass("in");
+        });
+    });
     $(function() {
         var dt = $("#wxItemTable").DataTable({
             "processing": true, //loding效果
@@ -400,7 +402,7 @@
                     }
                 }
             });
-            $("#newWxItemModal").modal('show');
+            $('#tags_1').importTags("");
             $('#tags_1').tagsInput({
                 width:'auto',
                 onChange: function(){
@@ -411,6 +413,8 @@
                     }
                 }
             });
+
+            $("#newWxItemModal").modal('show');
         });
         function newFormValidator() {
             $('#newWxItemForm').bootstrapValidator().on('success.form.bv',function (e) {
@@ -457,7 +461,6 @@
                         if("success" == result) {
                             $("#newWxItemForm")[0].reset();
                             $("#category").html("");
-                            $("#tags_1_tagsinput").html("");
                             $("#newWxItemModal").modal("hide");
                             dt.ajax.reload();
                         }else if("duplicate" == result){
@@ -491,25 +494,25 @@
         $(document).delegate(".delLink", "click", function () {
             var id = $(this).attr("data-id");
             BootstrapDialog.confirm({
-                    title:"删除数据",
-                    message:"是否要移动到回收站?",
+                title:"删除数据",
+                message:"是否要移动到回收站?",
 //                    btnOKClass: 'btn-warning',
-                    callback: function (res) {
-                        if (res) {
-                            $.post("/wechat-tools/backend/wxItem/del", {"id": id}).done(function (result) {
-                                if (result.code == 0) {
-                                    dt.ajax.reload();
-                                }else{
-                                    BootstrapDialog.alert({title:"提示",message:result.msg});
-                                    dt.ajax.reload();
-                                }
-                            }).fail(function () {
-                                BootstrapDialog.alert({title:"提示",message:"删除出现异常"});
+                callback: function (res) {
+                    if (res) {
+                        $.post("/wechat-tools/backend/wxItem/del", {"id": id}).done(function (result) {
+                            if (result.code == 0) {
                                 dt.ajax.reload();
-                            });
-                        }
+                            }else{
+                                BootstrapDialog.alert({title:"提示",message:result.msg});
+                                dt.ajax.reload();
+                            }
+                        }).fail(function () {
+                            BootstrapDialog.alert({title:"提示",message:"删除出现异常"});
+                            dt.ajax.reload();
+                        });
                     }
-                });
+                }
+            });
         });
 //                $.post("/wechat-tools/backend/wxItem/del", {"id": id}).done(function (result) {
 //                    if (result.code == 0) {
@@ -641,7 +644,7 @@
                             },
                         }
                     },
-                "category.id":{
+                    "category.id":{
                         validators: {
                             notEmpty: {
                                 message: '类别不能为空'
