@@ -55,7 +55,7 @@
 			<bean class="com.wechat.mp.interceptor.CommonInterceptor"></bean>
 		</mvc:interceptor>
 		<mvc:interceptor>
-			<mvc:mapping path="/Weixin/oauth.html"/>
+			<!--<mvc:mapping path="/Weixin/oauth.html"/>-->
 			<mvc:mapping path="/page/push/*.html"/>
 			<bean class="com.wechat.mp.interceptor.OAuth2Interceptor">
 				<property name="includes">

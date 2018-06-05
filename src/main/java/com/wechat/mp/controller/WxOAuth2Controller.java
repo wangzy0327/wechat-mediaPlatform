@@ -1,21 +1,20 @@
 package com.wechat.mp.controller;
 
 
-import com.wechat.mp.util.wechat.AccountFans;
-import com.wechat.mp.util.wechat.MpAccount;
+import com.wechat.mp.common.ServerResponse;
 import com.wechat.mp.util.WxApiClient;
-import com.wechat.mp.util.WxMemoryCacheClient;
+import com.wechat.mp.util.wechat.AccountFans;
 import me.chanjar.weixin.mp.api.WxMpService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
-@RestController
+@Controller
 @RequestMapping("/Weixin")
 public class WxOAuth2Controller {
 
@@ -24,33 +23,23 @@ public class WxOAuth2Controller {
 
     @GetMapping(value = "/oauth")
     @ResponseBody
-    public ModelAndView self_detail(HttpServletRequest request) {
-        MpAccount mpAccount = WxApiClient.getMpAccount();//获取缓存中的唯一账号
-        if (mpAccount != null) {
-            ModelAndView mv = new ModelAndView("oauth/self_detail");
-            /**
-             * 在拦截器WxOAuth2Interceptor中缓存了  openid
-             * 这里直接取
-             */
-            String openId = WxMemoryCacheClient.getOpenid(request.getSession().getId());
-            int subscribe = 0;//0是未关注  1是关注
-            if (null != openId) {
-                AccountFans fans = WxApiClient.getAccountFans(openId);
-                if (fans.getSubscribeStatus().intValue() == 0) {
-                    System.out.println("用户未关注....");
-                } else {
-                    subscribe = 1;
-                }
-                mv.addObject("curUser", fans);
-                mv.addObject("subscribe", subscribe);
+    public ServerResponse self_detail(HttpServletRequest request,String code) {
+        String openid = "";
+        if(code!=null){
+            openid = WxApiClient.getOAuthOpenId(WxApiClient.getMpAccount(), code);
+            System.out.println("openid:"+openid);
+            if(!StringUtils.isBlank(openid)){
+                //缓存openid，在具体业务代码中直接从缓存中取即可
+                AccountFans fans = WxApiClient.getAccountFans(openid);
                 System.out.println(fans);
+
+                return ServerResponse.createBySuccess(fans);
+            }else{
+                return ServerResponse.createByErrorMessage("openid获取失败");
             }
-            return mv;
-        } else {
-            ModelAndView mv = new ModelAndView("errer404");
-            mv.addObject("message", "OAuth获取openId失败");
-            return mv;
-//            return "";
+        }else{
+            System.out.println("code为空!");
+            return ServerResponse.createBySuccessMessage("code为空!");
         }
     }
 

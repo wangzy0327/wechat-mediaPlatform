@@ -37,11 +37,21 @@ public class WxMenuController{
     /**
      *
      {
-     "buttons": [
+     "button": [
      {
-     "name": "好文推荐",
+     "name": "推荐",
+     "sub_button": [
+     {
+     "name": "精品展示",
+     "type": "view",
+     "url": "http://wangzy.tunnel.qydev.com/wechat-tools/page/wechat/panel.html"
+     },
+     {
+     "name": "好文推送",
      "type": "click",
-     "key": "1_1"
+     "key": "1_2"
+     }
+     ]
      },
      {
      "name": "使用教程",
@@ -51,7 +61,7 @@ public class WxMenuController{
      {
      "name": "个人详情",
      "type": "view",
-     "url": "http://wangzy.tunnel.qydev.com/wechat-tools/Weixin/oauth"
+     "url": "http://wangzy.tunnel.qydev.com/wechat-tools/page/oauth/self_detail.html"
      }
      ]
      }
