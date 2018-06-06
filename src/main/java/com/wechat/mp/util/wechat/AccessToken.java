@@ -49,19 +49,21 @@ public class AccessToken {
 
     /**
      * 是否超时，微信默认7200s超时
+     * 空出200s的富余量
      * @return true-超时；false-没有超时
      */
     public boolean isExpires(){
         long now = CalendarUtil.getTimeInSeconds();
-        return now - this.createTime >= this.expiresIn;
+        return now - this.createTime >= (this.expiresIn - 200);
     }
 
     /**
      * 是否超时
+     * 空出200s的富余量
      * @return true-超时；false-没有超时
      */
     public boolean isExpires(Long expireTime){
         long now = CalendarUtil.getTimeInSeconds();
-        return now - this.createTime >= expireTime;
+        return now - this.createTime >= (expireTime - 200);
     }
 }

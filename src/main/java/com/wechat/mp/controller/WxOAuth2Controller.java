@@ -1,6 +1,7 @@
 package com.wechat.mp.controller;
 
 
+import com.wechat.mp.common.ResponseCode;
 import com.wechat.mp.common.ServerResponse;
 import com.wechat.mp.util.WxApiClient;
 import com.wechat.mp.util.wechat.AccountFans;
@@ -23,7 +24,7 @@ public class WxOAuth2Controller {
 
     @GetMapping(value = "/oauth")
     @ResponseBody
-    public ServerResponse self_detail(HttpServletRequest request,String code) {
+    public ServerResponse oauthAuthentication(HttpServletRequest request,String code) {
         String openid = "";
         if(code!=null){
             openid = WxApiClient.getOAuthOpenId(WxApiClient.getMpAccount(), code);
@@ -42,5 +43,20 @@ public class WxOAuth2Controller {
             return ServerResponse.createBySuccessMessage("code为空!");
         }
     }
+
+    @GetMapping(value = "/accountFanInfo")
+    @ResponseBody
+    public ServerResponse selfAccountFanInfo(HttpServletRequest request,String openId) {
+        if(!StringUtils.isBlank(openId)){
+            //缓存openid，在具体业务代码中直接从缓存中取即可
+            AccountFans fans = WxApiClient.getAccountFans(openId);
+            System.out.println(fans);
+
+            return ServerResponse.createBySuccess(fans);
+        }else{
+            return ServerResponse.createByErrorMessage("openid获取失败");
+        }
+    }
+
 
 }

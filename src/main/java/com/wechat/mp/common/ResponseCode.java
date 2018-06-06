@@ -5,7 +5,8 @@ public enum ResponseCode {
     ERROR(1,"alert-danger", "ERROR"),
     NEED_LOGIN(10, "alert-info","NEED_LOGIN"),
     ILLEGAL_ARGUMENT(2, "alert-warning","ILLEGAL_ARGUMENT"),
-    DUPLICATE(3, "alert-warning","DUPLICATE");
+    DUPLICATE(3, "alert-warning","DUPLICATE"),
+    EXPIRED(4,"alert-warning","EXPIRED");
 
     private final int code;
     private final String status;
