@@ -9,77 +9,11 @@ $(function () {
             location.href = url;
         }
         else {
-            $.ajax({
-                type: 'get',
-                url: '/wechat-tools/Weixin/oauth',
-                async: false,
-                cache: false,
-                data: {code: access_code},
-                contentType: "application/json; charset=utf-8",
-                dataType: 'json',
-                success: function (result) {
-                    var data = result.data;
-                    // alert(data.openId);
-                    if (data != null) {
-                        var str = "";
-                        $(".weui-cell__ft").each(function (i) {
-                            switch (i) {
-                                case 0:
-                                    str = (data.subscribeStatus == 1) ? '已关注' : '未关注';
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 1:
-                                    str = data.openId;
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 2:
-                                    str = '<img src="' + data.headimgurl + '">';
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 3:
-                                    str = data.nicknameStr;
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 4:
-                                    if (data.gender == 1)
-                                        str = "男";
-                                    else if (data.gender == 2)
-                                        str = "女";
-                                    else {
-                                        str = "未知";
-                                    }
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 5:
-                                    str = data.country + " " + data.province + " " + data.city;
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 6:
-                                    str = data.language;
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 7:
-                                    var date = new Date();
-                                    date.setTime(data.subscribeTime);
-                                    str = date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                                case 8:
-                                    str = (data.remark != "") ? data.remark : "无";
-                                    $($(".weui-cell__ft")[i]).html(str);
-                                    break;
-                            }
-                        });
-                        $.cookie('wxopenid', data.openid, {expires: 1 / 48});
-                    }
-                    else {
-                        alert('微信身份识别失败 \n ' + result.msg);
-                        location.href = fromurl;
-                    }
-                }
-            });
+            getFansInfo("/wechat-tools/Weixin/oauth","code",access_code);
         }
     } else {
+        access_code = "";
+        getFansInfo("/wechat-tools/Weixin/accountFanInfo","openId",wxopenid);
     }
 
     //获取url中的参数
@@ -89,4 +23,77 @@ $(function () {
         if (r != null) return unescape(r[2]);
         return null; //返回参数值
     }
+
+    function getFansInfo(urlStr,key,value) {
+        var stringJson ='{"'+key+'":"'+value+'"}';
+        var json = JSON.parse(stringJson);
+        $.ajax({
+            type: 'get',
+            url: urlStr,
+            async: false,
+            data: JSON.parse(stringJson),
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (result) {
+                var data = result.data;
+                if (data != null) {
+                    var str = "";
+                    $(".weui-cell__ft").each(function (i) {
+                        switch (i) {
+                            case 0:
+                                str = (data.subscribeStatus == 1) ? '已关注' : '未关注';
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 1:
+                                str = data.openId;
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 2:
+                                str = '<img src="' + data.headimgurl + '">';
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 3:
+                                str = data.nicknameStr;
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 4:
+                                if (data.gender == 1)
+                                    str = "男";
+                                else if (data.gender == 2)
+                                    str = "女";
+                                else {
+                                    str = "未知";
+                                }
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 5:
+                                str = data.country + " " + data.province + " " + data.city;
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 6:
+                                str = data.language;
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 7:
+                                var date = new Date();
+                                date.setTime(data.subscribeTime);
+                                str = date.getFullYear() + "年" + (date.getMonth() + 1) + "月" + date.getDate() + "日";
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                            case 8:
+                                str = (data.remark != "") ? data.remark : "无";
+                                $($(".weui-cell__ft")[i]).html(str);
+                                break;
+                        }
+                    });
+                    if($.trim(key) == "code")
+                        $.cookie('wxopenid',data.openId,{expires:1/48});
+                }
+                else {
+                    alert('微信身份识别失败 \n ' + result.msg);
+                }
+            }
+        });
+    }
+
 });

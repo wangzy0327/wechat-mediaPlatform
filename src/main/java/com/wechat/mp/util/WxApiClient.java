@@ -114,14 +114,14 @@ public class WxApiClient {
      * @param code
      * @return
      */
-    public static OAuthAccessToken getOAuthAccessToken(String code){
+    public static String getOAuthAccessToken(String code){
         return getOAuthAccessToken(mpAccount,code);
     }
-    public static OAuthAccessToken getOAuthAccessToken(MpAccount mpAccount,String code){
+    public static String getOAuthAccessToken(MpAccount mpAccount,String code){
         //获取唯一的accessToken，如果是多账号，请自行处理
         OAuthAccessToken token = WxMemoryCacheClient.getSingleOAuthAccessToken();
         if(token != null && !token.isExpires()){//不为空，并且没有过期
-            return token;
+            return token.getOauthAccessToken();
         }else{
             token = WxApi.getOAuthAccessToken(mpAccount.getAppid(),mpAccount.getAppsecret(),code);
             if(token != null){
@@ -130,7 +130,7 @@ public class WxApiClient {
                 }else{
                     token.setOpenid(null);//获取OAuthAccessToken的时候设置openid为null；不同用户openid缓存
                     WxMemoryCacheClient.addOAuthAccessToken(mpAccount.getAccount(), token);
-                    return token;
+                    return token.getOauthAccessToken();
                 }
             }
             return null;
