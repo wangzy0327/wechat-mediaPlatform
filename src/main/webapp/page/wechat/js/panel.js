@@ -122,7 +122,11 @@ function categoryList(){
                 var data = result.data;
                 if(Array.isArray(data) && data.length === 0){
                 }else{
+                    var primary = new Object();
+                    primary.name = '全部';
+                    var $primary = JSON.stringify(primary).replace(/\"/g,"'");
                     var str = "";
+                    str+='<a href="javascript:;" style="display:inline-block;vertical-align:top;text-align:center;font-size:12px;line-height:18px;     margin:3px 8px 3px 2px;padding: 0 5px;border-radius:3px;border: 1px solid #adadad;line-height: 16px;color:#777" class="weui-btn weui-btn_mini weui-btn_default" onclick="clickOnTag(event,'+$primary+')">'+primary.name+'</a>';
                     for (var i in data) {
                         var category = data[i];
                         var $category = JSON.stringify(category).replace(/\"/g,"'");
@@ -145,11 +149,14 @@ function categoryList(){
 function clickOnTag(event,tag) {
     event.preventDefault();
     // window.location = "/wechat-tools/wechat/wxItem/items.json?searchValue="+tag;
-    console.log(tag);
-    console.log(tag);
+    // console.log(tag);
     searchKeyword(tag.name);
     console.log($($('#keyword.column-tag')[0]).text());
-    console.log('tag:'+tag);
-    $($('.weui-btn.weui-btn_mini.weui-btn_default.column-tag')[0]).text(tag.name);
-    $('#keyword')[0].style.display = "";
+    console.log(typeof (tag));
+    console.log(tag);
+    console.log(tag.name);
+    if($.trim(tag.name) != $.trim('全部')){
+        $($('.weui-btn.weui-btn_mini.weui-btn_default.column-tag')[0]).text(tag.name);
+        $('#keyword')[0].style.display = "";
+    }
 }

@@ -41,7 +41,7 @@ public class UserManageController {
             if (u.getRole() == Const.Role.ROLE_ADMIN) {
                 //说明登录的是管理员
                 session.setAttribute(Const.CURRENT_USER, u);
-                return ServerResponse.createBySuccess();
+                return ServerResponse.createBySuccess(u.getUsername());
             } else {
                 return ServerResponse.createByErrorMessage("不是管理员无法登录!");
             }

@@ -80,6 +80,7 @@
 <script src="/wechat-tools/js/metisMenu/metisMenu.min.js"></script>
 <!-- Custom Theme JavaScript -->
 <script src="/wechat-tools/js/sb-admin-2.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 <script >
 
@@ -98,6 +99,7 @@
             str+= '<div class="alert alert-success">' +
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>您已安全退出！\n</div>';
             $('#message').html(str);
+            $.cookie('CURRENT_USER',null);
         }
 //        if(logout == true){
 //            var str = "";
@@ -125,6 +127,7 @@
             success: function(result) {
                 console.log(result);
                 if(result.code == 0){
+                    $.cookie('CURRENT_USER',result.data,{expires:1/48});
                     window.location.href = "/wechat-tools/backend/home";
                 }else{
                     var str = "";
