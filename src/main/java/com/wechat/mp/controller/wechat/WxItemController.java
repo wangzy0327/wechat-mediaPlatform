@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +31,14 @@ public class WxItemController {
 
     @RequestMapping(value = "/items.json",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse load(HttpServletRequest request, HttpSession session,String searchValue){
+    public ServerResponse load(HttpServletRequest request, HttpSession session,@RequestParam("searchValue") String searchValue){
 //        String search = request.getParameter("searchValue");
 //        System.out.println("search:"+search);
         Map<String,String> param = new HashMap<>();
         param.put("start",String.valueOf(0));
         param.put("length",String.valueOf(100));
         List<WxItem> wxItemList = null;
-        if(StringUtils.isNotEmpty(searchValue)) {
+        if(StringUtils.isNotEmpty(searchValue) && !searchValue.equals("全部")) {
 //            param.put("title","%" + (searchValue) + "%");
 //            param.put("category","%" + (searchValue) + "%");
             param.put("keyword", "%" + (searchValue) + "%");
