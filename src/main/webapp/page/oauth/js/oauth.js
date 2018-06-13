@@ -10,11 +10,13 @@ $(function () {
         }
         else {
             getFansInfo("/wechat-tools/Weixin/oauth","code",access_code);
+            access_code = "";
         }
     } else {
-        access_code = "";
         getFansInfo("/wechat-tools/Weixin/accountFanInfo","openId",wxopenid);
     }
+
+});
 
     //获取url中的参数
     function getUrlParam(name) {
@@ -95,5 +97,3 @@ $(function () {
             }
         });
     }
-
-});

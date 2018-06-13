@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta name="referrer" content="never">
+    <title>兴趣采集</title>
+
+    <link rel="stylesheet" href="../../js/weui/lib/weui.min.css">
+    <link rel="stylesheet" href="../../js/weui/css/jquery-weui.css">
+    <link rel="stylesheet" href="../../js/weui/demos/css/demos.css">
+
+    <link rel="stylesheet" href="/wechat-tools/js/weui/lib/weui.min.css">
+    <link rel="stylesheet" href="/wechat-tools/js/weui/css/jquery-weui.css">
+    <link rel="stylesheet" href="/wechat-tools/js/weui/demos/css/demos.css">
+</head>
+<body ontouchstart="" style="background-color: #fbf9fe">
+
+<header class="demos-header">
+    <h1 class="demos-title">个人兴趣采集</h1>
+</header>
+
+<div class="bd">
+    <div class="page__bd">
+        <div class="weui-cells__title">兴趣点</div>
+        <div class="weui-cells weui-cells_checkbox" id="interest">
+            <!--<label class="weui-cell weui-check__label" for="11">-->
+                <!--<div class="weui-cell__hd">-->
+                    <!--<input type="checkbox" class="weui-check" name="category" id="11" checked="checked">-->
+                    <!--<i class="weui-icon-checked"></i>-->
+                <!--</div>-->
+                <!--<div class="weui-cell__bd">-->
+                    <!--<p>standard is dealt for u.</p>-->
+                <!--</div>-->
+            <!--</label>-->
+            <!--<label class="weui-cell weui-check__label" for="12">-->
+                <!--<div class="weui-cell__hd">-->
+                    <!--<input type="checkbox" class="weui-check" name="category"  id="12">-->
+                    <!--<i class="weui-icon-checked"></i>-->
+                <!--</div>-->
+                <!--<div class="weui-cell__bd">-->
+                    <!--<p>standard is dealicient for u.</p>-->
+                <!--</div>-->
+            <!--</label>-->
+            <!--<label class="weui-cell weui-check__label" for="s13">-->
+                <!--<div class="weui-cell__hd">-->
+                    <!--<input type="checkbox" class="weui-check" name="category"  id="s13">-->
+                    <!--<i class="weui-icon-checked"></i>-->
+                <!--</div>-->
+                <!--<div class="weui-cell__bd">-->
+                    <!--<p>standard is </p>-->
+                <!--</div>-->
+            <!--</label>-->
+            <!--<label class="weui-cell weui-check__label" for="s14">-->
+                <!--<div class="weui-cell__hd">-->
+                    <!--<input type="checkbox" class="weui-check" name="category"  id="s14">-->
+                    <!--<i class="weui-icon-checked"></i>-->
+                <!--</div>-->
+                <!--<div class="weui-cell__bd">-->
+                    <!--<p>standard is dealicient</p>-->
+                <!--</div>-->
+            <!--</label>-->
+            <!--<label class="weui-cell weui-check__label" for="s15">-->
+                <!--<div class="weui-cell__hd">-->
+                    <!--<input type="checkbox" class="weui-check" name="category"  id="s15">-->
+                    <!--<i class="weui-icon-checked"></i>-->
+                <!--</div>-->
+                <!--<div class="weui-cell__bd">-->
+                    <!--<p>standard is for u.</p>-->
+                <!--</div>-->
+            <!--</label>-->
+            <!--<label class="weui-cell weui-check__label" for="s16">-->
+                <!--<div class="weui-cell__hd">-->
+                    <!--<input type="checkbox" class="weui-check" name="category"  id="s16">-->
+                    <!--<i class="weui-icon-checked"></i>-->
+                <!--</div>-->
+                <!--<div class="weui-cell__bd">-->
+                    <!--<p>special is dealicient for u.</p>-->
+                <!--</div>-->
+            <!--</label>-->
+            <!--<label class="weui-cell weui-check__label" for="s17">-->
+                <!--<div class="weui-cell__hd">-->
+                    <!--<input type="checkbox" class="weui-check" name="category"  id="s17">-->
+                    <!--<i class="weui-icon-checked"></i>-->
+                <!--</div>-->
+                <!--<div class="weui-cell__bd">-->
+                    <!--<p>standard is u.</p>-->
+                <!--</div>-->
+            <!--</label>-->
+            <!--<a href="javascript:void(0);" class="weui-cell weui-cell_link">-->
+                <!--<div class="weui-cell__bd">添加更多</div>-->
+            <!--</a>-->
+        </div>
+        <div class="weui-cells__tips" style="font-size: 12px">最多选取5个兴趣点</div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" id="submitInterest">确定</a>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+    function checboxNum(name,num)
+    {
+        var checboxs=document.getElementsByName(name);
+        var a=0;
+        for(var i=0;i<checboxs.length;i++)
+        {
+            if(checboxs[i].checked)
+            {
+                a=a+1;
+            }
+        }
+        if(a==num)
+        {
+            for(var i=0;i<checboxs.length;i++)
+            {
+                if(!checboxs[i].checked)
+                {
+                    checboxs[i].disabled='disabled';
+                }
+            }
+        }
+        else
+        {
+            for(var i=0;i<checboxs.length;i++)
+                checboxs[i].removeAttribute('disabled');
+        }
+    }
+    window.onload=function()
+    {
+        var box=document.getElementById("interest");
+        box.onclick=function()
+        {
+            checboxNum("category",5);
+        }
+    }
+</script>
+
+<script src="../../js/weui/lib/jquery-2.1.4.js"></script>
+<!--<script src="/wechat-tools/js/weui/lib/jquery-2.1.4.js"></script>-->
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<!--<script src="/wechat-tools/js/weui/lib/fastclick.js"></script>-->
+<script src="../../js/weui/lib/fastclick.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+<!--<script src="/wechat-tools/js/weui/js/jquery-weui.js"></script>-->
+<!--<script src="/wechat-tools/js/emoji.js"></script>-->
+<script src="../../js/weui/js/jquery-weui.js"></script>
+<script src="../../js/emoji.js"></script>
+<script src="js/interest_acquisition.js"></script>
+
+</body>
+</html>

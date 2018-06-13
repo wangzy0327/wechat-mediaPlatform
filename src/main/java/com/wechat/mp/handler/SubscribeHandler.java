@@ -3,6 +3,8 @@ package com.wechat.mp.handler;
 import java.util.Map;
 
 import com.wechat.mp.dao.FansMapper;
+import com.wechat.mp.util.WxApiClient;
+import com.wechat.mp.util.wechat.AccountFans;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,13 +35,24 @@ public class SubscribeHandler extends AbstractHandler {
 
     this.logger.info("新关注用户 OPENID: " + wxMessage.getFromUser());
 
+    String openId = wxMessage.getFromUser();
+    // 获取微信用户基本信息
+    AccountFans fans = WxApiClient.getAccountFans(openId);
+
     WxService weixinService = (WxService) wxMpService;
 
-    // 获取微信用户基本信息
-    WxMpUser userWxInfo = weixinService.getUserService().userInfo(wxMessage.getFromUser(), null);
+//    WxMpUser userWxInfo = weixinService.getUserService().userInfo(wxMessage.getFromUser(), null);
 
-    if (userWxInfo != null) {
+    if (fans != null) {
       // TODO 可以添加关注用户到本地
+      if(fansMapper.findCountByPrimaryKey(openId)>0){
+        System.out.println("update(更新):"+fans.getNicknameStr());
+        fansMapper.updateByPrimaryKeySelective(fans);
+      }else{
+        System.out.println("insert(插入):"+openId);
+        fansMapper.insertSelective(fans);
+      }
+
     }
 
     WxMpXmlOutMessage responseResult = null;

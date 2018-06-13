@@ -34,4 +34,6 @@ public interface CategoryMapper {
 
     Integer findCategoryItemCount(Integer cate_id);
 
+    List<Category> findInterestList();
+
 }

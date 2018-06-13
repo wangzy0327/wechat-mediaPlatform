@@ -136,4 +136,8 @@
     from cate_item
     where cate_id = #{cate_id}
   </select>
+  <select id="findInterestList" resultMap="BaseResultMap">
+    select id,`name`
+    from category
+  </select>
 </mapper>

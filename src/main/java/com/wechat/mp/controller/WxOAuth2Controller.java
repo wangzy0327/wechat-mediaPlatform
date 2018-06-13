@@ -19,9 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/Weixin")
 public class WxOAuth2Controller {
 
-    @Autowired
-    private WxMpService wxMpService;
-
     @GetMapping(value = "/oauth")
     @ResponseBody
     public ServerResponse oauthAuthentication(HttpServletRequest request,String code) {
