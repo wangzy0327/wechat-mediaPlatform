@@ -181,3 +181,15 @@ VALUES
   ('ohIIkv7W02M5XXv7OshLnghnXFdg',1,'2018-05-18 12:08:18','仰望星空',1,'zh_CN','中国','北京','海淀','http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM5oj7SicW5iaUGbjTQOtLRmIxnib1EBJuO3oYxZ8uiauVFoKiayiabMrncNlDIbTS4oAldcEmf2My7UynCw/132',now(),now());
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+DROP TABLE  IF EXISTS `fans_category`;
+CREATE TABLE IF NOT EXISTS `fans_category` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `open_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'openId粉丝关注公众号唯一标识',
+  `cate_id` INT(11) NOT NULL COMMENT '类别id',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近更新时间',
+  PRIMARY KEY (`id`),
+  KEY `open_id_cate_id_index` (`open_id`,`cate_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='粉丝类别表-一个粉丝可以有多个感兴趣的分类';
