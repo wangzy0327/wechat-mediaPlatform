@@ -31,6 +31,7 @@
   <bean id="myCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
     <property name="jobDetail"  ref="myScheduledJob"/>
     <property name="cronExpression"  value="0 36 11 * * ?"/>
+    <!--<property name="cronExpression"  value="0 0/5 9 * * ?"/>-->
   </bean>
 
   <!-- 系统定时任务工厂类 -->
@@ -43,6 +44,40 @@
     <property name="triggers">
       <list>
         <ref bean="myCronTrigger"/>
+      </list>
+    </property>
+  </bean>
+
+  <!--数据库数据导出任务类-->
+  <bean id="dataOutputJob"
+        class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <property name="jobClass"
+              value="com.wechat.mp.quartz.DataOutputJob" />
+    <property name="jobDataMap">
+      <map>
+        <entry key="iDataOutputService" value-ref="iDataOutputService" />
+      </map>
+    </property>
+    <property name="Durability" value="true"/>
+  </bean>
+
+  <!-- 每隔1天执行一次 -->
+  <bean id="dataOutputTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+    <property name="jobDetail"  ref="dataOutputJob"/>
+    <property name="cronExpression"  value="0 01 10 * * ?"/>
+    <!--<property name="cronExpression"  value="0 0/5 10 * * ?"/>-->
+  </bean>
+
+  <!-- 系统定时任务工厂类 -->
+  <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+    <property name="jobDetails">
+      <list>
+        <ref bean="dataOutputJob"/>
+      </list>
+    </property>
+    <property name="triggers">
+      <list>
+        <ref bean="dataOutputTrigger"/>
       </list>
     </property>
   </bean>

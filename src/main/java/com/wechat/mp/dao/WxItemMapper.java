@@ -59,4 +59,6 @@ public interface WxItemMapper {
     Integer findDelWxItemCountByParam(Map<String,String> param);
 
     Integer restoreWxItem(Integer id);
+
+    List<WxItem> findUpToDateWxItem();
 }

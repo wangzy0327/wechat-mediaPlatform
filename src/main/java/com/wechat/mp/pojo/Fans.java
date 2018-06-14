@@ -3,6 +3,7 @@ package com.wechat.mp.pojo;
 import com.wechat.mp.util.wechat.AccountFans;
 import me.chanjar.weixin.common.util.ToStringUtils;
 
+import java.util.Date;
 import java.util.List;
 
 public class Fans{
@@ -11,7 +12,10 @@ public class Fans{
     private String id;
     private AccountFans accountFans;
     private List<Category> categories;
+    private List<WxItemRead> wxItemReads;
+    private Date createTime;
 
+    private Date updateTime;
 
     public Fans() {super(); }
 
@@ -47,6 +51,30 @@ public class Fans{
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public List<WxItemRead> getWxItemReads() {
+        return wxItemReads;
+    }
+
+    public void setWxItemReads(List<WxItemRead> wxItemReads) {
+        this.wxItemReads = wxItemReads;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override

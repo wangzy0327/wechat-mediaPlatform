@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -28,6 +29,12 @@ public class WxItemMapperTest {
         for(int i = 0;i<tags.size();i++){
             System.out.println(tags.get(i));
         }
+    }
+
+    @Test
+    public void findUpToDateWxItem() throws Exception {
+        List<WxItem> wxItems = wxItemMapper.findUpToDateWxItem();
+        System.out.println(Arrays.deepToString(wxItems.toArray()));
     }
 
 }

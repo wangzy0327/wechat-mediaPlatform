@@ -92,7 +92,7 @@ $(function () {
                         $.cookie('wxopenid',data.openId,{expires:1/48});
                 }
                 else {
-                    alert('微信身份识别失败 \n ' + result.msg);
+                    $.alert('微信身份识别失败 \n '+result.msg,"警告");
                 }
             }
         });
