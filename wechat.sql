@@ -193,3 +193,32 @@ CREATE TABLE IF NOT EXISTS `fans_category` (
   PRIMARY KEY (`id`),
   KEY `open_id_cate_id_index` (`open_id`,`cate_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='粉丝类别表-一个粉丝可以有多个感兴趣的分类';
+
+DROP TABLE IF EXISTS `fans_read`;
+CREATE TABLE IF NOT EXISTS `fans_read`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '阅读唯一标识',
+  `open_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'openId粉丝关注公众号唯一标识',
+  `item_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '图文消息id',
+  `read_time` INT(11) NOT NULL COMMENT '阅读时间',
+  `read_times` INT(11) NOT NULL COMMENT '阅读次数',
+  `share_times` int(11) DEFAULT '0' COMMENT '分享次数',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近更新时间',
+  PRIMARY KEY (`id`),
+  KEY `open_id_index` (`open_id`) USING BTREE,
+  KEY `item_id_index` (`item_id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='粉丝阅读习惯表';
+
+
+DROP TABLE  IF EXISTS `wechat_push`;
+CREATE TABLE IF NOT EXISTS `wechat_push`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT '微信图文推送id',
+  `open_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'openId粉丝关注公众号唯一标识',
+  `item_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '图文消息id',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最近更新时间',
+  PRIMARY KEY (`id`),
+  KEY `open_id_index` (`open_id`) USING BTREE,
+  KEY `item_id_index` (`item_id`) USING BTREE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='微信图文推送表';
+

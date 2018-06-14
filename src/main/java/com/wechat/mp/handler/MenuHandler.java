@@ -1,9 +1,13 @@
 package com.wechat.mp.handler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.wechat.mp.builder.TextBuilder;
 import com.wechat.mp.controller.WxOAuth2Controller;
+import com.wechat.mp.dao.WxItemMapper;
+import com.wechat.mp.pojo.WxItem;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutNewsMessage;
 import me.chanjar.weixin.mp.builder.outxml.NewsBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +28,9 @@ public class MenuHandler extends AbstractHandler {
 
   private String openId;
 
+  @Autowired
+  private WxItemMapper wxItemMapper;
+
   @Override
   public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
                                   Map<String, Object> context, WxMpService weixinService,
@@ -39,12 +46,17 @@ public class MenuHandler extends AbstractHandler {
       String eventKey = wxMessage.getEventKey();
       switch (eventKey){
         case "1_2":
-          Item item = new Item();
-          item.setUrl("https://www.jianshu.com/p/1266379bdcaa");
-          item.setTitle("微信公众号开发-简书");
-          item.setPicUrl("https://cdn2.jianshu.io/assets/web/nav-logo-4c7bbafe27adc892f3046e6978459bac.png");
-          item.setDescription("微信公众号开发JS—SDK");
-          return new NewsBuilder().addArticle(item).
+          List<WxItem> wxItems = wxItemMapper.findUpToDateWxItem();
+          List<Item> items = new ArrayList<>();
+          for(int i = 0;i<wxItems.size();i++){
+            Item item = new Item();
+            item.setUrl(wxItems.get(i).getUrl());
+            item.setTitle(wxItems.get(i).getTitle());
+            item.setPicUrl(wxItems.get(i).getImgUrl());
+            item.setDescription(wxItems.get(i).getDescription());
+            items.add(item);
+          }
+          return new NewsBuilder().addArticle( items.toArray(new Item[0])).
                   fromUser(wxMessage.getToUser()).
                   toUser(wxMessage.getFromUser()).
                   build();

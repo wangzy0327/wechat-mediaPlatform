@@ -3,6 +3,8 @@
 <mapper namespace="com.wechat.mp.dao.WxInterestMapper" >
     <resultMap id="WxInterest" type="com.wechat.mp.pojo.Fans" >
         <id property="id" column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+        <result  property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+        <result  property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         <association property="accountFans" javaType="com.wechat.mp.util.wechat.AccountFans">
             <id property="openId" column="open_id"/>
             <result property="nicknameStr"   column="nickname"/>

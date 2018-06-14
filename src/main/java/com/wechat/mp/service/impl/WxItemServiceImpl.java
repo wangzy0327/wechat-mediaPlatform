@@ -130,6 +130,8 @@ public class WxItemServiceImpl implements IWxItemService {
             int index = text.indexOf("</body>");
             // 指定位置插入js
             sb.insert(index, "<script src=\"../../js/h5-page-listen.js\"></script>");
+            sb.insert(index, "<script src=\"https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js\"></script>");
+            sb.insert(index, "<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>");
 
 //            String path = ""; // 项目地址
             StringBuffer pagePath = new StringBuffer("");
@@ -143,14 +145,16 @@ public class WxItemServiceImpl implements IWxItemService {
             pagePath.append(".html");
             System.out.println(pagePath);
             wxItem.setUrl(path+"/"+pagePath);
+            wxItem.setUrl(wxItem.getUrl().replace("http","https"));
 
             String fileUrl = realPath+pagePath;
+//            String fileUrl = path+pagePath;
             System.out.println("fileUrl:"+fileUrl);
             File dist = new File(fileUrl);
-            File local = new File(PropertiesUtil.getProperty("localPath")+wxItem.getItemId()+".html");
+//            File local = new File(PropertiesUtil.getProperty("localPath")+wxItem.getItemId()+".html");
 //            File target = new File(PropertiesUtil.getProperty("targetPath")+wxItem.getItemId()+".html");
             FileUtils.writeStringToFile(dist, sb.toString(), "UTF-8");
-            FileUtils.writeStringToFile(local, sb.toString(), "UTF-8");
+//            FileUtils.writeStringToFile(local, sb.toString(), "UTF-8");
 //            FileUtils.writeStringToFile(target, sb.toString(), "UTF-8");
 
             System.out.println("文件保存成功！");
@@ -166,28 +170,6 @@ public class WxItemServiceImpl implements IWxItemService {
         }
     }
 
-    private  void downloadImg(String urlString, String filename) throws Exception {
-        // 构造URL
-        URL url = new URL(urlString);
-        // 打开连接
-        URLConnection con = url.openConnection();
-        // 输入流
-        InputStream is = con.getInputStream();
-        // 1K的数据缓冲
-        byte[] bs = new byte[1024];
-        // 读取到的数据长度
-        int len;
-        // 输出的文件流
-        OutputStream os = new FileOutputStream(filename);
-        // 开始读取
-        while ((len = is.read(bs)) != -1) {
-            os.write(bs, 0, len);
-        }
-        // 完毕，关闭所有链接
-        os.close();
-        is.close();
-    }
-
     private int getLastIndex(String h5_url_str){
         int lastIndex = h5_url_str.indexOf(".html");
         if(lastIndex == -1){
@@ -201,6 +183,9 @@ public class WxItemServiceImpl implements IWxItemService {
 
     private String formatUrl(String urlStr){
         String h5_url_str = urlStr;
+        if(urlStr.indexOf("https")<0){
+            urlStr = urlStr.replace("http","https");
+        }
         StringBuffer h5_url = new StringBuffer("");
         if(urlStr.indexOf("/aUe1Zi")>=0&&urlStr.indexOf("/m")>0){
             String newS1 = urlStr.replace("/m/","/m2/");

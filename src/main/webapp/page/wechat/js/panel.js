@@ -27,7 +27,8 @@ function searchKeyword(searchInput) {
                 for (var i in data) {
                     var tags = data[i].tags;
                     console.log(tags);
-                    str+='<a href="'+data[i].url+'?id='+data[i].id+'" class="weui-media-box weui-media-box_appmsg">' +
+                    // str+='<a href="'+data[i].url+'?id='+data[i].id+'" class="weui-media-box weui-media-box_appmsg">' +
+                    str+='<a href="'+data[i].url+'" class="weui-media-box weui-media-box_appmsg">' +
                         '<div class="weui-media-box__hd" style="width: 80px;height: 80px">' +
                         '<img class="weui-media-box__thumb" src="'+data[i].imgUrl+'" alt="">' +
                         '</div>' +
@@ -77,7 +78,8 @@ function wxItemList() {
                     for (var i in data) {
                         var tags = data[i].tags;
                         console.log(tags);
-                        str+='<a href="'+data[i].url+'?id='+data[i].id+'" class="weui-media-box weui-media-box_appmsg">' +
+                        // str+='<a href="'+data[i].url+'?id='+data[i].id+'" class="weui-media-box weui-media-box_appmsg">' +
+                        str+='<a href="'+data[i].url+'" class="weui-media-box weui-media-box_appmsg">' +
                             '<div class="weui-media-box__hd" style="width: 80px;height: 80px">' +
                             '<img class="weui-media-box__thumb" src="'+data[i].imgUrl+'" alt="">' +
                             '</div>' +

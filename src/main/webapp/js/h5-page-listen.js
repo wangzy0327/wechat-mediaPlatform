@@ -34,6 +34,108 @@ document.addEventListener("mousemove", function(e){
     time = Date.now();
 });
 
+//获取url中的参数
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+}
+
+$(function(){
+    oauthAuthention();
+});
+
+function oauthAuthention() {
+    var CURRENT_USER = $.cookie('CURRENT_USER');
+    if(CURRENT_USER == null){
+        var wxopenid = $.cookie('wxopenid');
+        var access_code = getUrlParam('code');
+        if (wxopenid == null) {
+            if (access_code == null) {
+                var fromurl = window.location.href;
+                console.log(fromurl);
+                var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx88ddca24ac18c8b8&redirect_uri=' + encodeURIComponent(fromurl) + '&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
+                location.href = url;
+            }
+            else {
+                getOpenId("/wechat-tools/Weixin/oauth","code",access_code);
+                access_code = "";
+                $.cookie('wxopenid',openId,{expires:1/48});
+            }
+        } else {
+
+        }
+    }
+}
+
+
+window.onbeforeunload= function(event) {
+    oauthAuthention();
+    updateArr();
+    pageSize = $('.page-list li').length;
+    var spendTime = parseInt(sumArr(pageInfo)/1000/pageSize);
+    console.log(pageInfo);
+    console.log("pageSize:"+pageSize);
+    console.log("sumTime:"+sumArr(pageInfo));
+    var url = window.location.href;
+    var itemId = url.slice(url.indexOf("/push/")+"/push/".length,url.indexOf(".html"));
+    var openId = $.cookie('wxopenid');
+    console.log("openId:"+openId);
+    console.log("itemId:"+itemId);
+    console.log("spendTime:"+spendTime);
+    if(typeof(openId)!= undefined && spendTime>=1){
+        $.ajax({
+            type: 'POST',
+            url: "/wechat-tools/Weixin/readWxItem",//提交到那里 后他的服务
+            async: false,
+            traditional: true,
+            data:"openId="+openId+"&itemId="+itemId+"&spendTime="+spendTime,
+            success:function(result){
+                if(result.code == 0){
+                }
+            },
+            error:function(){
+            }
+
+        });
+    }
+}
+
+
+
+function getOpenId(urlStr,key,value) {
+    var stringJson = '{"' + key + '":"' + value + '"}';
+    var json = JSON.parse(stringJson);
+    $.ajax({
+        type: 'get',
+        url: urlStr,
+        async: false,
+        data: JSON.parse(stringJson),
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (result) {
+            var data = result.data;
+            if (data != null) {
+                var openId = data.openId;
+                console.log("openId:" + openId);
+                if ($.trim(key) == "code")
+                    $.cookie('wxopenid', openId, {expires: 1 / 48});
+            }
+            else {
+                alert('微信身份识别失败 \n ');
+            }
+        }
+    });
+}
+
+
+
+
+function sumArr(arr){
+    return eval(arr.join("+"))
+}//直接把他变成各个数的加法运算字符串
+
 // 更新当前页面的浏览时长
 function updateArr(){
     pageInfo[index] += Date.now() - time;
