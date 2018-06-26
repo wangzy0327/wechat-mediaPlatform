@@ -22,12 +22,13 @@ public class DataOutputServiceImpl implements IDataOutputService {
         System.out.println("get Mapper.....");
         for(int i = 0;i<wxItemReads.size();i++){
             WxItemRead wxItemRead = wxItemReads.get(i);
-            String openId = wxItemRead.getFans().getId();
+            String openId = wxItemRead.getFans().getOpenId();
             String itemId = wxItemRead.getWxItem().getItemId();
             Integer readTime = wxItemRead.getReadTime();
             Integer readTimes = wxItemRead.getReadTimes();
-            Integer shareTimes = wxItemRead.getShareTimes();
-            results.add(openId+","+itemId+","+readTime+","+readTimes+","+shareTimes);
+            Integer shareAppMessage = wxItemRead.getShareAppMessage();
+            Integer shareTimeLine = wxItemRead.getShareTimeLine();
+            results.add(openId+","+itemId+","+readTime+","+readTimes+","+shareAppMessage+","+shareTimeLine);
         }
         return results;
     }

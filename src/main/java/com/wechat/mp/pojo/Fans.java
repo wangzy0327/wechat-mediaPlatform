@@ -9,7 +9,8 @@ import java.util.List;
 public class Fans{
 
     //采用openId来唯一标识Fans
-    private String id;
+    private Integer id;
+    private String openId;
     private AccountFans accountFans;
     private List<Category> categories;
     private List<WxItemRead> wxItemReads;
@@ -23,18 +24,26 @@ public class Fans{
         this.accountFans = accountFans;
     }
 
-    public Fans(String id, AccountFans accountFans, List<Category> categories) {
+    public Fans(Integer id, AccountFans accountFans, List<Category> categories) {
         this.id = id;
         this.accountFans = accountFans;
         this.categories = categories;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public AccountFans getAccountFans() {

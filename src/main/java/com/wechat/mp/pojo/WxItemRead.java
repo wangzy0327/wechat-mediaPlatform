@@ -10,7 +10,8 @@ public class WxItemRead {
     private WxItem wxItem;
     private int readTime;//阅读时间
     private int readTimes;//阅读次数
-    private int shareTimes;//分享次数
+    private int shareAppMessage;//转发给好友
+    private int shareTimeLine;//分享到朋友圈
     private Date createTime;
 
     private Date updateTime;
@@ -57,12 +58,20 @@ public class WxItemRead {
         this.readTimes = readTimes;
     }
 
-    public int getShareTimes() {
-        return shareTimes;
+    public int getShareAppMessage() {
+        return shareAppMessage;
     }
 
-    public void setShareTimes(int shareTimes) {
-        this.shareTimes = shareTimes;
+    public void setShareAppMessage(int shareAppMessage) {
+        this.shareAppMessage = shareAppMessage;
+    }
+
+    public int getShareTimeLine() {
+        return shareTimeLine;
+    }
+
+    public void setShareTimeLine(int shareTimeLine) {
+        this.shareTimeLine = shareTimeLine;
     }
 
     public Date getCreateTime() {

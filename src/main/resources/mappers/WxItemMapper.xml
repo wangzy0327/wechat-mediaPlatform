@@ -219,6 +219,12 @@
     count(*) from wechat_item
     where item_id = #{itemId}
   </select>
+  <select id="findWxItemByItemId" resultMap="SimpleWxItem" parameterType="string">
+    select
+    item_id,title,description,url,img_url
+    from wechat_item
+    where item_id = #{itemId}
+  </select>
   <select id="findWxItemWithTagById" resultMap="WxItemDetail" parameterType="int">
     select a.id,a.item_id,a.title,a.description,a.url,a.img_url,d.`name` c_name,e.`name` t_name,
     d.id c_id,e.id t_id
@@ -320,7 +326,7 @@
   <select id="findUpToDateWxItem" resultMap="SimpleWxItem">
     select id,item_id,title,description,url,img_url,create_time
     from wechat_item
-    where (TO_DAYS(NOW()) - TO_DAYS(create_time)) <![CDATA[ <= ]]> 2
+    where (TO_DAYS(NOW()) - TO_DAYS(create_time)) <![CDATA[ <= ]]> 5
     ORDER  BY create_time DESC;
   </select>
 </mapper>

@@ -19,6 +19,8 @@ public interface IWxItemService {
 
     Integer findWxItemCountByParam(Map<String, String> param);
 
+    ServerResponse findWxItem(String itemId);
+
     ResponseCode saveNewItem(String path, String realPath, WxItem item);
 
     public ServerResponse findWxItemById(Integer id);

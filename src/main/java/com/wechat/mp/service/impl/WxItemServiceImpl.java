@@ -86,6 +86,22 @@ public class WxItemServiceImpl implements IWxItemService {
         return wxItemMapper.findWxItemCountByParam(param);
     }
 
+    /**
+     *
+     * 微信JS-SDK分享 图文消息 根据itemId查询图文消息
+     * @param itemId
+     * @return
+     */
+    @Override
+    public ServerResponse findWxItem(String itemId){
+        WxItem wxItem= wxItemMapper.findWxItemByItemId(itemId);
+        if(wxItem!=null){
+            return ServerResponse.createBySuccess(wxItem);
+        }else{
+            return ServerResponse.createByError();
+        }
+    }
+
     @Transactional
     public ResponseCode saveNewItem(String path,String realPath,WxItem item){
         int lastIndex = getLastIndex(item.getUrl());
@@ -130,6 +146,7 @@ public class WxItemServiceImpl implements IWxItemService {
             int index = text.indexOf("</body>");
             // 指定位置插入js
             sb.insert(index, "<script src=\"../../js/h5-page-listen.js\"></script>");
+            sb.insert(index,"<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>");
             sb.insert(index, "<script src=\"https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js\"></script>");
             sb.insert(index, "<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>");
 
@@ -145,7 +162,7 @@ public class WxItemServiceImpl implements IWxItemService {
             pagePath.append(".html");
             System.out.println(pagePath);
             wxItem.setUrl(path+"/"+pagePath);
-            wxItem.setUrl(wxItem.getUrl().replace("http","https"));
+//            wxItem.setUrl(wxItem.getUrl().replace("http","https"));
 
             String fileUrl = realPath+pagePath;
 //            String fileUrl = path+pagePath;
@@ -183,9 +200,9 @@ public class WxItemServiceImpl implements IWxItemService {
 
     private String formatUrl(String urlStr){
         String h5_url_str = urlStr;
-        if(urlStr.indexOf("https")<0){
-            urlStr = urlStr.replace("http","https");
-        }
+//        if(urlStr.indexOf("https")<0){
+//            urlStr = urlStr.replace("http","https");
+//        }
         StringBuffer h5_url = new StringBuffer("");
         if(urlStr.indexOf("/aUe1Zi")>=0&&urlStr.indexOf("/m")>0){
             String newS1 = urlStr.replace("/m/","/m2/");

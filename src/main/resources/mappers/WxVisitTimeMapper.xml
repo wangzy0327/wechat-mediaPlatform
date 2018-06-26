@@ -5,11 +5,13 @@
         <id property="id" column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
         <result property="readTime" column="read_time" jdbcType="INTEGER" javaType="java.lang.Integer"/>
         <result property="readTimes" column="read_times" jdbcType="INTEGER" javaType="java.lang.Integer"/>
-        <result property="shareTimes" column="share_times" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result property="shareAppMessage" column="share_app_message" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        <result property="shareTimeLine" column="share_time_line" jdbcType="INTEGER" javaType="java.lang.Integer"/>
         <result  property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         <result  property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         <association property="fans" javaType="com.wechat.mp.pojo.Fans">
-            <id property="id" column="open_id"/>
+            <id property="id" column="id"/>
+            <result property="openId" column="open_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
         </association>
         <association property="wxItem" javaType="com.wechat.mp.pojo.WxItem">
             <result property="itemId" column="item_id"/>
@@ -19,7 +21,7 @@
     <sql id="Base_Column_List" >
         id, `readTime`,`readTimes`, `shareTimes`
     </sql>
-    <insert id="insert">
+    <insert id="insertReadTime">
         insert into
         fans_read(`open_id`,`item_id`,`read_time`,`read_times`)
         values(#{param1},#{param2},#{param3},1)
@@ -43,4 +45,29 @@
         select open_id,item_id,read_time,read_times,share_times
         from fans_read
     </select>
+    <select id="selectCount" resultType="int">
+        select count(*)
+        from fans_read
+        where open_id = #{param1} and item_id = #{param2}
+    </select>
+    <insert id="insertShareAppMessage">
+        insert into
+        fans_read(`open_id`,`item_id`,`share_app_message`)
+        values(#{param1},#{param2},1)
+    </insert>
+    <update id="updateShareAppMessage">
+        update fans_read
+        set share_app_message = share_app_message+1,update_time = now()
+        where open_id = #{param1} and item_id = #{param2}
+    </update>
+    <insert id="insertShareTimeLine">
+        insert into
+        fans_read(`open_id`,`item_id`,`share_time_line`)
+        values(#{param1},#{param2},1)
+    </insert>
+    <update id="updateShareTimeLine">
+        update fans_read
+        set share_time_line = share_time_line+1,update_time = now()
+        where open_id = #{param1} and item_id = #{param2}
+    </update>
 </mapper>

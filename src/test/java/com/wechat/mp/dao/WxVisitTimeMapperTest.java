@@ -24,7 +24,7 @@ public class WxVisitTimeMapperTest {
         String openId = "ohIIkv0EWHRMIFNgCn9iM4obFktI";
         String itemId = "neUzquH";
         Integer spendTime = 5;
-        int column = wxVisitTimeMapper.insert(openId,itemId,spendTime);
+        int column = wxVisitTimeMapper.insertReadTime(openId,itemId,spendTime);
         System.out.println(column);
     }
 

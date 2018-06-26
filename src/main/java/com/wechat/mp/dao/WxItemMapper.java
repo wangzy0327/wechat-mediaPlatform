@@ -36,6 +36,8 @@ public interface WxItemMapper {
 
     Integer findByIndex(String itemId);
 
+    WxItem findWxItemByItemId(String itemId);
+
     WxItem findWxItemWithTagById(Integer id);
 
     WxItem findWxItemWithCateById(Integer id);
