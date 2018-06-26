@@ -47,9 +47,12 @@ public class PageModifyTest {
             input.close();
 
 
-            text = text.replace("<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>","");
+            text = text.replace("<script src=\"../../js/share.js\"></script>","");
+            text = text.replace("<script src=\"../../js/initWxConfig.js\"></script>","");
             text = text.replace("<script src=\"../../js/h5-page-listen.js\"></script>","");
+            text = text.replace("<script src=\"../../js/jweixin-1.2.0.js\"></script>","");
             text = text.replace("<script src=\"https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js\"></script>","");
+            text = text.replace("<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>","");
 
             StringBuffer sb = new StringBuffer(text);
             int index = text.indexOf("</body>");
@@ -57,7 +60,10 @@ public class PageModifyTest {
                 index = text.indexOf("</html>");
             }
             // 指定位置插入js
+            sb.insert(index, "<script src=\"../../js/share.js\"></script>");
+            sb.insert(index, "<script src=\"../../js/initWxConfig.js\"></script>");
             sb.insert(index, "<script src=\"../../js/h5-page-listen.js\"></script>");
+            sb.insert(index,"<script src=\"http://res.wx.qq.com/open/js/jweixin-1.2.0.js\"></script>");
             sb.insert(index, "<script src=\"https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js\"></script>");
             sb.insert(index, "<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>");
             File file = new File(fileName);

@@ -50,7 +50,7 @@ public class MenuHandler extends AbstractHandler {
           List<Item> items = new ArrayList<>();
           for(int i = 0;i<wxItems.size();i++){
             Item item = new Item();
-            item.setUrl(wxItems.get(i).getUrl());
+            item.setUrl(wxItems.get(i).getUrl()+"?openId="+wxMessage.getFromUser());
             item.setTitle(wxItems.get(i).getTitle());
             item.setPicUrl(wxItems.get(i).getImgUrl());
             item.setDescription(wxItems.get(i).getDescription());

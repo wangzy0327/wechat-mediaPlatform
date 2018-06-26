@@ -22,5 +22,17 @@ public class WxVisitTimeController {
         return iWxVisitTimeService.readWxItemHandler(openId,itemId,spendTime);
     }
 
+    @PostMapping("/shareAppMessageWxItem")
+    @ResponseBody
+    public ServerResponse shareAppMessageWxItem(@RequestParam String openId, @RequestParam String itemId){
+        return iWxVisitTimeService.shareAppMessageWxItem(openId,itemId);
+    }
+
+
+    @PostMapping("/shareTimeLineWxItem")
+    @ResponseBody
+    public ServerResponse shareTimeLineWxItem(@RequestParam String openId, @RequestParam String itemId){
+        return iWxVisitTimeService.shareTimeLineWxItem(openId,itemId);
+    }
 
 }

@@ -12,6 +12,61 @@ $(function() {
         }
     });
 });
+
+//获取url中的参数
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]);
+    return null; //返回参数值
+}
+
+function getFansInfo(urlStr,key,value) {
+    var stringJson = '{"' + key + '":"' + value + '"}';
+    var json = JSON.parse(stringJson);
+    $.ajax({
+        type: 'get',
+        url: urlStr,
+        async: false,
+        data: JSON.parse(stringJson),
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (result) {
+            var data = result.data;
+            if (data != null) {
+                var openId = data.openId;
+                if ($.trim(key) == "code")
+                    $.cookie('wxopenid', openId, {expires: 1 / 48});
+                return openId;
+            }
+            else {
+                $.alert('微信身份识别失败 \n ' + result.msg, "警告");
+                return null;
+            }
+        }
+    });
+}
+
+function getOpenId() {
+    var wxopenid = $.cookie('wxopenid');
+    var access_code = getUrlParam('code');
+    if (wxopenid == null) {
+        if (access_code == null) {
+            var fromurl = window.location.href;
+            console.log(fromurl);
+            var url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx88ddca24ac18c8b8&redirect_uri=' + encodeURIComponent(fromurl) + '&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
+            location.href = url;
+        }
+        else {
+            wxopenid = getFansInfo("/wechat-tools/Weixin/oauth","code",access_code);
+            access_code = "";
+            return wxopenid;
+        }
+    }else{
+        return wxopenid;
+    }
+}
+
 function searchKeyword(searchInput) {
     $.ajaxSettings.async = false;
     $.get("/wechat-tools/wechat/wxItem/items.json", {"searchValue": searchInput}).done(function (result) {
@@ -28,7 +83,8 @@ function searchKeyword(searchInput) {
                     var tags = data[i].tags;
                     console.log(tags);
                     // str+='<a href="'+data[i].url+'?id='+data[i].id+'" class="weui-media-box weui-media-box_appmsg">' +
-                    str+='<a href="'+data[i].url+'" class="weui-media-box weui-media-box_appmsg">' +
+                    var openId = getOpenId();
+                    str+='<a href="'+data[i].url+'?openId='+openId+'" class="weui-media-box weui-media-box_appmsg">' +
                         '<div class="weui-media-box__hd" style="width: 80px;height: 80px">' +
                         '<img class="weui-media-box__thumb" src="'+data[i].imgUrl+'" alt="">' +
                         '</div>' +
@@ -79,7 +135,8 @@ function wxItemList() {
                         var tags = data[i].tags;
                         console.log(tags);
                         // str+='<a href="'+data[i].url+'?id='+data[i].id+'" class="weui-media-box weui-media-box_appmsg">' +
-                        str+='<a href="'+data[i].url+'" class="weui-media-box weui-media-box_appmsg">' +
+                        var openId = getOpenId();
+                        str+='<a href="'+data[i].url+'?openId='+openId+'" class="weui-media-box weui-media-box_appmsg">' +
                             '<div class="weui-media-box__hd" style="width: 80px;height: 80px">' +
                             '<img class="weui-media-box__thumb" src="'+data[i].imgUrl+'" alt="">' +
                             '</div>' +

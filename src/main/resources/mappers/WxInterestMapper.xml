@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wechat.mp.dao.WxInterestMapper" >
     <resultMap id="WxInterest" type="com.wechat.mp.pojo.Fans" >
-        <id property="id" column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+        <id property="id" column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
         <result  property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         <result  property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         <association property="accountFans" javaType="com.wechat.mp.util.wechat.AccountFans">
@@ -28,12 +28,12 @@
         where open_id = #{openId}
     </select>
     <select id="getFansWithInterestByOpenId" resultMap="WxInterest" parameterType="string">
-        select f.open_id id,fc.open_id,f.nickname,c.id c_id,c.`name` c_name
+        select f.id id,fc.open_id open_id,f.nickname,c.id c_id,c.`name` c_name
         from fans_category fc,category c,fans f
         where f.open_id = #{openId} AND fc.open_id = f.open_id AND fc.cate_id = c.id
     </select>
     <select id="getSimpleFansByOpenId" resultMap="WxInterest" parameterType="string">
-        select f.open_id id,f.open_id open_id,f.nickname
+        select f.id id,f.open_id open_id,f.nickname
         from fans f
         where f.open_id = #{openId}
     </select>
@@ -48,9 +48,9 @@
       where open_id = #{param1} AND cate_id = #{param2}
     </delete>
     <select id="findFansInterestInfo" resultMap="WxInterest">
-        select open_id id,open_id open_id,cate_id c_id
-        from fans_category
-        where open_id = #{openId}
+        select fans.id id,fans.open_id open_id,cate_id c_id
+        from fans_category,fans
+        where fans_category.open_id = #{openId} and fans.open_id = #{openid}
     </select>
     <select id="findInterestByOpenId" resultType="int" parameterType="string">
         select cate_id

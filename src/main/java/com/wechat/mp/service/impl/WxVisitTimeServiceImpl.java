@@ -24,7 +24,7 @@ public class WxVisitTimeServiceImpl implements IWxVisitTimeService {
                 column = wxVisitTimeMapper.updateReadTime(openId,itemId,spendTime);
             }
         }else{
-            column = wxVisitTimeMapper.insert(openId,itemId,spendTime);
+            column = wxVisitTimeMapper.insertReadTime(openId,itemId,spendTime);
         }
         if(column > 0)
             return ServerResponse.createBySuccess();
@@ -32,4 +32,38 @@ public class WxVisitTimeServiceImpl implements IWxVisitTimeService {
             return ServerResponse.createByError();
         }
     }
+
+    @Override
+    public ServerResponse shareAppMessageWxItem(String openId, String itemId){
+        Integer count = wxVisitTimeMapper.selectCount(openId,itemId);
+        int column = 0;
+        if(count > 0){
+            column = wxVisitTimeMapper.updateShareAppMessage(openId,itemId);
+        }else{
+            column = wxVisitTimeMapper.insertShareAppMessage(openId,itemId);
+        }
+        if(column > 0)
+            return ServerResponse.createBySuccess();
+        else{
+            return ServerResponse.createByError();
+        }
+    }
+
+    @Override
+    public ServerResponse shareTimeLineWxItem(String openId, String itemId){
+        Integer count = wxVisitTimeMapper.selectCount(openId,itemId);
+        int column = 0;
+        if(count > 0){
+            column = wxVisitTimeMapper.updateShareTimeLine(openId,itemId);
+        }else{
+            column = wxVisitTimeMapper.insertShareTimeLine(openId,itemId);
+        }
+        if(column > 0)
+            return ServerResponse.createBySuccess();
+        else{
+            return ServerResponse.createByError();
+        }
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.wechat.mp.controller.wechat;
 
+import com.mysql.fabric.Server;
 import com.wechat.mp.common.ServerResponse;
 import com.wechat.mp.pojo.Category;
 import com.wechat.mp.pojo.WxItem;
@@ -65,6 +66,13 @@ public class WxItemController {
     @ResponseBody
     public ServerResponse loadCategory(HttpServletRequest request, HttpSession session){
         return iCategoryService.findCategory();
+    }
+
+    @RequestMapping(value = "/item.json",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse getWxItem(@RequestParam String itemId){
+        System.out.println("itemId:"+itemId);
+        return iWxItemService.findWxItem(itemId);
     }
 
 }
