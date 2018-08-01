@@ -63,4 +63,6 @@ public interface WxItemMapper {
     Integer restoreWxItem(Integer id);
 
     List<WxItem> findUpToDateWxItem();
+
+    List<WxItem> findLastestWxItem();
 }

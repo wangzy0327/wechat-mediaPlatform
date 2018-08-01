@@ -64,7 +64,8 @@
   <!-- 每隔1天执行一次 -->
   <bean id="dataOutputTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
     <property name="jobDetail"  ref="dataOutputJob"/>
-    <property name="cronExpression"  value="0 01 10 * * ?"/>
+    <property name="cronExpression"  value="30 56 16 * * ?"/>
+    <!--[秒] [分] [小时] [日] [月] [周] [年]-->
     <!--<property name="cronExpression"  value="0 0/5 10 * * ?"/>-->
   </bean>
 

@@ -2,21 +2,28 @@ package com.wechat.mp.service.impl;
 
 import com.wechat.mp.dao.WxVisitTimeMapper;
 import com.wechat.mp.pojo.WxItemRead;
-import com.wechat.mp.service.IDataOutputService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-@Component("iDataOutputService")
-public class DataOutputServiceImpl implements IDataOutputService {
+import static org.junit.Assert.*;
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({"classpath:applicationContext.xml","classpath:applicationContext-datasource.xml"})
+public class DataOutputServiceImplTest {
 
     @Autowired
     private WxVisitTimeMapper wxVisitTimeMapper;
 
-    public List<String> getFansRead(){
+    @Test
+    public void getFansRead() throws Exception {
         List<String> results = new LinkedList<>();
         List<WxItemRead> wxItemReads = wxVisitTimeMapper.selectAll();
         System.out.println("get Mapper.....");
@@ -45,7 +52,7 @@ public class DataOutputServiceImpl implements IDataOutputService {
 //            results.add(openId+","+itemId+","+readTime+","+readTimes+","+shareAppMessage+","+shareTimeLine);
             results.add(fansId+","+wechatItemId+","+score);
         }
-        return results;
+        System.out.println(Arrays.deepToString(results.toArray()));
     }
 
 }

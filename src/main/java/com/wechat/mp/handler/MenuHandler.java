@@ -47,6 +47,9 @@ public class MenuHandler extends AbstractHandler {
       switch (eventKey){
         case "1_2":
           List<WxItem> wxItems = wxItemMapper.findUpToDateWxItem();
+          if(wxItems == null || wxItems.size() == 0){
+            wxItems = wxItemMapper.findLastestWxItem();
+          }
           List<Item> items = new ArrayList<>();
           for(int i = 0;i<wxItems.size();i++){
             Item item = new Item();

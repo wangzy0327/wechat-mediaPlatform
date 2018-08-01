@@ -10,10 +10,11 @@
         <result  property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         <result  property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
         <association property="fans" javaType="com.wechat.mp.pojo.Fans">
-            <id property="id" column="id"/>
+            <id property="id" column="fans_id"/>
             <result property="openId" column="open_id" jdbcType="VARCHAR" javaType="java.lang.String"/>
         </association>
         <association property="wxItem" javaType="com.wechat.mp.pojo.WxItem">
+            <id property="id" column="wechat_item_id"/>
             <result property="itemId" column="item_id"/>
             <result property="title"   column="title"/>
         </association>
@@ -42,8 +43,8 @@
         where open_id = #{param1} and item_id = #{param2}
     </update>
     <select id="selectAll" resultMap="WxItemRead">
-        select open_id,item_id,read_time,read_times,share_times
-        from fans_read
+        select fans_id,open_id,wechat_item_id,item_id,read_time,read_times,share_app_message,share_time_line
+        from v_fans_read
     </select>
     <select id="selectCount" resultType="int">
         select count(*)

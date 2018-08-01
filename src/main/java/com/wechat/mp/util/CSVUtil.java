@@ -16,6 +16,9 @@ public class CSVUtil {
     public static boolean exportCsv(String fileName, List<String> dataList) {
         boolean isSucess;
         BufferedWriter bw=null;
+//        if(deleteFile(fileName)){
+//            System.out.println("删除原先"+fileName+"文件成功!");
+//        }
         try {
             bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName),"UTF-8"));
             if(dataList!=null && !dataList.isEmpty()){
@@ -70,4 +73,24 @@ public class CSVUtil {
 
         return dataList;
     }
+
+    /**
+     * 删除单个文件
+     *
+     * @param fileName
+     *            被删除文件的文件名
+     * @return 单个文件删除成功返回true,否则返回false
+     */
+    public static boolean deleteFile(String fileName) {
+        File file = new File(fileName);
+        if (file.isFile() && file.exists()) {
+            file.delete();
+            System.out.println("删除单个文件" + fileName + "成功！");
+            return true;
+        } else {
+            System.out.println("删除单个文件" + fileName + "失败！");
+            return false;
+        }
+    }
+
 }

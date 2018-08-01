@@ -145,8 +145,10 @@ public class WxItemServiceImpl implements IWxItemService {
 
             int index = text.indexOf("</body>");
             // 指定位置插入js
-            sb.insert(index, "<script src=\"../../js/h5-page-listen.js\"></script>");
-            sb.insert(index,"<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>");
+            sb.insert(index, "<script src=\"../../js/share.js\"></script>");
+            sb.insert(index,"<script src=\"../../js/initWxConfig.js\"></script>");
+            sb.insert(index,"<script src=\"../../js/h5-page-listen.js\"></script>");
+            sb.insert(index, "<script src=\"../../js/jweixin-1.2.0.js\"></script>");
             sb.insert(index, "<script src=\"https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js\"></script>");
             sb.insert(index, "<script src=\"/wechat-tools/js/weui/lib/jquery-2.1.4.js\"></script>");
 

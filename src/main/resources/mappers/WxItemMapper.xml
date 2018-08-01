@@ -326,7 +326,13 @@
   <select id="findUpToDateWxItem" resultMap="SimpleWxItem">
     select id,item_id,title,description,url,img_url,create_time
     from wechat_item
-    where (TO_DAYS(NOW()) - TO_DAYS(create_time)) <![CDATA[ <= ]]> 5
+    where (TO_DAYS(NOW()) - TO_DAYS(create_time)) <![CDATA[ <= ]]> 2
     ORDER  BY create_time DESC;
+  </select>
+  <select id="findLastestWxItem" resultMap="SimpleWxItem">
+    select id,item_id,title,description,url,img_url,create_time
+    from wechat_item
+    ORDER  BY create_time DESC
+    limit 0,3;
   </select>
 </mapper>

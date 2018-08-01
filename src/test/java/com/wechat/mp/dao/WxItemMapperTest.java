@@ -21,6 +21,12 @@ public class WxItemMapperTest {
     private WxItemMapper wxItemMapper;
 
     @Test
+    public void findLastestWxItem() throws Exception {
+        List<WxItem> wxItems = wxItemMapper.findLastestWxItem();
+        System.out.println(Arrays.deepToString(wxItems.toArray()));
+    }
+
+    @Test
     public void findWxItemWithTagById() throws Exception {
         Integer id = 1000;
         WxItem wxItem = wxItemMapper.findWxItemWithTagById(id);

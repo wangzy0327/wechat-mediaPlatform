@@ -25,4 +25,12 @@ public class CategoryMapperTest {
         System.out.println(Arrays.deepToString(categorys.toArray()));
     }
 
+    @Test
+    public void insert() throws Exception {
+        Category category = new Category();
+        category.setName("testtest");
+        Integer categoryId = categoryMapper.insert(category);
+        System.out.println("id:"+categoryId);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.wechat.mp.util.wechat;
 
+import com.mchange.v1.util.ListUtils;
 import com.wechat.mp.common.CalendarUtil;
 import com.wechat.mp.common.ErrCode;
 
